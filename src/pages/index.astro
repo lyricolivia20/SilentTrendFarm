@@ -2,27 +2,89 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = await getCollection('posts');
+// Only show the most recent 5 posts (hide archive)
+const posts = (await getCollection('posts'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 5);
 ---
 
-<Layout title="SilentTrendFarm - Latest Trends and Reviews" description="Discover trending products and insightful reviews on SilentTrendFarm">
-	<div class="space-y-8">
-		<h2 class="text-2xl font-bold">Latest Posts</h2>
-		{posts.map((post) => (
-			<article class="bg-white p-6 rounded-lg shadow">
-				<h3 class="text-xl font-semibold mb-2">
-					<a href={`/posts/${post.slug}/`} class="text-blue-600 hover:underline">{post.data.title}</a>
-				</h3>
-				<p class="text-gray-600 mb-4">{post.data.description}</p>
-				<p class="text-sm text-gray-500">Published: {post.data.pubDate.toDateString()}</p>
-				{post.data.affiliateLinks && (
-					<div class="mt-4">
-						{post.data.affiliateLinks.map((link) => (
-							<a href={link.url} class="bg-blue-500 text-white px-4 py-2 rounded mr-2 inline-block" target="_blank">Buy Now</a>
-						))}
-					</div>
-				)}
-			</article>
-		))}
+<Layout title="void/signal — AI Tools, Automation & Workflows" description="Curated guides on AI tools, automation scripts, and developer workflows. No hype, just signal.">
+	<div class="space-y-16">
+		<!-- Hero section -->
+		<section class="py-8">
+			<h2 class="text-3xl font-bold text-zinc-100 mb-4 font-display">
+				Cut through the noise.<br/>
+				<span class="gradient-text">Find the signal.</span>
+			</h2>
+			<p class="text-lg text-zinc-400 leading-relaxed max-w-2xl">
+				We test AI tools, automation workflows, and developer resources so you don't have to wade through the hype. 
+				Practical guides for builders who ship.
+			</p>
+		</section>
+
+		<!-- Featured posts -->
+		<section>
+			<div class="flex items-center gap-3 mb-8">
+				<span class="text-emerald-400 font-mono text-sm">$</span>
+				<h2 class="text-sm font-mono text-zinc-500 uppercase tracking-wider">latest_guides</h2>
+				<div class="flex-1 h-px bg-zinc-800"></div>
+			</div>
+			
+			<div class="space-y-6">
+				{posts.map((post, index) => (
+					<article class="group">
+						<a href={`/posts/${post.slug}/`} class="block p-5 rounded-lg border border-zinc-800/50 bg-zinc-900/30 hover:border-emerald-500/30 hover:bg-zinc-900/50 transition-all">
+							<div class="flex items-start gap-4">
+								<span class="text-zinc-700 font-mono text-sm mt-1">{String(index + 1).padStart(2, '0')}</span>
+								<div class="flex-1">
+									{post.data.tags && post.data.tags.length > 0 && (
+										<div class="flex gap-2 mb-2">
+											{post.data.tags.slice(0, 2).map((tag) => (
+												<span class="tag">{tag}</span>
+											))}
+										</div>
+									)}
+									<h3 class="text-lg font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors mb-2">
+										{post.data.title}
+									</h3>
+									<p class="text-zinc-500 text-sm leading-relaxed">{post.data.description}</p>
+								</div>
+								<svg class="w-5 h-5 text-zinc-700 group-hover:text-emerald-400 transition-colors mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								</svg>
+							</div>
+						</a>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- Categories/Topics -->
+		<section>
+			<div class="flex items-center gap-3 mb-6">
+				<span class="text-emerald-400 font-mono text-sm">$</span>
+				<h2 class="text-sm font-mono text-zinc-500 uppercase tracking-wider">topics</h2>
+				<div class="flex-1 h-px bg-zinc-800"></div>
+			</div>
+			
+			<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+				<a href="#" class="p-4 rounded-lg border border-zinc-800 hover:border-emerald-500/30 transition-colors text-center">
+					<span class="text-2xl mb-2 block">🤖</span>
+					<span class="text-sm text-zinc-400">AI Tools</span>
+				</a>
+				<a href="#" class="p-4 rounded-lg border border-zinc-800 hover:border-emerald-500/30 transition-colors text-center">
+					<span class="text-2xl mb-2 block">⚡</span>
+					<span class="text-sm text-zinc-400">Automation</span>
+				</a>
+				<a href="#" class="p-4 rounded-lg border border-zinc-800 hover:border-emerald-500/30 transition-colors text-center">
+					<span class="text-2xl mb-2 block">🐍</span>
+					<span class="text-sm text-zinc-400">Python</span>
+				</a>
+				<a href="#" class="p-4 rounded-lg border border-zinc-800 hover:border-emerald-500/30 transition-colors text-center">
+					<span class="text-2xl mb-2 block">🔧</span>
+					<span class="text-sm text-zinc-400">Dev Tools</span>
+				</a>
+			</div>
+		</section>
 	</div>
 </Layout>

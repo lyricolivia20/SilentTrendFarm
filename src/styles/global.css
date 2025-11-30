@@ -1,1 +1,110 @@
 @import "tailwindcss";
+
+/* Typography - Custom utilities for Tailwind v4 */
+@utility font-display {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+@utility font-sans {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+@utility font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Prose styling for article content - dark mode cyberpunk */
+.prose {
+  @apply text-zinc-300 leading-relaxed;
+}
+
+.prose h2 {
+  @apply text-xl font-bold text-zinc-100 mt-12 mb-4 pb-2 border-b border-zinc-800 font-display;
+}
+
+.prose h3 {
+  @apply text-lg font-semibold text-zinc-200 mt-8 mb-3;
+}
+
+.prose p {
+  @apply mb-4;
+}
+
+.prose ul, .prose ol {
+  @apply mb-4 pl-6;
+}
+
+.prose li {
+  @apply mb-2 text-zinc-400;
+}
+
+.prose ul li {
+  list-style-type: none;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.prose ul li::before {
+  content: "▹";
+  position: absolute;
+  left: 0;
+  color: rgb(52, 211, 153); /* emerald-400 */
+}
+
+.prose ol li {
+  @apply list-decimal;
+}
+
+.prose a {
+  @apply text-emerald-400 no-underline hover:text-emerald-300 transition-colors;
+}
+
+.prose strong {
+  @apply font-semibold text-zinc-100;
+}
+
+.prose blockquote {
+  @apply border-l-2 border-emerald-500/50 pl-4 italic text-zinc-500 my-6;
+}
+
+.prose code {
+  @apply font-mono text-sm bg-zinc-800/50 text-emerald-400 px-1.5 py-0.5 rounded;
+}
+
+.prose pre {
+  @apply bg-zinc-900 border border-zinc-800 rounded-lg p-4 overflow-x-auto my-6;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+
+/* Tool/product card styling */
+.tool-card {
+  @apply bg-zinc-900/50 border border-zinc-800 rounded-lg p-5 my-6 hover:border-emerald-500/30 transition-colors;
+}
+
+.tool-card a {
+  @apply text-zinc-100 font-medium no-underline hover:text-emerald-400;
+}
+
+/* Tag pills - cyberpunk style */
+.tag {
+  @apply text-xs px-2.5 py-1 bg-zinc-800 text-emerald-400 rounded font-mono border border-zinc-700;
+}
+
+/* Glow effects */
+.glow-emerald {
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.15);
+}
+
+/* Terminal-style elements */
+.terminal-prompt::before {
+  content: "$ ";
+  @apply text-emerald-500;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent;
+}

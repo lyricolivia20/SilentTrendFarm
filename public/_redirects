@@ -1,0 +1,13 @@
+# Affiliate link redirects - auto-generated
+# Do not edit manually
+
+# GPU/Hardware
+/go/gpu-options-abc123  https://www.amazon.com/s?k=rtx+4090+gpu&tag=youraffiliate-20  302
+
+# SaaS Tools
+/go/n8n-cloud-def456  https://n8n.io/cloud?ref=voidsignal  302
+/go/cursor-editor-ghi789  https://cursor.sh  302
+
+# AI Tools
+/go/ollama-download  https://ollama.ai  302
+/go/openai-api  https://platform.openai.com  302
