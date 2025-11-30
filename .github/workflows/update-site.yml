@@ -1,0 +1,80 @@
+name: Weekly Trend Update
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday at 06:00 UTC
+  workflow_dispatch:  # Allow manual trigger
+    inputs:
+      topic:
+        description: 'Override topic (leave empty for auto-fetch)'
+        required: false
+        default: ''
+
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install Node.js dependencies
+      run: npm ci
+
+    - name: Generate new post
+      id: generate
+      run: |
+        if [ -n "${{ github.event.inputs.topic }}" ]; then
+          python scripts/content_generator.py "${{ github.event.inputs.topic }}"
+        else
+          python scripts/generate_trend_post.py
+        fi
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        AMAZON_AFFILIATE_TAG: ${{ secrets.AMAZON_AFFILIATE_TAG }}
+        CLICKBANK_ID: ${{ secrets.CLICKBANK_ID }}
+
+    - name: Build site
+      run: npm run build
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add .
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "🚀 Auto-update: New trending post $(date +'%Y-%m-%d')"
+          git push
+        fi
+
+    # Optional: Trigger Netlify deploy hook if not using auto-deploy
+    # - name: Trigger Netlify Deploy
+    #   if: success()
+    #   run: curl -X POST -d {} ${{ secrets.NETLIFY_BUILD_HOOK }}

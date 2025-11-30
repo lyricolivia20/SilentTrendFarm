@@ -1,0 +1,49 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('posts');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={`${post.data.title} - SilentTrendFarm`} description={post.data.description}>
+	<article class="bg-white p-6 rounded-lg shadow">
+		<header class="mb-8">
+			<h1 class="text-3xl font-bold mb-4">{post.data.title}</h1>
+			<p class="text-gray-600 mb-4">{post.data.description}</p>
+			<p class="text-sm text-gray-500">Published: {post.data.pubDate.toDateString()}</p>
+			{post.data.updatedDate && <p class="text-sm text-gray-500">Updated: {post.data.updatedDate.toDateString()}</p>}
+		</header>
+		<div class="prose prose-lg max-w-none">
+			<Content />
+		</div>
+		{post.data.affiliateLinks && (
+			<div class="mt-8">
+				<h3 class="text-xl font-semibold mb-4">Where to Buy</h3>
+				{post.data.affiliateLinks.map((link) => (
+					<a href={link.url} class="bg-green-500 text-white px-6 py-3 rounded mr-4 inline-block hover:bg-green-600" target="_blank" rel="noopener noreferrer">{link.text}</a>
+				))}
+			</div>
+		)}
+		<!-- AdSense Ad -->
+		<div class="mt-8">
+			<ins class="adsbygoogle"
+				 style="display:block"
+				 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+				 data-ad-slot="1234567890"
+				 data-ad-format="auto"
+				 data-full-width-responsive="true"></ins>
+			<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+		</div>
+	</article>
+</Layout>
