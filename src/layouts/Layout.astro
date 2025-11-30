@@ -1,4 +1,5 @@
 ---
+import '../styles/starwind.css';
 import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
 
@@ -33,45 +34,45 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
 		
-		<!-- Fonts -->
+		<!-- Fonts - Orbitron for display, Inter for body, JetBrains Mono for code -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 		
 		<title>{title}</title>
 		
 		<!-- View Transitions for smooth navigation -->
 		<ViewTransitions />
 	</head>
-	<body class="bg-zinc-950 text-zinc-100 font-sans antialiased">
-		<!-- Subtle grid background -->
-		<div class="fixed inset-0 bg-[linear-gradient(rgba(39,39,42,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(39,39,42,0.3)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none"></div>
+	<body class="bg-background text-foreground font-sans antialiased">
+		<!-- Subtle grid background with lime tint -->
+		<div class="fixed inset-0 bg-[linear-gradient(rgba(191,255,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(191,255,0,0.02)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none"></div>
 		
 		<div class="relative">
-			<header class="border-b border-zinc-800/50 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-50" transition:persist>
+			<header class="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50" transition:persist>
 				<div class="max-w-5xl mx-auto px-6 py-5">
 					<div class="flex items-center justify-between">
 						<a href="/" class="inline-flex items-center gap-3 group" transition:name="logo">
-							<div class="w-10 h-10 bg-gradient-to-br from-emerald-400 via-cyan-500 to-violet-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
-								<span class="text-zinc-950 font-mono font-bold text-lg">DP</span>
+							<div class="w-10 h-10 bg-gradient-to-br from-primary via-secondary to-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-shadow">
+								<span class="text-primary-foreground font-mono font-bold text-lg">DP</span>
 							</div>
 							<div>
-								<h1 class="text-xl font-bold text-zinc-100 tracking-tight font-display">Digital Polymath</h1>
-								<p class="text-xs text-zinc-500 font-mono">field notes & guides</p>
+								<h1 class="text-xl font-bold text-foreground tracking-tight section-title">Digital Polymath</h1>
+								<p class="text-xs text-muted-foreground font-mono">field notes & guides</p>
 							</div>
 						</a>
 						
 						<!-- Desktop Nav -->
 						<nav class="hidden md:flex items-center gap-6">
-							<a href="/#indie-dev" class="text-sm text-zinc-400 hover:text-emerald-400 transition-colors font-mono">indie_dev</a>
-							<a href="/#ai-ml" class="text-sm text-zinc-400 hover:text-cyan-400 transition-colors font-mono">ai_ml</a>
-							<a href="/#it-tech" class="text-sm text-zinc-400 hover:text-violet-400 transition-colors font-mono">it_tech</a>
-							<a href="/tools" class="text-sm text-zinc-400 hover:text-amber-400 transition-colors font-mono">tools</a>
-							<a href="/about" class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors font-mono">about</a>
+							<a href="/#indie-dev" class="text-sm text-muted-foreground hover:text-primary transition-colors font-mono">indie_dev</a>
+							<a href="/#ai-ml" class="text-sm text-muted-foreground hover:text-secondary transition-colors font-mono">ai_ml</a>
+							<a href="/#it-tech" class="text-sm text-muted-foreground hover:text-primary transition-colors font-mono">it_tech</a>
+							<a href="/tools" class="text-sm text-muted-foreground hover:text-primary transition-colors font-mono">tools</a>
+							<a href="/about" class="text-sm text-muted-foreground hover:text-foreground transition-colors font-mono">about</a>
 						</nav>
 						
 						<!-- Mobile Menu Button -->
-						<button id="mobile-menu-btn" class="md:hidden p-2 text-zinc-400 hover:text-zinc-100 transition-colors" aria-label="Toggle menu">
+						<button id="mobile-menu-btn" class="md:hidden p-2 text-muted-foreground hover:text-primary transition-colors" aria-label="Toggle menu">
 							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
 							</svg>
@@ -79,13 +80,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 					</div>
 					
 					<!-- Mobile Nav -->
-					<nav id="mobile-menu" class="hidden md:hidden pt-4 pb-2 border-t border-zinc-800/50 mt-4">
+					<nav id="mobile-menu" class="hidden md:hidden pt-4 pb-2 border-t border-border mt-4">
 						<div class="flex flex-col gap-3">
-							<a href="/#indie-dev" class="text-sm text-zinc-400 hover:text-emerald-400 transition-colors font-mono py-2">indie_dev</a>
-							<a href="/#ai-ml" class="text-sm text-zinc-400 hover:text-cyan-400 transition-colors font-mono py-2">ai_ml</a>
-							<a href="/#it-tech" class="text-sm text-zinc-400 hover:text-violet-400 transition-colors font-mono py-2">it_tech</a>
-							<a href="/tools" class="text-sm text-zinc-400 hover:text-amber-400 transition-colors font-mono py-2">tools</a>
-							<a href="/about" class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors font-mono py-2">about</a>
+							<a href="/#indie-dev" class="text-sm text-muted-foreground hover:text-primary transition-colors font-mono py-2">indie_dev</a>
+							<a href="/#ai-ml" class="text-sm text-muted-foreground hover:text-secondary transition-colors font-mono py-2">ai_ml</a>
+							<a href="/#it-tech" class="text-sm text-muted-foreground hover:text-primary transition-colors font-mono py-2">it_tech</a>
+							<a href="/tools" class="text-sm text-muted-foreground hover:text-primary transition-colors font-mono py-2">tools</a>
+							<a href="/about" class="text-sm text-muted-foreground hover:text-foreground transition-colors font-mono py-2">about</a>
 						</div>
 					</nav>
 				</div>
@@ -101,28 +102,28 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 				<slot />
 			</main>
 
-			<footer class="border-t border-zinc-800/50 mt-20">
+			<footer class="border-t border-border mt-20">
 				<div class="max-w-5xl mx-auto px-6 py-12">
 					<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-						<div class="text-sm text-zinc-500 space-y-2">
-							<p class="font-mono bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent font-bold">Digital Polymath's Field Notes</p>
-							<p class="text-zinc-600 max-w-md">A collection of guides and insights for aspiring developers, digital artists, and creators.</p>
+						<div class="text-sm space-y-2">
+							<p class="font-mono section-title font-bold">Digital Polymath's Field Notes</p>
+							<p class="text-muted-foreground max-w-md">A collection of guides and insights for aspiring developers, digital artists, and creators.</p>
 						</div>
 						<div class="flex items-center gap-4">
-							<a href="/rss.xml" class="text-zinc-500 hover:text-emerald-400 transition-colors" title="RSS Feed">
+							<a href="/rss.xml" class="text-muted-foreground hover:text-primary transition-colors" title="RSS Feed">
 								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
 									<path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
 								</svg>
 							</a>
-							<a href="https://github.com" target="_blank" rel="noopener" class="text-zinc-500 hover:text-zinc-100 transition-colors" title="GitHub">
+							<a href="https://github.com" target="_blank" rel="noopener" class="text-muted-foreground hover:text-foreground transition-colors" title="GitHub">
 								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
 									<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
 								</svg>
 							</a>
 						</div>
 					</div>
-					<div class="mt-8 pt-6 border-t border-zinc-800/50">
-						<p class="text-zinc-700 font-mono text-xs">&copy; {currentYear} Digital Polymath</p>
+					<div class="mt-8 pt-6 border-t border-border">
+						<p class="text-muted-foreground/50 font-mono text-xs">&copy; {currentYear} Digital Polymath</p>
 					</div>
 				</div>
 			</footer>
