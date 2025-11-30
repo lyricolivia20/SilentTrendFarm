@@ -6,7 +6,7 @@ export async function GET(context) {
   const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   
   return rss({
-    title: "Digital Polymath's Field Notes",
+    title: "LyriCodes Field Notes",
     description: 'A collection of guides and insights for aspiring developers, digital artists, and creators.',
     site: context.site,
     items: sortedPosts.map((post) => ({

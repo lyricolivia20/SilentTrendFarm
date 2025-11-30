@@ -1,4 +1,4 @@
-# Digital Polymath's Field Notes
+# LyriCodes Field Notes
 
 A collection of guides and insights for aspiring developers, digital artists, and creators navigating the complex and exhilarating world of independent development. Built with Astro and Tailwind CSS v4.
 
