@@ -2,22 +2,83 @@
 import Layout from '../layouts/Layout.astro';
 
 const categories = [
+	// ============ AI CODING & DEVELOPMENT ============
+	{
+		id: 'ai-ides',
+		title: 'AI IDEs & Coding Tools',
+		icon: '🤖',
+		color: 'cyan',
+		description: 'AI-native development environments that understand your codebase.',
+		tools: [
+			{ name: 'Windsurf', description: 'AI-native IDE with Cascade agent - understands your whole codebase, runs code, iteratively fixes errors', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Cursor', description: 'AI-powered editor that scans projects, proposes multi-file edits, and applies them automatically', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'GitHub Copilot', description: 'AI pair programmer integrated into VS Code and JetBrains IDEs', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Replit', description: 'Quick online coding with AI assistance - great for prototypes, harder to export cleanly', commission: 'Varies', url: '#' },
+			{ name: 'GitHub', description: 'Your backbone: repos, version control, issues - where all experiments live', commission: 'Varies', url: '#' },
+			{ name: 'Codeium', description: 'Free AI code completion alternative to Copilot', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'general-ai',
+		title: 'General-Purpose AI',
+		icon: '💬',
+		color: 'violet',
+		description: 'Large language models for reasoning, writing, and problem-solving.',
+		tools: [
+			{ name: 'Grok', description: 'Advanced coding assistance, large-codebase reasoning, multimodal - use when nothing else can answer', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'ChatGPT / GPT-4', description: 'Strong for personalization, structured writing, tutoring, and general assistance', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Claude', description: 'Excellent for long-form content, nuanced reasoning, and code review', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Perplexity', description: 'Search-style, source-backed answers - decent for research but not magic', commission: 'Varies', url: '#' },
+			{ name: 'Gemini', description: 'Google\'s multimodal AI with strong reasoning capabilities', commission: 'Varies', url: '#' },
+			{ name: 'Mistral', description: 'Open-weight models for self-hosting and customization', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'creative-ai',
+		title: 'AI Image & Video Generation',
+		icon: '🎬',
+		color: 'pink',
+		description: 'Text-to-image and text-to-video tools for creative projects.',
+		tools: [
+			{ name: 'Flow / Flow Video AI', description: 'Text-to-video and image-to-video - fucking amazing for cinematic results and fast generation', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Midjourney', description: 'Industry-leading artistic image generation via Discord', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Perchance', description: 'Completely free, no-sign-up text-to-image generator', commission: 'Free', highlight: true, url: '#' },
+			{ name: 'Artbreeder', description: 'Breed/mix images with sliders - portraits, landscapes, characters', commission: 'Varies', url: '#' },
+			{ name: 'Leonardo.ai', description: 'Game assets and consistent character generation', commission: 'Varies', url: '#' },
+			{ name: 'Stable Diffusion', description: 'Open-source, run locally or cloud - full control with LoRAs and custom models', commission: 'Free/Cloud costs', url: '#' },
+			{ name: 'DALL-E 3', description: 'Best for accurate text rendering and concept visualization', commission: 'Pay-per-use', url: '#' },
+			{ name: 'Runway ML', description: 'Professional AI video editing and generation suite', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'ai-agents',
+		title: 'AI Agents & Automation',
+		icon: '🦾',
+		color: 'amber',
+		description: 'Full-on computer operators that can take control and do everything.',
+		tools: [
+			{ name: 'Windsurf Cascade', description: 'Agent that reads code, changes files, runs tasks, and iterates on your behalf', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Manus-style Agents', description: 'Desktop agents trying to be full computer operators', commission: 'Varies', url: '#' },
+			{ name: 'n8n', description: 'Build complex automated workflows between APIs and services', commission: 'Varies', url: '#' },
+			{ name: 'Zapier', description: 'No-code automation connecting thousands of apps', commission: 'Varies', url: '#' },
+			{ name: 'Make (Integromat)', description: 'Visual automation platform for complex workflows', commission: 'Varies', url: '#' },
+		]
+	},
 	// ============ AI & MACHINE LEARNING ============
 	{
 		id: 'ai-apis',
 		title: 'AI APIs & Platforms',
 		icon: '🧠',
-		color: 'violet',
+		color: 'indigo',
 		description: 'Essential APIs and platforms for AI development and deployment.',
 		tools: [
 			{ name: 'Hugging Face', description: 'Essential toolkit for NLP developers with premium models and private repos', commission: 'Varies', highlight: true, url: '#' },
 			{ name: 'Replicate API', description: 'Generate AI art without managing infrastructure - perfect for automation scripts', commission: 'Varies', highlight: true, url: '#' },
 			{ name: 'ElevenLabs', description: 'Industry-standard realistic voice synthesis and cloning', commission: 'Varies', highlight: true, url: '#' },
-			{ name: 'Runway ML', description: 'Ultimate AI-powered toolkit for artists - video and image generation', commission: 'Varies', url: '#' },
+			{ name: 'OpenAI API', description: 'GPT-4, DALL-E, Whisper - the foundation for AI apps', commission: 'Varies', url: '#' },
+			{ name: 'Anthropic API', description: 'Claude models for production applications', commission: 'Varies', url: '#' },
 			{ name: 'Jasper AI', description: 'AI content generation for marketing', commission: '30% recurring', url: '#' },
-			{ name: 'CustomGPT.ai', description: 'Build custom AI agents for specific use cases', commission: 'Varies', url: '#' },
 			{ name: 'Deepbrain AI', description: 'AI video creation with virtual avatars', commission: '30%', url: '#' },
-			{ name: 'Creatify', description: 'AI video ad generation', commission: '25% recurring', url: '#' },
 		]
 	},
 	{
@@ -211,16 +272,18 @@ const categories = [
 	// ============ CONTENT CREATION & BUSINESS ============
 	{
 		id: 'ecommerce',
-		title: 'E-commerce & Digital Sales',
+		title: 'E-commerce & Print-on-Demand',
 		icon: '🛒',
 		color: 'green',
-		description: 'Sell products and digital goods.',
+		description: 'Sell physical and digital products without touching inventory.',
 		tools: [
-			{ name: 'Shopify', description: 'Build a dedicated storefront for merch or digital products', commission: 'Varies', highlight: true, url: '#' },
-			{ name: 'Printful', description: 'Print-on-demand with no upfront inventory', commission: 'Varies', highlight: true, url: '#' },
-			{ name: 'Printify', description: 'POD alternative with wide product selection', commission: 'Varies', url: '#' },
-			{ name: 'Gumroad', description: 'Sell digital goods, art files, and templates', commission: 'Varies', url: '#' },
-			{ name: 'Etsy', description: 'Marketplace for art and handmade goods', commission: 'Varies', url: '#' },
+			{ name: 'Printify', description: 'Route your design straight to printed product and ship to customer - no inventory', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Printful', description: 'Premium POD with quality printing and global fulfillment', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Shopify', description: 'Your own branded store - full control over customer experience', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Etsy', description: 'Marketplace where people browse - built-in audience for art and handmade', commission: 'Varies', url: '#' },
+			{ name: 'Gumroad', description: 'Sell digital goods, art files, templates, and courses', commission: 'Varies', url: '#' },
+			{ name: 'Ko-fi Shop', description: 'Simple storefront for creators with low fees', commission: 'Varies', url: '#' },
+			{ name: 'Redbubble', description: 'POD marketplace with built-in traffic', commission: 'Varies', url: '#' },
 		]
 	},
 	{
