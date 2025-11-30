@@ -31,7 +31,7 @@ You've installed a new graphics card, but it requires a 6-pin or 8-pin PCIe powe
 
 **Solutions:**
 
-- **Best long-term solution**: Upgrade your PSU to one with adequate wattage and the correct connectors.
+- **Best long-term solution**: Upgrade your PSU to one with adequate wattage and the correct connectors. For modern GPUs like the **RTX 4070** or higher, you'll want at least a 750W PSU from a reputable brand like **Corsair**, **EVGA**, or **Seasonic**. Modular PSUs make cable management much easier.
 
 - **Temporary workaround**: You can use a Molex-to-PCIe adapter, but this is **not recommended for long-term use** as it can put a strain on your PSU and may not provide stable power. High-end GPUs should never rely on adapters.
 
@@ -49,8 +49,20 @@ When you plug in an external drive and it doesn't appear or gives frequent error
 
 4. **Check Disk Management** (Windows): The drive might be connected but not assigned a drive letter. Open Disk Management and look for unallocated or offline disks.
 
+## Recommended Upgrade Path
+
+If you're troubleshooting an older system, sometimes the best fix is a strategic upgrade:
+
+- **RAM**: Adding more RAM (16GB minimum for modern workloads, 32GB for content creation) is often the most cost-effective upgrade. **Corsair Vengeance** and **G.Skill Trident** are reliable choices.
+- **Storage**: Replacing an old HDD with an **NVMe SSD** like the **Samsung 980 Pro** or **WD Black SN850** will transform system responsiveness.
+- **GPU**: For gaming or creative work, upgrading to an **NVIDIA RTX** series card provides both performance and access to AI features like DLSS.
+
 ## General Troubleshooting Philosophy
 
 Whether it's a software glitch or a hardware headache, the key to solving most tech problems is a calm and systematic approach. By isolating variables and testing potential solutions one by one, you can turn frustration into accomplishment.
 
 **The golden rule**: Change one thing at a time, test, then move on. Changing multiple variables at once makes it impossible to know what actually fixed the problem.
+
+## Essential Tools
+
+Every PC builder should have a basic toolkit: a **magnetic screwdriver set**, **anti-static wrist strap**, **thermal paste** (for CPU cooler reinstalls), and a **USB drive** with diagnostic tools. A **multimeter** is invaluable for testing PSU voltages if you suspect power issues.

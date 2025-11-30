@@ -31,6 +31,12 @@ KohyaSS is a popular graphical interface for training Stable Diffusion models. W
 
 ## Train and Test
 
-If you don't have a powerful local GPU, you can run the training process on a cloud service like Google Colab. The process can take several hours to complete. Once finished, you will have a LoRA file (usually a .safetensors file). Load this into your Stable Diffusion interface (like Automatic1111) and test it with prompts. If the results are too rigid or not accurate enough, you may need to adjust the training steps and retrain.
+If you don't have a powerful local GPU, you can run the training process on a cloud service like **Google Colab Pro** or **RunPod**. RunPod is particularly popular in the SD community because you can spin up a GPU instance with all the tools pre-installed. The process can take several hours to complete. Once finished, you will have a LoRA file (usually a .safetensors file). Load this into your Stable Diffusion interface (like Automatic1111) and test it with prompts. If the results are too rigid or not accurate enough, you may need to adjust the training steps and retrain.
 
-Creating a personalized LoRA gives you the power to place yourself in any scene or style imaginable. But to get the best results, you need to master the language of the AI: the prompt.
+## Hardware Considerations
+
+Training LoRAs locally requires a decent NVIDIA GPU with at least 8GB VRAM. If you're serious about AI art generation, consider investing in an **RTX 3080** or higher. For those on laptops, an **eGPU enclosure** can dramatically boost your capabilities. Alternatively, cloud GPU services like **RunPod** or **Vast.ai** offer pay-as-you-go pricing that's often more economical than buying hardware.
+
+## Next Steps
+
+Creating a personalized LoRA gives you the power to place yourself in any scene or style imaginable. But to get the best results, you need to master the language of the AI: the prompt. Check out our guide on **prompt engineering** to learn how to craft prompts that get consistent, high-quality results.

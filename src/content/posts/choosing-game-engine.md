@@ -23,6 +23,20 @@ Choosing a game engine is one of the most consequential decisions an indie devel
 
 ## A Note on OpenXR
 
-A key term you'll encounter, especially in VR development, is OpenXR. It's not an engine but a royalty-free, open standard that provides cross-platform access to Virtual and Augmented Reality devices. By developing with OpenXR-compatible engines like Godot or Unity, you can write your code once and deploy it across multiple headsets (e.g., Oculus, Vive, etc.) without being locked into a specific vendor's software development kit (SDK). This is a crucial advantage for indie developers who need their projects to reach the widest possible audience.
+A key term you'll encounter, especially in VR development, is OpenXR. It's not an engine but a royalty-free, open standard that provides cross-platform access to Virtual and Augmented Reality devices. By developing with OpenXR-compatible engines like Godot or Unity, you can write your code once and deploy it across multiple headsets (e.g., **Meta Quest**, Vive, etc.) without being locked into a specific vendor's software development kit (SDK). This is a crucial advantage for indie developers who need their projects to reach the widest possible audience.
+
+## Learning Resources
+
+Whichever engine you choose, investing in quality learning resources will accelerate your progress:
+
+- **Unity**: The **Unity Asset Store** has thousands of templates and tutorials. For structured learning, **Udemy** and **Coursera** offer comprehensive Unity courses from beginner to advanced.
+- **Unreal**: The **Unreal Marketplace** is packed with high-quality assets. Epic also provides free learning resources, but **Pluralsight** has excellent deep-dive courses.
+- **Godot**: Being open-source, Godot has a wealth of free community tutorials. **GDQuest** offers premium courses that are highly regarded.
+
+For 3D asset creation, consider learning **Blender** (free) or investing in **ZBrush** for character sculpting. Services like **Mixamo** can save hours on character rigging and animation.
+
+## Development Setup
+
+A capable development machine is essential. For Unreal's demanding renderer, you'll want at least an **RTX 3070** or equivalent. Unity and Godot are more forgiving but still benefit from a dedicated GPU. Consider a **high-resolution monitor** for detailed work, and don't underestimate the value of a good **mechanical keyboard** for those long coding sessions.
 
 Ultimately, the choice of engine comes down to aligning the tool with your vision. Consider the technical requirements of your game, your own programming strengths, and the visual style you aim to achieve. With an engine chosen, the real work begins. And as any indie dev knows, "real work" is just another name for "troubleshooting."

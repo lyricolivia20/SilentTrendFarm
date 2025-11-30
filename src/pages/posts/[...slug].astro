@@ -33,6 +33,30 @@ const category = post.data.category || 'indie-dev';
 const categoryLabel = categoryLabels[category];
 const accentColor = categoryColors[category];
 
+// Contextual tool recommendations based on category and tags
+const toolRecommendations = {
+	'indie-dev': [
+		{ name: 'Unity Pro', description: 'Industry-standard game engine', url: '/tools#game-engines' },
+		{ name: 'Blender Courses', description: 'Master 3D modeling for free', url: '/tools#3d-modeling' },
+		{ name: 'GitHub Copilot', description: 'AI-powered code completion', url: '/tools#dev-tools' },
+		{ name: 'Udemy', description: 'Affordable game dev courses', url: '/tools#learning' },
+	],
+	'ai-ml': [
+		{ name: 'RunPod', description: 'Cloud GPUs for ML training', url: '/tools#cloud-gpu' },
+		{ name: 'Hugging Face', description: 'Essential NLP toolkit', url: '/tools#ai-apis' },
+		{ name: 'Google Colab Pro', description: 'Accessible GPU resources', url: '/tools#cloud-gpu' },
+		{ name: 'Replicate API', description: 'AI art without infrastructure', url: '/tools#ai-apis' },
+	],
+	'it-tech': [
+		{ name: 'DigitalOcean', description: 'Developer-friendly cloud', url: '/tools#hosting' },
+		{ name: 'Raspberry Pi Kits', description: 'DIY electronics projects', url: '/tools#diy-tech' },
+		{ name: 'High-Res Monitors', description: 'Essential for productivity', url: '/tools#peripherals' },
+		{ name: 'NVMe SSDs', description: 'Fast storage upgrades', url: '/tools#computing' },
+	],
+};
+
+const recommendations = toolRecommendations[category] || toolRecommendations['indie-dev'];
+
 // Get related posts (same category, excluding current)
 const relatedPosts = allPosts
 	.filter(p => p.data.category === category && p.slug !== post.slug)
@@ -82,6 +106,33 @@ const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
 		<div class="prose">
 			<Content />
 		</div>
+
+		<!-- Recommended Tools Callout -->
+		<aside class={`mt-12 p-6 rounded-xl border border-${accentColor}-500/20 bg-${accentColor}-500/5`}>
+			<div class="flex items-center gap-2 mb-4">
+				<span class="text-xl">🛠</span>
+				<h3 class="font-bold text-zinc-100 font-display">Recommended Tools</h3>
+			</div>
+			<p class="text-zinc-400 text-sm mb-4">Level up your workflow with these tools mentioned in or related to this article:</p>
+			<div class="grid sm:grid-cols-2 gap-3">
+				{recommendations.map((tool) => (
+					<a href={tool.url} class={`group flex items-center gap-3 p-3 rounded-lg border border-zinc-800/50 bg-zinc-900/50 hover:border-${accentColor}-500/30 transition-all`}>
+						<div class="flex-1">
+							<div class={`font-medium text-zinc-200 group-hover:text-${accentColor}-400 transition-colors text-sm`}>{tool.name}</div>
+							<div class="text-zinc-500 text-xs">{tool.description}</div>
+						</div>
+						<svg class="w-4 h-4 text-zinc-600 group-hover:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+						</svg>
+					</a>
+				))}
+			</div>
+			<div class="mt-4 pt-4 border-t border-zinc-800/50">
+				<a href="/tools" class={`text-sm font-mono text-${accentColor}-400 hover:text-${accentColor}-300 transition-colors`}>
+					Browse all tools →
+				</a>
+			</div>
+		</aside>
 
 		<!-- Related Posts -->
 		{relatedPosts.length > 0 && (
