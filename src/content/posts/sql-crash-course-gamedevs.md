@@ -84,4 +84,4 @@ When your game goes live, you'll need reliable database hosting:
 
 For indie games, **Firebase** or **Supabase** are excellent starting points with generous free tiers. As you scale, **AWS RDS** or **PlanetScale** provide the reliability needed for thousands of concurrent players.
 
-Mastering these fundamental commands provides a solid foundation for managing game data. From worldbuilding and engine selection to web development and data management, the modern indie developer must be a polymath. Embracing this diverse skill set is the key to becoming a truly versatile and resourceful creator.
+Mastering these fundamental commands provides a solid foundation for managing game data. From worldbuilding and engine selection to web development and data management, the modern indie developer wears many hats. Embracing this diverse skill set is the key to becoming a truly versatile and resourceful creator.

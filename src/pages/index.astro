@@ -17,6 +17,25 @@ const categoryColors = {
 ---
 
 <Layout title="LyriCodes Field Notes — Guides & Insights" description="A collection of field notes for aspiring developers, digital artists, and creators navigating the world of independent development.">
+	<!-- Sticky Right Sidebar Nav (Desktop only) -->
+	<nav id="section-nav" class="hidden lg:flex fixed right-4 top-1/2 -translate-y-1/2 flex-col items-end gap-2 z-40">
+		<!-- Top collapse line -->
+		<div class="nav-line-top w-px h-6 bg-gradient-to-b from-transparent to-zinc-700 transition-all duration-500"></div>
+		
+		<a href="#indie-dev" data-section="indie-dev" class="section-nav-link transition-all duration-500 ease-out text-right cursor-pointer">
+			<span class="nav-label font-mono whitespace-nowrap tracking-tight transition-all duration-300 text-sm">indie_dev</span>
+		</a>
+		<a href="#ai-ml" data-section="ai-ml" class="section-nav-link transition-all duration-500 ease-out text-right cursor-pointer">
+			<span class="nav-label font-mono whitespace-nowrap tracking-tight transition-all duration-300 text-sm">ai_ml</span>
+		</a>
+		<a href="#it-tech" data-section="it-tech" class="section-nav-link transition-all duration-500 ease-out text-right cursor-pointer">
+			<span class="nav-label font-mono whitespace-nowrap tracking-tight transition-all duration-300 text-sm">it_tech</span>
+		</a>
+		
+		<!-- Bottom collapse line -->
+		<div class="nav-line-bottom w-px h-6 bg-gradient-to-t from-transparent to-zinc-700 transition-all duration-500"></div>
+	</nav>
+
 	<div class="space-y-20">
 		<!-- Hero section -->
 		<section class="py-8">
@@ -153,4 +172,107 @@ const categoryColors = {
 			</div>
 		</section>
 	</div>
+
+	<!-- Scroll Spy Script -->
+	<script>
+		const sections = ['indie-dev', 'ai-ml', 'it-tech'];
+		const navLinks = document.querySelectorAll('.section-nav-link');
+		
+		const colorMap: Record<string, string> = {
+			'indie-dev': '#34d399', // emerald-400
+			'ai-ml': '#22d3ee',     // cyan-400
+			'it-tech': '#a78bfa'    // violet-400
+		};
+
+		let currentActive: string | null = null;
+
+		function setActiveSection(sectionId: string) {
+			if (currentActive === sectionId) return;
+			currentActive = sectionId;
+
+			// Animate collapse lines based on active section
+			const topLine = document.querySelector('.nav-line-top') as HTMLElement;
+			const bottomLine = document.querySelector('.nav-line-bottom') as HTMLElement;
+			
+			if (topLine && bottomLine) {
+				const activeIndex = sections.indexOf(sectionId);
+				// Collapse lines toward active section
+				if (activeIndex === 0) {
+					topLine.style.height = '0.5rem';
+					bottomLine.style.height = '3rem';
+				} else if (activeIndex === 2) {
+					topLine.style.height = '3rem';
+					bottomLine.style.height = '0.5rem';
+				} else {
+					topLine.style.height = '2rem';
+					bottomLine.style.height = '2rem';
+				}
+				// Color the lines based on active section
+				topLine.style.background = `linear-gradient(to bottom, transparent, ${colorMap[sectionId]})`;
+				bottomLine.style.background = `linear-gradient(to top, transparent, ${colorMap[sectionId]})`;
+			}
+
+			navLinks.forEach(link => {
+				const linkSection = link.getAttribute('data-section');
+				const label = link.querySelector('.nav-label') as HTMLElement;
+				if (!label || !linkSection) return;
+				
+				if (linkSection === sectionId) {
+					// Active state: bigger, colored, glowing, popped out to the LEFT
+					link.classList.add('-translate-x-1');
+					label.style.color = colorMap[sectionId];
+					label.style.textShadow = `0 0 12px ${colorMap[sectionId]}, 0 0 24px ${colorMap[sectionId]}`;
+					label.style.fontSize = '1.125rem';
+					label.style.fontWeight = '600';
+				} else {
+					// Inactive state: smaller, dim, no glow
+					link.classList.remove('-translate-x-1');
+					label.style.color = '#52525b'; // zinc-600
+					label.style.textShadow = 'none';
+					label.style.fontSize = '0.875rem';
+					label.style.fontWeight = '400';
+				}
+			});
+		}
+
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					setActiveSection(entry.target.id);
+				}
+			});
+		}, {
+			rootMargin: '-30% 0px -60% 0px',
+			threshold: 0
+		});
+
+		sections.forEach(sectionId => {
+			const section = document.getElementById(sectionId);
+			if (section) observer.observe(section);
+		});
+
+		// Hover effects for inactive items
+		navLinks.forEach(link => {
+			const linkSection = link.getAttribute('data-section');
+			const label = link.querySelector('.nav-label') as HTMLElement;
+			if (!label || !linkSection) return;
+
+			link.addEventListener('mouseenter', () => {
+				if (currentActive !== linkSection) {
+					label.style.color = colorMap[linkSection];
+					label.style.fontSize = '1rem';
+				}
+			});
+
+			link.addEventListener('mouseleave', () => {
+				if (currentActive !== linkSection) {
+					label.style.color = '#52525b';
+					label.style.fontSize = '0.875rem';
+				}
+			});
+		});
+
+		// Initialize first section as active on load
+		setActiveSection('indie-dev');
+	</script>
 </Layout>
