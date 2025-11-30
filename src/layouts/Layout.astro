@@ -81,6 +81,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 						
 						<!-- Desktop Nav -->
 						<nav class="hidden md:flex items-center gap-6">
+							<a href="/3d" class="text-sm text-zinc-400 hover:text-emerald-400 hover:text-xl hover:scale-125 transition-all duration-200 font-mono origin-center">3d</a>
 							<a href="/tools" class="text-sm text-zinc-400 hover:text-amber-400 hover:text-xl hover:scale-125 transition-all duration-200 font-mono origin-center">tools</a>
 							<a href="/stack" class="text-sm text-zinc-400 hover:text-rose-400 hover:text-xl hover:scale-125 transition-all duration-200 font-mono origin-center">stack</a>
 							<a href="/about" class="text-sm text-zinc-400 hover:text-zinc-100 hover:text-xl hover:scale-125 transition-all duration-200 font-mono origin-center">about</a>
@@ -97,6 +98,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 					<!-- Mobile Nav -->
 					<nav id="mobile-menu" class="hidden md:hidden pt-4 pb-2 border-t border-zinc-800/50 mt-4">
 						<div class="flex flex-col gap-3">
+							<a href="/3d" class="text-sm text-zinc-400 hover:text-emerald-400 transition-colors font-mono py-2">3d</a>
 							<a href="/tools" class="text-sm text-zinc-400 hover:text-amber-400 transition-colors font-mono py-2">tools</a>
 							<a href="/stack" class="text-sm text-zinc-400 hover:text-rose-400 transition-colors font-mono py-2">stack</a>
 							<a href="/about" class="text-sm text-zinc-400 hover:text-zinc-100 transition-colors font-mono py-2">about</a>
@@ -155,85 +157,89 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 				style.textContent = '@keyframes fadeOut { 0% { opacity: 1; } 100% { opacity: 0; } }';
 				document.head.appendChild(style);
 
-				// Cursor light + sparkle trail effect
-				const cursorLight = document.createElement('div');
-				cursorLight.id = 'cursor-light';
-				cursorLight.style.cssText = `
-					position: fixed;
-					width: 500px;
-					height: 500px;
-					border-radius: 50%;
-					pointer-events: none;
-					z-index: 0;
-					background: radial-gradient(circle, rgba(52, 211, 153, 0.15) 0%, rgba(34, 211, 238, 0.08) 25%, rgba(167, 139, 250, 0.04) 50%, transparent 70%);
-					transform: translate(-50%, -50%);
-					will-change: left, top;
-				`;
-				document.body.appendChild(cursorLight);
-
-				// Sparkle container
-				const sparkleContainer = document.createElement('div');
-				sparkleContainer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden;';
-				document.body.appendChild(sparkleContainer);
-
-				const sparkleChars = ['✦', '✧', '⋆', '˚', '·', '0', '1', '✶', '✴', '✹'];
-				const sparkleColors = ['#34d399', '#22d3ee', '#a78bfa', '#ffffff', '#fcd34d'];
-				let lastSparkleTime = 0;
-				let mouseX = 0, mouseY = 0;
-
-				document.addEventListener('mousemove', (e) => {
-					mouseX = e.clientX;
-					mouseY = e.clientY;
-					
-					// Direct positioning - no lag
-					cursorLight.style.left = mouseX + 'px';
-					cursorLight.style.top = mouseY + 'px';
-
-					// Spawn sparkles (throttled) - spawn 2-3 at a time
-					const now = Date.now();
-					if (now - lastSparkleTime > 30) {
-						lastSparkleTime = now;
-						const count = Math.random() > 0.5 ? 2 : 3;
-						for (let i = 0; i < count; i++) {
-							createSparkle(mouseX, mouseY);
-						}
-					}
-				});
-
-				function createSparkle(x: number, y: number) {
-					const sparkle = document.createElement('span');
-					sparkle.textContent = sparkleChars[Math.floor(Math.random() * sparkleChars.length)];
-					sparkle.style.cssText = `
+				// Cursor light + sparkle trail effect (disabled on 3D page)
+				const is3DPage = window.location.pathname === '/3d' || window.location.pathname === '/3d/';
+				
+				if (!is3DPage) {
+					const cursorLight = document.createElement('div');
+					cursorLight.id = 'cursor-light';
+					cursorLight.style.cssText = `
 						position: fixed;
-						left: ${x + (Math.random() - 0.5) * 30}px;
-						top: ${y + (Math.random() - 0.5) * 30}px;
-						color: ${sparkleColors[Math.floor(Math.random() * sparkleColors.length)]};
-						font-size: ${8 + Math.random() * 10}px;
+						width: 500px;
+						height: 500px;
+						border-radius: 50%;
 						pointer-events: none;
-						opacity: 1;
-						transform: scale(1);
-						transition: all 0.6s ease-out;
-						text-shadow: 0 0 4px currentColor;
+						z-index: 0;
+						background: radial-gradient(circle, rgba(52, 211, 153, 0.15) 0%, rgba(34, 211, 238, 0.08) 25%, rgba(167, 139, 250, 0.04) 50%, transparent 70%);
+						transform: translate(-50%, -50%);
+						will-change: left, top;
 					`;
-					sparkleContainer.appendChild(sparkle);
+					document.body.appendChild(cursorLight);
 
-					// Animate out
-					requestAnimationFrame(() => {
-						sparkle.style.opacity = '0';
-						sparkle.style.transform = `scale(0) translateY(${-20 - Math.random() * 30}px)`;
+					// Sparkle container
+					const sparkleContainer = document.createElement('div');
+					sparkleContainer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden;';
+					document.body.appendChild(sparkleContainer);
+
+					const sparkleChars = ['✦', '✧', '⋆', '˚', '·', '0', '1', '✶', '✴', '✹'];
+					const sparkleColors = ['#34d399', '#22d3ee', '#a78bfa', '#ffffff', '#fcd34d'];
+					let lastSparkleTime = 0;
+					let mouseX = 0, mouseY = 0;
+
+					document.addEventListener('mousemove', (e) => {
+						mouseX = e.clientX;
+						mouseY = e.clientY;
+						
+						// Direct positioning - no lag
+						cursorLight.style.left = mouseX + 'px';
+						cursorLight.style.top = mouseY + 'px';
+
+						// Spawn sparkles (throttled) - spawn 2-3 at a time
+						const now = Date.now();
+						if (now - lastSparkleTime > 30) {
+							lastSparkleTime = now;
+							const count = Math.random() > 0.5 ? 2 : 3;
+							for (let i = 0; i < count; i++) {
+								createSparkle(mouseX, mouseY);
+							}
+						}
 					});
 
-					// Remove after animation
-					setTimeout(() => sparkle.remove(), 600);
-				}
+					function createSparkle(x: number, y: number) {
+						const sparkle = document.createElement('span');
+						sparkle.textContent = sparkleChars[Math.floor(Math.random() * sparkleChars.length)];
+						sparkle.style.cssText = `
+							position: fixed;
+							left: ${x + (Math.random() - 0.5) * 30}px;
+							top: ${y + (Math.random() - 0.5) * 30}px;
+							color: ${sparkleColors[Math.floor(Math.random() * sparkleColors.length)]};
+							font-size: ${8 + Math.random() * 10}px;
+							pointer-events: none;
+							opacity: 1;
+							transform: scale(1);
+							transition: all 0.6s ease-out;
+							text-shadow: 0 0 4px currentColor;
+						`;
+						sparkleContainer.appendChild(sparkle);
 
-				// Hide light when mouse leaves
-				document.addEventListener('mouseleave', () => {
-					cursorLight.style.opacity = '0';
-				});
-				document.addEventListener('mouseenter', () => {
-					cursorLight.style.opacity = '1';
-				});
+						// Animate out
+						requestAnimationFrame(() => {
+							sparkle.style.opacity = '0';
+							sparkle.style.transform = `scale(0) translateY(${-20 - Math.random() * 30}px)`;
+						});
+
+						// Remove after animation
+						setTimeout(() => sparkle.remove(), 600);
+					}
+
+					// Hide light when mouse leaves
+					document.addEventListener('mouseleave', () => {
+						cursorLight.style.opacity = '0';
+					});
+					document.addEventListener('mouseenter', () => {
+						cursorLight.style.opacity = '1';
+					});
+				}
 			</script>
 
 			<main class="max-w-5xl mx-auto px-6 py-12">
