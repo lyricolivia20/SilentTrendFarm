@@ -17,37 +17,75 @@ import Layout from '../layouts/Layout.astro';
 			<!-- UI Overlay -->
 			<div id="ui-overlay" class="absolute inset-0 pointer-events-none z-20 opacity-0 transition-opacity duration-500">
 				<!-- Title -->
-				<div class="absolute top-8 left-8 pointer-events-auto">
-					<h1 class="text-3xl font-bold text-zinc-100 font-display mb-2">3D Model Viewer</h1>
-					<p class="text-zinc-500 font-mono text-sm">// AI Image Generation + 3D Preview</p>
+				<div class="absolute top-8 left-8 right-8 pointer-events-auto">
+					<h1 class="text-3xl font-bold text-zinc-100 font-display mb-2">AI Pipeline: Text → Image → 3D</h1>
+					<p class="text-zinc-500 font-mono text-sm">// Generative AI Model Pipeline Visualization</p>
 				</div>
 				
-				<!-- Text-to-Image Input -->
-				<div class="absolute top-24 left-8 pointer-events-auto w-80">
-					<div class="glass-panel p-4 rounded-xl">
-						<p class="text-emerald-400 font-mono text-xs mb-3">AI Image Generator</p>
-						<input 
-							type="text" 
-							id="prompt-input" 
-							placeholder="Describe what to generate..."
-							class="w-full bg-zinc-900/50 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500 mb-3"
-						/>
-						<button id="btn-generate-image" class="w-full bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-400 px-3 py-2 rounded-lg text-xs font-mono transition-colors">
-							Generate Image
-						</button>
-					</div>
-				</div>
-				
-				<!-- Generated Image Preview -->
-				<div id="image-preview-container" class="absolute top-56 left-8 pointer-events-auto w-80 hidden">
-					<div class="glass-panel p-4 rounded-xl">
-						<p class="text-cyan-400 font-mono text-xs mb-3">Generated Image</p>
-						<img id="generated-image" class="w-full h-48 object-cover rounded-lg border border-zinc-700" />
+				<!-- Pipeline Container -->
+				<div class="absolute bottom-8 left-8 right-8 pointer-events-auto">
+					<div class="glass-panel p-6 rounded-xl">
+						<!-- Pipeline Steps -->
+						<div class="flex items-center justify-between gap-4">
+							<!-- Step 1: Text Input -->
+							<div class="flex-1">
+								<div class="mb-2">
+									<span class="text-emerald-400 font-mono text-xs">STEP 1: TEXT</span>
+								</div>
+								<input 
+									type="text" 
+									id="prompt-input" 
+									placeholder="Enter your prompt..."
+									class="w-full bg-zinc-900/50 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
+								/>
+								<button id="btn-generate" class="mt-2 w-full bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-400 px-3 py-2 rounded-lg text-xs font-mono transition-colors">
+									Start Pipeline →
+								</button>
+							</div>
+							
+							<!-- Arrow 1 -->
+							<div id="arrow-1" class="flex items-center opacity-30 transition-opacity duration-500">
+								<svg class="w-8 h-8 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+								</svg>
+							</div>
+							
+							<!-- Step 2: Image Generation -->
+							<div class="flex-1">
+								<div class="mb-2">
+									<span class="text-cyan-400 font-mono text-xs">STEP 2: IMAGE</span>
+								</div>
+								<div id="image-container" class="w-full h-32 bg-zinc-900/50 border border-zinc-700 rounded-lg flex items-center justify-center relative overflow-hidden">
+									<span id="image-placeholder" class="text-zinc-600 text-xs font-mono">Awaiting generation...</span>
+									<img id="generated-image" class="w-full h-full object-cover absolute inset-0 hidden" />
+								</div>
+							</div>
+							
+							<!-- Arrow 2 -->
+							<div id="arrow-2" class="flex items-center opacity-30 transition-opacity duration-500">
+								<svg class="w-8 h-8 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+								</svg>
+							</div>
+							
+							<!-- Step 3: 3D Model -->
+							<div class="flex-1">
+								<div class="mb-2">
+									<span class="text-violet-400 font-mono text-xs">STEP 3: 3D MODEL</span>
+								</div>
+								<div class="w-full h-32 bg-zinc-900/50 border border-zinc-700 rounded-lg flex items-center justify-center">
+									<span id="model-status" class="text-zinc-600 text-xs font-mono">Awaiting conversion...</span>
+								</div>
+								<button id="btn-demo" class="mt-2 w-full bg-violet-500/20 hover:bg-violet-500/30 border border-violet-500/50 text-violet-400 px-3 py-2 rounded-lg text-xs font-mono transition-colors">
+									Load Demo Model
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 				
 				<!-- Status -->
-				<div id="generation-status" class="absolute bottom-8 left-8 pointer-events-auto hidden">
+				<div id="generation-status" class="absolute top-24 left-1/2 transform -translate-x-1/2 pointer-events-auto hidden">
 					<div class="glass-panel p-3 rounded-lg">
 						<div class="flex items-center gap-2 text-xs font-mono text-zinc-400">
 							<div class="w-3 h-3 border border-emerald-500/50 border-t-emerald-500 rounded-full animate-spin"></div>
@@ -57,7 +95,7 @@ import Layout from '../layouts/Layout.astro';
 				</div>
 				
 				<!-- Controls hint -->
-				<div class="absolute bottom-8 right-8 pointer-events-auto">
+				<div class="absolute top-8 right-8 pointer-events-auto">
 					<div class="glass-panel p-3 rounded-lg">
 						<div class="space-y-1 text-zinc-500 text-xs font-mono">
 							<p><span class="text-zinc-400">Drag</span> — Rotate</p>
@@ -68,22 +106,15 @@ import Layout from '../layouts/Layout.astro';
 				</div>
 				
 				<!-- Model Info panel -->
-				<div id="model-info" class="absolute top-8 right-8 pointer-events-auto hidden">
+				<div id="model-info" class="absolute top-32 right-8 pointer-events-auto hidden">
 					<div class="glass-panel p-4 rounded-xl">
-						<p class="text-zinc-400 font-mono text-xs mb-2">Model Info</p>
+						<p class="text-zinc-400 font-mono text-xs mb-2">Model Stats</p>
 						<div class="space-y-1 text-xs font-mono">
 							<p class="text-zinc-500">Vertices: <span id="vertex-count" class="text-emerald-400">0</span></p>
 							<p class="text-zinc-500">Triangles: <span id="triangle-count" class="text-cyan-400">0</span></p>
 							<p class="text-zinc-500">Materials: <span id="material-count" class="text-violet-400">0</span></p>
 						</div>
 					</div>
-				</div>
-				
-				<!-- Demo button -->
-				<div class="absolute top-8 right-8 pointer-events-auto" id="demo-container">
-					<button id="btn-demo" class="glass-panel px-4 py-2 rounded-lg text-zinc-400 hover:text-zinc-100 text-xs font-mono transition-colors">
-						Load Demo Model
-					</button>
 				</div>
 			</div>
 		</div>
@@ -96,18 +127,27 @@ import Layout from '../layouts/Layout.astro';
 			-webkit-backdrop-filter: blur(12px);
 			border: 1px solid rgba(63, 63, 70, 0.5);
 		}
+		
+		@keyframes pulse-glow {
+			0%, 100% { opacity: 0.3; }
+			50% { opacity: 1; }
+		}
+		
+		.arrow-active {
+			animation: pulse-glow 2s ease-in-out infinite;
+		}
 	</style>
 	
 	<script type="importmap">
 		{
 			"imports": {
-				"three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-				"three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+				"three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+				"three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
 			}
 		}
 	</script>
 	
-	<script type="module" is:inline>
+	<script type="module">
 		import * as THREE from 'three';
 		import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 		import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -120,9 +160,6 @@ import Layout from '../layouts/Layout.astro';
 			const vertexCountEl = document.getElementById('vertex-count');
 			const triangleCountEl = document.getElementById('triangle-count');
 			const materialCountEl = document.getElementById('material-count');
-			const fpsCounterEl = document.getElementById('fps-counter');
-			const morphSlider = document.getElementById('morph-slider');
-			const stepButtons = document.querySelectorAll('.step-btn');
 			
 			// Scene setup
 			const scene = new THREE.Scene();
@@ -132,6 +169,7 @@ import Layout from '../layouts/Layout.astro';
 			// Camera
 			const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 			camera.position.set(0, 5, 15);
+			camera.lookAt(0, 0, 0);
 			
 			// Renderer
 			const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -148,6 +186,7 @@ import Layout from '../layouts/Layout.astro';
 			controls.minDistance = 5;
 			controls.maxDistance = 50;
 			controls.maxPolarAngle = Math.PI / 2 + 0.1;
+			controls.target.set(0, 2, 0);
 			
 			// Lights
 			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
@@ -160,7 +199,7 @@ import Layout from '../layouts/Layout.astro';
 			mainLight.shadow.mapSize.height = 2048;
 			scene.add(mainLight);
 			
-			// Colored point lights
+			// Colored point lights for atmosphere
 			const emeraldLight = new THREE.PointLight(0x34d399, 2, 20);
 			emeraldLight.position.set(-5, 3, 5);
 			scene.add(emeraldLight);
@@ -190,323 +229,30 @@ import Layout from '../layouts/Layout.astro';
 			gridHelper.position.y = 0.01;
 			scene.add(gridHelper);
 			
-			// Showcase models group
-			const showcaseGroup = new THREE.Group();
-			scene.add(showcaseGroup);
+			// Model container group
+			const modelGroup = new THREE.Group();
+			scene.add(modelGroup);
 			
-			// Create different stages of the model
-			let currentStage = 1;
-			
-			// Stage 1: Perlin Noise Terrain Generation
-			const terrainSize = 50;
-			const terrainSegments = 50;
-			const terrainGeometry = new THREE.PlaneGeometry(8, 8, terrainSegments, terrainSegments);
-			
-			// Simple Perlin-like noise function
-			function noise2D(x, y) {
-				const scale = 0.1;
-				return Math.sin(x * scale) * Math.cos(y * scale) * 
-					   Math.sin(x * scale * 2.1) * Math.cos(y * scale * 1.9) * 
-					   Math.sin(x * scale * 0.5) * Math.cos(y * scale * 0.7);
-			}
-			
-			// Apply Perlin noise to terrain vertices
-			const terrainPositions = terrainGeometry.attributes.position;
-			for (let i = 0; i < terrainPositions.count; i++) {
-				const x = terrainPositions.getX(i);
-				const y = terrainPositions.getY(i);
-				const height = noise2D(x * 5, y * 5) * 1.5;
-				terrainPositions.setZ(i, height);
-			}
-			terrainGeometry.computeVertexNormals();
-			
-			const terrainMaterial = new THREE.MeshStandardMaterial({
-				color: 0x34d399,
-				wireframe: true,
-				emissive: 0x34d399,
-				emissiveIntensity: 0.05
-			});
-			const stage1Terrain = new THREE.Mesh(terrainGeometry, terrainMaterial);
-			stage1Terrain.rotation.x = -Math.PI / 4;
-			stage1Terrain.position.set(0, 2, 0);
-			
-			// Stage 2: L-System City Layout Generation
-			const cityGroup = new THREE.Group();
-			
-			// L-System rules for city generation
-			function generateLSystemCity() {
-				const buildings = [];
-				const gridSize = 5;
-				const spacing = 1.5;
-				
-				// Simple L-System pattern: F = Forward, + = Turn Right, - = Turn Left
-				const axiom = 'F+F+F+F';
-				const rules = { 'F': 'FF+F-F+F+FF' };
-				let current = axiom;
-				
-				// Apply L-System rules once
-				let next = '';
-				for (let char of current) {
-					next += rules[char] || char;
-				}
-				
-				// Interpret L-System string as city blocks
-				let x = 0, z = 0;
-				let dir = 0; // 0=North, 1=East, 2=South, 3=West
-				
-				for (let char of next) {
-					if (char === 'F') {
-						// Create building at current position
-						const height = 0.5 + Math.random() * 2;
-						const buildingGeometry = new THREE.BoxGeometry(0.8, height, 0.8);
-						const buildingMaterial = new THREE.MeshStandardMaterial({
-							color: 0x22d3ee,
-							emissive: 0x22d3ee,
-							emissiveIntensity: 0.02
-						});
-						const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
-						building.position.set(x * spacing, height / 2, z * spacing);
-						buildings.push(building);
-						
-						// Move forward
-						if (dir === 0) z -= 1;
-						else if (dir === 1) x += 1;
-						else if (dir === 2) z += 1;
-						else if (dir === 3) x -= 1;
-					} else if (char === '+') {
-						dir = (dir + 1) % 4;
-					} else if (char === '-') {
-						dir = (dir + 3) % 4;
-					}
-				}
-				
-				return buildings;
-			}
-			
-			// Generate city buildings
-			const buildings = generateLSystemCity();
-			buildings.forEach(building => cityGroup.add(building));
-			
-			cityGroup.position.set(0, 0, 0);
-			cityGroup.visible = false;
-			
-			// Stage 3: 3D Mesh (complex geometry)
-			const meshGeometry = new THREE.IcosahedronGeometry(2, 2);
-			const meshMaterial = new THREE.MeshStandardMaterial({
-				color: 0xa78bfa,
-				roughness: 0.3,
-				metalness: 0.7,
-				wireframe: false,
-				emissive: 0xa78bfa,
-				emissiveIntensity: 0.1
-			});
-			const stage3Mesh = new THREE.Mesh(meshGeometry, meshMaterial);
-			stage3Mesh.position.set(0, 3, 0);
-			stage3Mesh.visible = false;
-			
-			// Stage 4: Rigged character (represented by articulated boxes)
-			const riggedGroup = new THREE.Group();
-			
-			// Body
-			const bodyGeometry = new THREE.BoxGeometry(1.5, 2, 0.8);
-			const bodyMaterial = new THREE.MeshStandardMaterial({
-				color: 0xfbbf24,
-				emissive: 0xfbbf24,
-				emissiveIntensity: 0.1
-			});
-			const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-			body.position.y = 3;
-			
-			// Head
-			const headGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
-			const head = new THREE.Mesh(headGeometry, bodyMaterial);
-			head.position.set(0, 4.5, 0);
-			
-			// Arms
-			const armGeometry = new THREE.BoxGeometry(0.3, 1.5, 0.3);
-			const leftArm = new THREE.Mesh(armGeometry, bodyMaterial);
-			leftArm.position.set(-1, 3, 0);
-			const rightArm = new THREE.Mesh(armGeometry, bodyMaterial);
-			rightArm.position.set(1, 3, 0);
-			
-			// Legs
-			const legGeometry = new THREE.BoxGeometry(0.4, 1.5, 0.4);
-			const leftLeg = new THREE.Mesh(legGeometry, bodyMaterial);
-			leftLeg.position.set(-0.4, 1, 0);
-			const rightLeg = new THREE.Mesh(legGeometry, bodyMaterial);
-			rightLeg.position.set(0.4, 1, 0);
-			
-			riggedGroup.add(body, head, leftArm, rightArm, leftLeg, rightLeg);
-			riggedGroup.visible = false;
-			
-			// Add all stages to showcase group
-			showcaseGroup.add(stage1Terrain, cityGroup, stage3Mesh, riggedGroup);
-			
-			// Update model info
-			function updateModelInfo(geometry) {
-				if (vertexCountEl && geometry) {
-					const vertices = geometry.attributes.position ? geometry.attributes.position.count : 0;
-					vertexCountEl.textContent = vertices.toString();
-					
-					const triangles = geometry.index ? geometry.index.count / 3 : vertices / 3;
-					triangleCountEl.textContent = Math.floor(triangles).toString();
-				}
-				if (materialCountEl) {
-					materialCountEl.textContent = '1';
-				}
-			}
-			
-			// Floating info panels (holographic style)
-			const panelGroup = new THREE.Group();
-			
-			// Create text sprite for tech info
-			function createTextSprite(text, color = 0x34d399) {
-				const canvas = document.createElement('canvas');
-				const context = canvas.getContext('2d');
-				canvas.width = 256;
-				canvas.height = 64;
-				
-				context.fillStyle = 'rgba(0, 0, 0, 0.5)';
-				context.fillRect(0, 0, 256, 64);
-				
-				context.font = '20px monospace';
-				context.fillStyle = `#${color.toString(16).padStart(6, '0')}`;
-				context.fillText(text, 10, 40);
-				
-				const texture = new THREE.CanvasTexture(canvas);
-				const spriteMaterial = new THREE.SpriteMaterial({ 
-					map: texture,
-					transparent: true,
-					opacity: 0.8
-				});
-				const sprite = new THREE.Sprite(spriteMaterial);
-				sprite.scale.set(4, 1, 1);
-				
-				return sprite;
-			}
-			
-			// Add algorithm labels
-			const label1 = createTextSprite('Perlin Noise', 0x34d399);
-			label1.position.set(-6, 6, 0);
-			panelGroup.add(label1);
-			
-			const label2 = createTextSprite('L-Systems', 0x22d3ee);
-			label2.position.set(6, 6, 0);
-			panelGroup.add(label2);
-			
-			const label3 = createTextSprite('Procedural Gen', 0xa78bfa);
-			label3.position.set(0, 7, 0);
-			panelGroup.add(label3);
-			
-			scene.add(panelGroup);
-			
-			// Initialize with first stage
-			updateModelInfo(terrainGeometry);
-			
-			// Stage switching function
-			function switchToStage(stage) {
-				// Hide all stages
-				stage1Terrain.visible = false;
-				cityGroup.visible = false;
-				stage3Mesh.visible = false;
-				riggedGroup.visible = false;
-				
-				// Show selected stage and update info
-				switch(stage) {
-					case 1:
-						stage1Terrain.visible = true;
-						updateModelInfo(terrainGeometry);
-						break;
-					case 2:
-						cityGroup.visible = true;
-						if (vertexCountEl) vertexCountEl.textContent = (buildings.length * 24).toString();
-						if (triangleCountEl) triangleCountEl.textContent = (buildings.length * 12).toString();
-						if (materialCountEl) materialCountEl.textContent = buildings.length.toString();
-						break;
-					case 3:
-						stage3Mesh.visible = true;
-						updateModelInfo(meshGeometry);
-						break;
-					case 4:
-						riggedGroup.visible = true;
-						updateModelInfo(bodyGeometry);
-						if (materialCountEl) materialCountEl.textContent = '6';
-						break;
-				}
-				
-				currentStage = stage;
-				
-				// Update button states
-				stepButtons.forEach((btn, index) => {
-					if (index + 1 === stage) {
-						btn.classList.add('bg-zinc-800/50', 'text-zinc-100');
-						btn.classList.remove('text-zinc-400');
-					} else {
-						btn.classList.remove('bg-zinc-800/50', 'text-zinc-100');
-						btn.classList.add('text-zinc-400');
-					}
-				});
-			}
-			
-			// Step button handlers
-			stepButtons.forEach((btn, index) => {
-				btn.addEventListener('click', () => {
-					switchToStage(index + 1);
-					morphSlider.value = (index * 33.33).toString();
-				});
-			});
-			
-			// Morph slider handler
-			morphSlider?.addEventListener('input', (e) => {
-				const value = parseFloat(e.target.value);
-				
-				if (value < 25) {
-					switchToStage(1);
-				} else if (value < 50) {
-					switchToStage(2);
-				} else if (value < 75) {
-					switchToStage(3);
-				} else {
-					switchToStage(4);
-				}
-			});
-			
-			// FPS counter
-			let frameCount = 0;
-			let lastTime = performance.now();
-			
-			function updateFPS() {
-				frameCount++;
-				const now = performance.now();
-				if (now - lastTime >= 1000) {
-					if (fpsCounterEl) fpsCounterEl.textContent = frameCount.toString();
-					frameCount = 0;
-					lastTime = now;
-				}
-			}
-			
-			// Double-click to reset camera
-			renderer.domElement.addEventListener('dblclick', () => {
-				camera.position.set(0, 5, 15);
-				camera.lookAt(0, 3, 0);
-				controls.target.set(0, 3, 0);
-				controls.update();
-			});
-			
-			// GLB Loader for generated models
+			// GLB Loader for models
 			const gltfLoader = new GLTFLoader();
-			let generatedModel = null;
+			let currentModel = null;
 			
-			// UI Elements for generation
+			// UI Elements
 			const promptInput = document.getElementById('prompt-input');
-			const btnGenerateImage = document.getElementById('btn-generate-image');
+			const btnGenerate = document.getElementById('btn-generate');
 			const btnDemo = document.getElementById('btn-demo');
-			const demoContainer = document.getElementById('demo-container');
 			const modelInfo = document.getElementById('model-info');
 			const generationStatus = document.getElementById('generation-status');
 			const statusText = document.getElementById('status-text');
-			const imagePreviewContainer = document.getElementById('image-preview-container');
 			const generatedImage = document.getElementById('generated-image');
+			const imagePlaceholder = document.getElementById('image-placeholder');
+			const imageContainer = document.getElementById('image-container');
+			const modelStatus = document.getElementById('model-status');
+			const arrow1 = document.getElementById('arrow-1');
+			const arrow2 = document.getElementById('arrow-2');
+			
+			// Pipeline state
+			let pipelineStage = 0; // 0: idle, 1: text entered, 2: image generated, 3: model loaded
 			
 			function showStatus(text) {
 				statusText.textContent = text;
@@ -517,7 +263,44 @@ import Layout from '../layouts/Layout.astro';
 				generationStatus.classList.add('hidden');
 			}
 			
-			// Text-to-Image using Pollinations.ai (free, no CORS, no API key needed)
+			// Update pipeline visual state
+			function updatePipelineState(stage) {
+				pipelineStage = stage;
+				
+				// Update arrows
+				if (stage >= 1) {
+					arrow1.classList.remove('opacity-30');
+					arrow1.classList.add('opacity-100', 'arrow-active');
+				} else {
+					arrow1.classList.add('opacity-30');
+					arrow1.classList.remove('opacity-100', 'arrow-active');
+				}
+				
+				if (stage >= 2) {
+					arrow2.classList.remove('opacity-30');
+					arrow2.classList.add('opacity-100', 'arrow-active');
+				} else {
+					arrow2.classList.add('opacity-30');
+					arrow2.classList.remove('opacity-100', 'arrow-active');
+				}
+				
+				// Update status texts
+				if (stage === 2) {
+					modelStatus.textContent = 'Ready for 3D conversion';
+					modelStatus.classList.remove('text-zinc-600');
+					modelStatus.classList.add('text-violet-400');
+				} else if (stage === 3) {
+					modelStatus.textContent = '3D Model loaded';
+					modelStatus.classList.remove('text-zinc-600');
+					modelStatus.classList.add('text-violet-400');
+				} else {
+					modelStatus.textContent = 'Awaiting conversion...';
+					modelStatus.classList.add('text-zinc-600');
+					modelStatus.classList.remove('text-violet-400');
+				}
+			}
+			
+			// Text-to-Image using Pollinations.ai
 			async function generateImage(prompt) {
 				const encodedPrompt = encodeURIComponent(prompt);
 				const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true`;
@@ -531,54 +314,50 @@ import Layout from '../layouts/Layout.astro';
 				});
 			}
 			
-			// Load GLB model into scene
-			function loadGeneratedModel(url) {
-				// Remove previous generated model
-				if (generatedModel) {
-					showcaseGroup.remove(generatedModel);
-					generatedModel = null;
+			// Load GLB model
+			function loadModel(url) {
+				// Remove previous model
+				if (currentModel) {
+					modelGroup.remove(currentModel);
+					currentModel = null;
 				}
 				
-				// Hide demo models
-				stage1Terrain.visible = false;
-				cityGroup.visible = false;
-				stage3Mesh.visible = false;
-				riggedGroup.visible = false;
+				showStatus('Loading 3D model...');
 				
 				gltfLoader.load(url, (gltf) => {
-					generatedModel = gltf.scene;
+					currentModel = gltf.scene;
 					
 					// Center and scale the model
-					const box = new THREE.Box3().setFromObject(generatedModel);
+					const box = new THREE.Box3().setFromObject(currentModel);
 					const center = box.getCenter(new THREE.Vector3());
 					const size = box.getSize(new THREE.Vector3());
 					const maxDim = Math.max(size.x, size.y, size.z);
-					const scale = 4 / maxDim;
+					const scale = 6 / maxDim;
 					
-					generatedModel.scale.setScalar(scale);
-					generatedModel.position.sub(center.multiplyScalar(scale));
-					generatedModel.position.y = 2;
+					currentModel.scale.setScalar(scale);
+					currentModel.position.sub(center.multiplyScalar(scale));
+					currentModel.position.y = 2;
 					
 					// Add emissive glow
-					generatedModel.traverse((child) => {
+					currentModel.traverse((child) => {
 						if (child.isMesh) {
 							child.castShadow = true;
 							child.receiveShadow = true;
 							if (child.material) {
-								child.material.emissive = new THREE.Color(0x34d399);
-								child.material.emissiveIntensity = 0.1;
+								child.material.emissive = new THREE.Color(0xa78bfa);
+								child.material.emissiveIntensity = 0.05;
 							}
 						}
 					});
 					
-					showcaseGroup.add(generatedModel);
+					modelGroup.add(currentModel);
 					
 					// Update model info
 					let totalVertices = 0;
 					let totalTriangles = 0;
 					let materialCount = 0;
 					
-					generatedModel.traverse((child) => {
+					currentModel.traverse((child) => {
 						if (child.isMesh && child.geometry) {
 							totalVertices += child.geometry.attributes.position?.count || 0;
 							totalTriangles += child.geometry.index ? child.geometry.index.count / 3 : 0;
@@ -586,51 +365,73 @@ import Layout from '../layouts/Layout.astro';
 						}
 					});
 					
-					if (vertexCountEl) vertexCountEl.textContent = totalVertices.toString();
-					if (triangleCountEl) triangleCountEl.textContent = Math.floor(totalTriangles).toString();
+					if (vertexCountEl) vertexCountEl.textContent = totalVertices.toLocaleString();
+					if (triangleCountEl) triangleCountEl.textContent = Math.floor(totalTriangles).toLocaleString();
 					if (materialCountEl) materialCountEl.textContent = materialCount.toString();
+					
+					// Show model info panel
+					modelInfo.classList.remove('hidden');
+					updatePipelineState(3);
+					hideStatus();
 					
 				}, undefined, (error) => {
 					console.error('Error loading model:', error);
-					statusText.textContent = 'Error loading model';
+					showStatus('Error loading model');
+					setTimeout(hideStatus, 3000);
 				});
 			}
 			
-			// Generate Image button
-			btnGenerateImage?.addEventListener('click', async () => {
-				const prompt = promptInput?.value || 'a cute robot character';
+			// Generate button handler
+			btnGenerate?.addEventListener('click', async () => {
+				const prompt = promptInput?.value || 'a futuristic robot';
 				
-				showStatus('Generating image...');
+				if (!prompt.trim()) {
+					showStatus('Please enter a prompt');
+					setTimeout(hideStatus, 2000);
+					return;
+				}
+				
+				// Stage 1: Text entered
+				updatePipelineState(1);
+				showStatus('Generating image from text...');
 				
 				try {
+					// Stage 2: Generate image
 					const imageUrl = await generateImage(prompt);
 					generatedImage.src = imageUrl;
-					imagePreviewContainer.classList.remove('hidden');
-					hideStatus();
+					generatedImage.classList.remove('hidden');
+					imagePlaceholder.classList.add('hidden');
+					updatePipelineState(2);
+					
+					showStatus('Image generated! (Note: 3D conversion is simulated with demo models)');
+					setTimeout(hideStatus, 3000);
+					
 				} catch (error) {
 					showStatus(`Error: ${error.message}`);
 					setTimeout(hideStatus, 3000);
 				}
 			});
 			
-			// Demo button
+			// Demo button handler
 			btnDemo?.addEventListener('click', () => {
-				showStatus('Loading demo model...');
-				
 				const demoModels = [
 					'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb',
 					'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Fox/glTF-Binary/Fox.glb',
 					'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BrainStem/glTF-Binary/BrainStem.glb',
+					'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CesiumMan/glTF-Binary/CesiumMan.glb',
+					'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb'
 				];
 				
 				const randomModel = demoModels[Math.floor(Math.random() * demoModels.length)];
-				loadGeneratedModel(randomModel);
-				
-				// Show model info, hide demo button
-				modelInfo?.classList.remove('hidden');
-				demoContainer?.classList.add('hidden');
-				
-				setTimeout(hideStatus, 1500);
+				loadModel(randomModel);
+			});
+			
+			// Double-click to reset camera
+			renderer.domElement.addEventListener('dblclick', () => {
+				camera.position.set(0, 5, 15);
+				camera.lookAt(0, 2, 0);
+				controls.target.set(0, 2, 0);
+				controls.update();
 			});
 			
 			// Animation loop
@@ -641,54 +442,19 @@ import Layout from '../layouts/Layout.astro';
 				
 				const time = clock.getElapsedTime();
 				
-				// Animate showcase models
-				showcaseGroup.rotation.y = time * 0.1;
-				
-				// Animate current stage
-				if (stage1Terrain.visible) {
-					stage1Terrain.rotation.z = time * 0.1;
-					// Animate terrain vertices for wave effect
-					const positions = stage1Terrain.geometry.attributes.position;
-					for (let i = 0; i < positions.count; i++) {
-						const x = positions.getX(i);
-						const y = positions.getY(i);
-						const waveHeight = noise2D(x * 5 + time, y * 5) * 1.5;
-						positions.setZ(i, waveHeight);
-					}
-					positions.needsUpdate = true;
+				// Rotate model slowly
+				if (currentModel) {
+					currentModel.rotation.y = time * 0.2;
 				}
-				if (cityGroup.visible) {
-					// Animate city buildings growing
-					cityGroup.children.forEach((building, i) => {
-						const scale = 0.8 + Math.sin(time + i * 0.2) * 0.2;
-						building.scale.y = scale;
-					});
-				}
-				if (stage3Mesh.visible) {
-					stage3Mesh.rotation.x = time * 0.2;
-					stage3Mesh.rotation.y = time * 0.3;
-				}
-				if (riggedGroup.visible) {
-					// Animate rigged character
-					riggedGroup.children[2].rotation.x = Math.sin(time * 2) * 0.3; // left arm
-					riggedGroup.children[3].rotation.x = Math.sin(time * 2 + Math.PI) * 0.3; // right arm
-					riggedGroup.children[4].rotation.x = Math.sin(time * 3) * 0.2; // left leg
-					riggedGroup.children[5].rotation.x = Math.sin(time * 3 + Math.PI) * 0.2; // right leg
-				}
-				
-				// Animate info panels
-				panelGroup.children.forEach((panel, i) => {
-					panel.position.y = panel.position.y + Math.sin(time + i) * 0.01;
-				});
 				
 				// Animate lights
 				emeraldLight.position.x = Math.sin(time * 0.5) * 8;
 				emeraldLight.position.z = Math.cos(time * 0.5) * 8;
 				cyanLight.position.x = Math.sin(time * 0.5 + Math.PI) * 8;
 				cyanLight.position.z = Math.cos(time * 0.5 + Math.PI) * 8;
+				violetLight.intensity = 2 + Math.sin(time * 2) * 0.5;
 				
 				controls.update();
-				updateFPS();
 				renderer.render(scene, camera);
 			}
 			
