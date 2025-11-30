@@ -138,22 +138,17 @@ import Layout from '../layouts/Layout.astro';
 		}
 	</style>
 	
-	<script type="importmap">
-		{
-			"imports": {
-				"three": "https://unpkg.com/three@0.169.0/build/three.module.js",
-				"three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
-			}
-		}
-	</script>
-	
-	<script type="module">
-		import * as THREE from 'three';
-		import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-		import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+	<script is:inline src="/js/three.js"></script>
+	<script is:inline src="/js/OrbitControls.js"></script>
+	<script is:inline src="/js/GLTFLoader.js"></script>
 		
+		<script is:inline>
 		// Initialize 3D scene
 		function init() {
+			if (typeof THREE === 'undefined') {
+				console.error('THREE.js not loaded');
+				return;
+			}
 			const container = document.getElementById('canvas-container');
 			const loading = document.getElementById('loading');
 			const uiOverlay = document.getElementById('ui-overlay');
@@ -180,7 +175,7 @@ import Layout from '../layouts/Layout.astro';
 			container.appendChild(renderer.domElement);
 			
 			// Controls
-			const controls = new OrbitControls(camera, renderer.domElement);
+			const controls = new THREE.OrbitControls(camera, renderer.domElement);
 			controls.enableDamping = true;
 			controls.dampingFactor = 0.05;
 			controls.minDistance = 5;
@@ -234,7 +229,7 @@ import Layout from '../layouts/Layout.astro';
 			scene.add(modelGroup);
 			
 			// GLB Loader for models
-			const gltfLoader = new GLTFLoader();
+			const gltfLoader = new THREE.GLTFLoader();
 			let currentModel = null;
 			
 			// UI Elements
