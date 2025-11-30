@@ -60,4 +60,33 @@ The infamous 'black screen' in A-Frame has cost me more hours than I'd like to a
 
 **Improper Camera Positioning**: Your camera might be positioned inside an object or pointing away from your scene. Ensure its position attribute is set correctly so it has a clear view of your models.
 
+## Essential Resources for WebVR Development
+
+To take your WebVR projects further, consider these resources:
+
+### Learning Platforms
+- **Skillshare** and **Udemy** offer excellent A-Frame and Three.js courses, from beginner to advanced
+- The official **A-Frame School** is free and covers fundamentals
+- **Three.js Journey** by Bruno Simon is widely considered the best Three.js course available
+
+### 3D Assets
+Finding quality 3D models is crucial for WebVR:
+- **Sketchfab** - Massive library of free and paid models, many optimized for web
+- **TurboSquid** - Professional-grade assets for serious projects
+- **Poly Pizza** - Free low-poly models perfect for web performance
+- **Mixamo** - Free character animations that work great with A-Frame
+
+### Development Setup
+For serious WebVR development, you'll want:
+- **VS Code** with the A-Frame extension for syntax highlighting
+- A **high-resolution monitor** for detailed 3D work
+- A **Meta Quest** headset for testing VR experiences
+- **GitHub Pages** or **Netlify** for free hosting of your WebVR projects
+
+### Performance Optimization
+WebVR performance is critical. Consider:
+- **Draco compression** for 3D models (reduces file size by 90%+)
+- **glTF format** over OBJ or FBX for web delivery
+- **Texture atlasing** to reduce draw calls
+
 Building for the web democratizes access to 3D content, making it a powerful skill for any digital creator. This same principle of broad utility applies to another, seemingly unrelated skill that is surprisingly useful for developers of all stripes: database management.

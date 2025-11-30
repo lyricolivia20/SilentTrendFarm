@@ -39,4 +39,41 @@ This prompt is designed to generate a **complete visual concept**. It establishe
 
 ## Core Principles
 
-The core principles are clear: **be specific**, **define your style**, and **provide context**. Mastering these skills transforms you from a passive user into an active collaborator with the AI. This same principle of thoughtful design applies when moving from generating assets to building an entire AI-powered application.
+The core principles are clear: **be specific**, **define your style**, and **provide context**. Mastering these skills transforms you from a passive user into an active collaborator with the AI.
+
+## AI Image Generation Platforms
+
+Different platforms excel at different tasks:
+
+| Platform | Best For | Pricing |
+|----------|----------|---------|
+| **Midjourney** | Artistic, stylized images | $10-60/month |
+| **DALL-E 3** | Accurate text rendering, concepts | Pay-per-use via OpenAI |
+| **Stable Diffusion** | Full control, local/cloud, LoRAs | Free (local) or cloud GPU costs |
+| **Leonardo.ai** | Game assets, consistent characters | Free tier available |
+| **Replicate** | API access to multiple models | Pay-per-use |
+
+For serious prompt engineering, **Stable Diffusion** with **ComfyUI** or **Automatic1111** gives you the most control. Run it locally with a good **NVIDIA GPU** (RTX 3080+) or use cloud services like **RunPod** or **Google Colab Pro**.
+
+## Tools to Improve Your Prompts
+
+- **PromptHero** - Browse and learn from successful prompts
+- **Lexica.art** - Search engine for Stable Diffusion images and prompts
+- **CLIP Interrogator** - Reverse-engineer prompts from existing images
+- **Civitai** - Community models, LoRAs, and prompt inspiration
+
+## Learning Resources
+
+To master prompt engineering:
+- **Udemy** courses on Midjourney and Stable Diffusion cover fundamentals to advanced techniques
+- **Skillshare** has excellent creative AI courses
+- The **Midjourney Discord** community is invaluable for learning
+
+## Hardware for Local Generation
+
+Running AI image generation locally requires:
+- **GPU**: Minimum RTX 3060 (12GB VRAM), recommended RTX 4070 or higher
+- **RAM**: 32GB recommended for smooth operation
+- **Storage**: Fast **NVMe SSD** for model loading (models can be 2-7GB each)
+
+This same principle of thoughtful design applies when moving from generating assets to building an entire AI-powered application.

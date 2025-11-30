@@ -49,3 +49,38 @@ Inside, look for the field named **DS Parameter set**. This field will display t
 With this information, you can log into your router's administration page and manually switch to a less congested channel, which can often dramatically improve your Wi-Fi stability.
 
 **Pro tip:** Channels 1, 6, and 11 are the only non-overlapping channels on the 2.4GHz band. If you're on channel 3 and your neighbor is on channel 1, you're both causing interference. Pick one of the three non-overlapping channels for best results.
+
+## Recommended Networking Gear
+
+If channel switching doesn't solve your problems, it might be time for a hardware upgrade:
+
+### Routers
+- **ASUS RT-AX86U** - Excellent Wi-Fi 6 router with great range and gaming features
+- **TP-Link Archer AX73** - Best value Wi-Fi 6 router for most homes
+- **Netgear Nighthawk** series - Reliable performance for larger homes
+
+### Mesh Wi-Fi Systems
+For larger homes or dead zones:
+- **Eero Pro 6E** - Easy setup, excellent coverage
+- **Google Nest WiFi Pro** - Clean design, solid performance
+- **ASUS ZenWiFi** - Best for gamers and power users
+
+### Wired Alternatives
+Sometimes Wi-Fi isn't the answer:
+- **Cat 6 Ethernet cables** - Always faster and more reliable than wireless
+- **Powerline adapters** - Use your home's electrical wiring to extend your network
+- **MoCA adapters** - Use coax cables for near-gigabit speeds
+
+## Security Considerations
+
+While analyzing your network, consider your security:
+- **VPN services** like **NordVPN** or **ExpressVPN** encrypt your traffic, especially important on public Wi-Fi
+- Ensure your router firmware is up to date
+- Use WPA3 encryption if your devices support it
+
+## Learn More
+
+For deeper network analysis skills:
+- **Wireshark certification courses** on **Udemy** cover advanced packet analysis
+- **CompTIA Network+** certification is valuable for IT careers
+- **Pluralsight** has excellent networking fundamentals courses

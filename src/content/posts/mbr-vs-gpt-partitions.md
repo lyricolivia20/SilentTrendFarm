@@ -46,3 +46,43 @@ sudo fdisk -l /dev/sda
 **Warning:** Converting between partition styles typically requires wiping the drive. Always back up your data first.
 
 On Windows 10/11, you can use the built-in `mbr2gpt` tool to convert without data loss in some cases, but this is only recommended for experienced users.
+
+## Partition Management Software
+
+For more control over your drives, consider dedicated partition management tools:
+
+### Windows
+- **EaseUS Partition Master** - User-friendly with a free tier, handles resizing, merging, and conversion
+- **MiniTool Partition Wizard** - Powerful free version with advanced features
+- **AOMEI Partition Assistant** - Clean interface, good for beginners
+
+### Cross-Platform
+- **GParted** - Free, open-source, and incredibly powerful (runs from a bootable USB)
+- **Parted** - Command-line tool for Linux power users
+
+## Recommended Storage Upgrades
+
+If you're partitioning a new drive, here are current recommendations:
+
+### NVMe SSDs (Best Performance)
+- **Samsung 990 Pro** - Top-tier performance for gaming and content creation
+- **WD Black SN850X** - Excellent all-around NVMe drive
+- **SK Hynix Platinum P41** - Great value for high performance
+
+### SATA SSDs (Budget-Friendly)
+- **Samsung 870 EVO** - Reliable and fast for SATA
+- **Crucial MX500** - Best value SATA SSD
+- **WD Blue** - Solid budget option
+
+### External Storage
+- **Samsung T7 Shield** - Rugged portable SSD
+- **SanDisk Extreme** - Great for content creators on the go
+
+## Backup Solutions
+
+Before any partition work, ensure you have backups:
+- **Backblaze** - Unlimited cloud backup for $7/month
+- **Acronis True Image** - Full disk imaging and backup
+- **Windows File History** or **Time Machine** (Mac) - Built-in options
+
+A good backup strategy follows the 3-2-1 rule: 3 copies of your data, on 2 different media types, with 1 copy offsite (cloud).

@@ -35,4 +35,31 @@ A world is only as compelling as the people who inhabit it. These key characters
 - **Torrin**: A gritty, physical-type Magi mystic who navigates the city's underworld as a member of the Kuts.
 - **Syntara**: An ethereal and mysterious guide with a serene presence, aligned with the Celestials.
 
+## Worldbuilding Tools & Resources
+
+Creating a universe as detailed as Neonix requires the right tools to organize your ideas:
+
+### Writing & Organization
+- **Scrivener** - The gold standard for long-form writing with powerful organization features for managing lore, characters, and plot threads
+- **World Anvil** - A dedicated worldbuilding platform with templates for factions, characters, timelines, and maps
+- **Notion** - Flexible workspace for wikis, databases, and collaborative worldbuilding
+- **Obsidian** - Markdown-based note-taking with powerful linking for interconnected lore
+
+### Visual Development
+- **Midjourney** or **Stable Diffusion** - Generate concept art for characters, locations, and mood boards
+- **Artbreeder** - Create unique character portraits by blending AI-generated faces
+- **Inkarnate** or **Wonderdraft** - Map-making tools for visualizing your world's geography
+
+### Learning Resources
+For deeper worldbuilding knowledge:
+- **"The Writer's Complete Fantasy Reference"** - Essential reading (Amazon)
+- **Brandon Sanderson's lectures** on worldbuilding (free on YouTube)
+- **Skillshare** courses on game narrative design and worldbuilding
+
+### Collaboration
+If you're building a world with a team:
+- **Milanote** - Visual boards for mood boards and concept organization
+- **Campfire** - Dedicated worldbuilding software with collaboration features
+- **Google Docs** with a shared wiki structure works for smaller teams
+
 By establishing this rich tapestry of lore, factions, and characters, we create a fertile ground for compelling gameplay and emergent narratives. These foundational elements ensure the world feels alive, dynamic, and full of potential stories waiting to be told. With our world conceptualized, the next logical step is to choose the digital canvas on which we'll build it: the game engine.

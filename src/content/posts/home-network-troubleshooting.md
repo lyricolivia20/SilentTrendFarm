@@ -47,3 +47,45 @@ ping 192.168.1.1
 ## When to Call Your ISP
 
 If you've worked through this checklist and the problem persists, the issue is more likely to be external—either a problem with your ISP's service or failing hardware (like an old router or modem). At this point, you have the diagnostic information to have a more productive conversation with tech support.
+
+## Recommended Network Upgrades
+
+If troubleshooting reveals aging hardware, consider these upgrades:
+
+### Routers
+| Router | Best For | Price Range |
+|--------|----------|-------------|
+| **ASUS RT-AX86U** | Gaming, large homes | $250-300 |
+| **TP-Link Archer AX73** | Best value Wi-Fi 6 | $150-180 |
+| **Netgear Nighthawk RAX50** | Reliable all-rounder | $200-250 |
+
+### Mesh Systems (for dead zones)
+- **Eero Pro 6E** - Easiest setup, great coverage
+- **Google Nest WiFi Pro** - Clean design, solid performance
+- **ASUS ZenWiFi AX** - Best for power users
+
+### Wired Solutions
+For the most reliable connection:
+- **Cat 6 or Cat 6a Ethernet cables** - Gigabit speeds, future-proof
+- **Powerline adapters** - Network over electrical wiring (great for older homes)
+- **MoCA adapters** - Use coax cables for near-gigabit speeds
+
+### Network Monitoring Tools
+- **Fing** (free app) - Scan your network for devices and issues
+- **NetSpot** - Wi-Fi analysis and heat mapping
+- **PingPlotter** - Trace network issues over time
+
+## Security Essentials
+
+While optimizing your network, don't forget security:
+- **VPN services** like **NordVPN** or **ExpressVPN** protect your traffic, especially important for remote work
+- Enable **WPA3** encryption if your router supports it
+- Keep router firmware updated
+- Change default admin passwords
+
+## Learn More
+
+For deeper networking knowledge:
+- **CompTIA Network+** certification courses on **Udemy** or **Pluralsight**
+- **Wireshark** tutorials for packet analysis
+- **Professor Messer** (free YouTube) for IT fundamentals

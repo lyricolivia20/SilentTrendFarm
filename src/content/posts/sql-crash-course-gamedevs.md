@@ -63,4 +63,25 @@ DELETE FROM RMA
 WHERE Reason = 'Rejected';
 ```
 
+## Tools for Working with SQL
+
+To practice and work with SQL effectively, you'll need the right tools:
+
+- **SQL Clients**: **DataGrip** (JetBrains) is a powerful IDE for databases with intelligent query completion. **DBeaver** is a free alternative that supports most databases.
+- **Cloud Databases**: For production games, consider managed services like **AWS RDS**, **Azure SQL Database**, or **PlanetScale** (MySQL). They handle backups, scaling, and maintenance.
+- **Learning Resources**: **Udemy** and **Coursera** offer comprehensive SQL courses. For game-specific database design, look for courses that cover player data modeling and leaderboard optimization.
+
+## Database Hosting for Games
+
+When your game goes live, you'll need reliable database hosting:
+
+| Service | Best For | Pricing |
+|---------|----------|---------|
+| **Firebase Realtime DB** | Mobile games, real-time sync | Free tier available |
+| **PlanetScale** | Scalable MySQL | Generous free tier |
+| **Supabase** | PostgreSQL with auth | Free tier available |
+| **AWS RDS** | Production scale | Pay-as-you-go |
+
+For indie games, **Firebase** or **Supabase** are excellent starting points with generous free tiers. As you scale, **AWS RDS** or **PlanetScale** provide the reliability needed for thousands of concurrent players.
+
 Mastering these fundamental commands provides a solid foundation for managing game data. From worldbuilding and engine selection to web development and data management, the modern indie developer must be a polymath. Embracing this diverse skill set is the key to becoming a truly versatile and resourceful creator.
