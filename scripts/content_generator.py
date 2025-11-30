@@ -22,6 +22,50 @@ CLICKBANK_ID = os.getenv("CLICKBANK_ID", "yourclickbank")
 # Link cloaking - use internal redirects to mask affiliate URLs
 USE_LINK_CLOAKING = os.getenv("USE_LINK_CLOAKING", "true").lower() == "true"
 
+# Partner affiliate links with UTM tracking
+AFFILIATE_PARTNERS = {
+    "runpod": {
+        "name": "RunPod",
+        "url": "https://runpod.io?ref=voidsignal",
+        "utm": "utm_source=voidsignal&utm_medium=affiliate&utm_campaign=cloud-gpu",
+        "description": "cloud GPU platform for AI/ML workloads"
+    },
+    "bluehost": {
+        "name": "Bluehost",
+        "url": "https://www.bluehost.com/track/voidsignal",
+        "utm": "utm_source=voidsignal&utm_medium=affiliate&utm_campaign=hosting",
+        "description": "web hosting for blogs and sites"
+    },
+    "codecademy": {
+        "name": "Codecademy",
+        "url": "https://www.codecademy.com",
+        "utm": "utm_source=voidsignal&utm_medium=affiliate&utm_campaign=learn-code",
+        "description": "interactive coding courses"
+    },
+    "jasper": {
+        "name": "Jasper AI",
+        "url": "https://www.jasper.ai",
+        "utm": "utm_source=voidsignal&utm_medium=affiliate&utm_campaign=ai-writing",
+        "description": "AI writing assistant for marketing"
+    },
+    "creatify": {
+        "name": "Creatify",
+        "url": "https://www.creatify.ai",
+        "utm": "utm_source=voidsignal&utm_medium=affiliate&utm_campaign=ai-video",
+        "description": "AI video generation platform"
+    }
+}
+
+def get_affiliate_url(partner_key: str) -> str:
+    """Get full affiliate URL with UTM tracking."""
+    partner = AFFILIATE_PARTNERS.get(partner_key.lower())
+    if not partner:
+        return None
+    url = partner["url"]
+    utm = partner["utm"]
+    separator = "&" if "?" in url else "?"
+    return f"{url}{separator}{utm}"
+
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def cloak_affiliate_link(url: str, link_text: str) -> str:
@@ -71,18 +115,37 @@ def inject_affiliate_links(content: str, topic: str) -> str:
     
     return content
 
-def generate_content(trend_topic: str, model: str = "gpt-4"):
+def generate_content(trend_topic: str, model: str = "gpt-4", affiliates: list = None):
     """
     Generate a blog post about the trending topic using OpenAI.
     
     Args:
         trend_topic: The topic to write about
         model: OpenAI model to use (gpt-4, gpt-4-turbo, gpt-3.5-turbo)
+        affiliates: List of affiliate partner keys to include
     
     Returns:
         Tuple of (slug, full_markdown_content)
     """
-    prompt = f"""Write a technical, evergreen article about: "{trend_topic}"
+    # Build affiliate context for the prompt
+    affiliate_context = ""
+    if affiliates:
+        affiliate_lines = []
+        for key in affiliates:
+            partner = AFFILIATE_PARTNERS.get(key.lower())
+            if partner:
+                url = get_affiliate_url(key)
+                affiliate_lines.append(f"- {partner['name']}: {partner['description']} - USE THIS LINK: {url}")
+        if affiliate_lines:
+            affiliate_context = f"""
+
+IMPORTANT - AFFILIATE LINKS TO INCLUDE:
+You MUST naturally integrate these affiliate links into the article where relevant.
+Use markdown link format [Text](URL). Include at least 5 affiliate links total.
+{"".join(affiliate_lines)}
+"""
+    
+    prompt = f"""Write a technical, evergreen article about: "{trend_topic}"{affiliate_context}
 
 TARGET AUDIENCE: Developers, AI enthusiasts, automation builders, tech-savvy creators
 
@@ -131,11 +194,13 @@ Output as JSON:
   "title": "Clear, technical title - NO year, NO 'best', NO clickbait (50-60 chars)",
   "description": "Technical meta description for developers/creators (150-160 chars)",
   "tags": ["ai-tools", "automation", "python", etc - use lowercase with hyphens],
-  "content": "Full markdown content with H2 sections and code blocks where relevant",
+  "content": "Full markdown content with H2 sections, code blocks, and AFFILIATE LINKS embedded naturally",
   "products": [
     {{"name": "Tool/Product Name", "asin": "B08XXXXX" or null, "url": "https://tool-website.com" or null}}
   ]
-}}"""
+}}
+
+REMEMBER: Include affiliate links naturally throughout the content where they add value."""
 
     response = client.chat.completions.create(
         model=model,
@@ -249,13 +314,14 @@ def save_redirect_map(redirect_map: dict, project_root: Path = None):
     
     (public_dir / "_redirects").write_text("\n".join(lines), encoding="utf-8")
 
-def generate_and_save(trend_topic: str, output_dir: str = None) -> str:
+def generate_and_save(trend_topic: str, output_dir: str = None, affiliates: list = None) -> str:
     """
     Generate content and save to file.
     
     Args:
         trend_topic: Topic to write about
         output_dir: Directory to save the markdown file
+        affiliates: List of affiliate partner keys to include
     
     Returns:
         Path to the generated file
@@ -269,7 +335,7 @@ def generate_and_save(trend_topic: str, output_dir: str = None) -> str:
     
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    slug, content, redirect_map = generate_content(trend_topic)
+    slug, content, redirect_map = generate_content(trend_topic, affiliates=affiliates)
     
     # Save redirect map for link cloaking
     if redirect_map:
@@ -294,11 +360,14 @@ if __name__ == "__main__":
     parser.add_argument("--model", default="gpt-4", help="OpenAI model to use")
     parser.add_argument("--output", "-o", help="Output directory for markdown file")
     parser.add_argument("--json", action="store_true", help="Output as JSON instead of saving file")
+    parser.add_argument("--affiliates", "-a", nargs="+", help="Affiliate partners to include (runpod, bluehost, codecademy, jasper, creatify)")
     args = parser.parse_args()
     
+    affiliates = args.affiliates or ["runpod", "bluehost", "codecademy", "jasper", "creatify"]
+    
     if args.json:
-        slug, content, redirects = generate_content(args.topic, model=args.model)
+        slug, content, redirects = generate_content(args.topic, model=args.model, affiliates=affiliates)
         print(json.dumps({"slug": slug, "content": content, "redirects": redirects}))
     else:
-        filepath = generate_and_save(args.topic, args.output)
+        filepath = generate_and_save(args.topic, args.output, affiliates=affiliates)
         print(f"Generated: {filepath}")
