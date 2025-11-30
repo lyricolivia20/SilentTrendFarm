@@ -1,0 +1,260 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+	{
+		name: 'LyriCodes.com',
+		description: 'Cyberpunk-inspired portfolio hub for AI/web development work',
+		tech: ['Three.js', 'React', 'WebGL'],
+		status: 'active',
+		category: 'portfolio'
+	},
+	{
+		name: 'WhereTF',
+		description: 'ADHD-friendly lost-item finder app with sarcastic mascot "Lil Void"',
+		tech: ['React Native', 'Expo', 'Firebase'],
+		status: 'beta',
+		category: 'app'
+	},
+	{
+		name: 'Modari',
+		description: 'Gamified executive dysfunction task-reward productivity app',
+		tech: ['React Native', 'Expo'],
+		status: 'development',
+		category: 'app'
+	},
+	{
+		name: 'Neonix',
+		description: 'Cyber-fantasy RPG game prototype moving toward VR/Unity builds',
+		tech: ['Unity', 'C#', 'A-Frame', 'Three.js'],
+		status: 'prototype',
+		category: 'game'
+	},
+	{
+		name: 'Cove',
+		description: 'Custom personal LLM functioning as memory and data insight engine',
+		tech: ['Python', 'Mistral', 'FastAPI'],
+		status: 'development',
+		category: 'ai'
+	},
+	{
+		name: 'CoulthART Studios',
+		description: 'E-commerce website for art sales',
+		tech: ['Web', 'E-commerce'],
+		status: 'active',
+		category: 'website'
+	},
+	{
+		name: 'Text-to-3D Pipeline',
+		description: 'Automation process for generating 3D assets from AI images',
+		tech: ['Stable Diffusion', 'Tripo3D', 'Meshy', 'DeepMotion'],
+		status: 'development',
+		category: 'ai'
+	},
+	{
+		name: 'Google Self-Miner',
+		description: 'Tool to extract strategy and diagnostics from personal data history',
+		tech: ['Python', 'Data Analysis'],
+		status: 'concept',
+		category: 'tool'
+	},
+	{
+		name: 'SNHUAgenda',
+		description: 'Automated academic planner that scrapes syllabus content from Brightspace',
+		tech: ['Python', 'Playwright', 'Automation'],
+		status: 'development',
+		category: 'tool'
+	}
+];
+
+const techStack = {
+	languages: [
+		{ name: 'Python', use: 'ML, scripts, backend, scraping, data analysis' },
+		{ name: 'JavaScript', use: 'Web and mobile development' },
+		{ name: 'C#', use: 'Unity game development' }
+	],
+	frontend: [
+		{ name: 'React / React Native', use: 'UI and mobile app development' },
+		{ name: 'Three.js', use: '3D web graphics and WebGL' },
+		{ name: 'A-Frame', use: 'Fast VR prototyping' },
+		{ name: 'Expo', use: 'React Native toolchain' }
+	],
+	backend: [
+		{ name: 'Flask / FastAPI', use: 'Lightweight Python APIs' },
+		{ name: 'Firebase / Supabase', use: 'Cloud storage and auth' },
+		{ name: 'MongoDB', use: 'NoSQL database' }
+	],
+	ai: [
+		{ name: 'Stable Diffusion', use: 'AI image generation' },
+		{ name: 'Mistral / Mixtral', use: 'Local LLMs' },
+		{ name: 'Whisper', use: 'Speech-to-text' },
+		{ name: 'Hugging Face', use: 'Open-source models' }
+	],
+	tools: [
+		{ name: 'Playwright', use: 'Web scraping complex sites' },
+		{ name: 'Docker', use: 'Containerization' },
+		{ name: 'Git / GitHub', use: 'Version control' },
+		{ name: 'VS Code', use: 'Code editor' }
+	],
+	'3d': [
+		{ name: 'Unity', use: 'Game engine for VR/mobile' },
+		{ name: 'DeepMotion / Mixamo', use: '3D rigging and animation' },
+		{ name: 'Tripo3D / Meshy / Rodin', use: 'Image-to-3D conversion' }
+	]
+};
+
+const statusColors = {
+	active: 'emerald',
+	beta: 'cyan',
+	development: 'amber',
+	prototype: 'violet',
+	concept: 'zinc'
+};
+---
+
+<Layout title="About — Digital Polymath" description="The tech stack, projects, and philosophy behind the Digital Polymath's Field Notes.">
+	<div class="space-y-20">
+		<!-- Hero -->
+		<section class="py-8">
+			<h1 class="text-4xl md:text-5xl font-bold text-zinc-100 mb-6 font-display leading-tight">
+				About the <span class="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">Polymath</span>
+			</h1>
+			<p class="text-lg text-zinc-400 leading-relaxed max-w-3xl mb-6">
+				I'm a developer, digital artist, and creator navigating the intersection of AI, game development, web technologies, and automation. These field notes document my journey piecing together digital worlds with passion, persistence, and a healthy dose of Stack Overflow.
+			</p>
+			<p class="text-zinc-500 leading-relaxed max-w-3xl">
+				My work spans from building ADHD-friendly productivity apps to prototyping cyberpunk VR games, from training custom AI models to automating content pipelines. The common thread? A relentless curiosity and the DIY ethos of figuring things out.
+			</p>
+		</section>
+
+		<!-- Projects -->
+		<section>
+			<div class="flex items-center gap-3 mb-3">
+				<span class="text-emerald-400 font-mono text-sm">01</span>
+				<div class="flex-1 h-px bg-gradient-to-r from-emerald-500/50 to-transparent"></div>
+			</div>
+			<div class="mb-8">
+				<h2 class="text-2xl font-bold text-zinc-100 font-display mb-2">Active Projects</h2>
+				<p class="text-zinc-500 text-sm">Websites, apps, and technical projects in various stages of development.</p>
+			</div>
+
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+				{projects.map((project) => (
+					<div class="p-5 rounded-xl border border-zinc-800/50 bg-zinc-900/30 hover:border-zinc-700 transition-all">
+						<div class="flex items-start justify-between mb-3">
+							<h3 class="font-semibold text-zinc-100">{project.name}</h3>
+							<span class={`text-[10px] px-2 py-0.5 rounded font-mono bg-${statusColors[project.status]}-500/10 text-${statusColors[project.status]}-400 border border-${statusColors[project.status]}-500/20`}>
+								{project.status}
+							</span>
+						</div>
+						<p class="text-zinc-500 text-sm mb-4 leading-relaxed">{project.description}</p>
+						<div class="flex flex-wrap gap-1.5">
+							{project.tech.map((t) => (
+								<span class="text-[10px] px-2 py-0.5 bg-zinc-800 text-zinc-400 rounded font-mono">{t}</span>
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Tech Stack -->
+		<section>
+			<div class="flex items-center gap-3 mb-3">
+				<span class="text-cyan-400 font-mono text-sm">02</span>
+				<div class="flex-1 h-px bg-gradient-to-r from-cyan-500/50 to-transparent"></div>
+			</div>
+			<div class="mb-8">
+				<h2 class="text-2xl font-bold text-zinc-100 font-display mb-2">Tech Stack</h2>
+				<p class="text-zinc-500 text-sm">Languages, frameworks, and tools I use daily.</p>
+			</div>
+
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{Object.entries(techStack).map(([category, items]) => (
+					<div class="space-y-3">
+						<h3 class="text-sm font-mono text-zinc-500 uppercase tracking-wider">{category.replace('_', ' ')}</h3>
+						<div class="space-y-2">
+							{items.map((item) => (
+								<div class="p-3 rounded-lg border border-zinc-800/50 bg-zinc-900/20">
+									<div class="font-medium text-zinc-200 text-sm">{item.name}</div>
+									<div class="text-zinc-500 text-xs">{item.use}</div>
+								</div>
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Background -->
+		<section>
+			<div class="flex items-center gap-3 mb-3">
+				<span class="text-violet-400 font-mono text-sm">03</span>
+				<div class="flex-1 h-px bg-gradient-to-r from-violet-500/50 to-transparent"></div>
+			</div>
+			<div class="mb-8">
+				<h2 class="text-2xl font-bold text-zinc-100 font-display mb-2">Background</h2>
+				<p class="text-zinc-500 text-sm">Professional experience and work history.</p>
+			</div>
+
+			<div class="max-w-2xl space-y-6">
+				<div class="p-5 rounded-xl border border-zinc-800/50 bg-zinc-900/30">
+					<h3 class="font-semibold text-zinc-100 mb-2">Contract & Remote Work</h3>
+					<p class="text-zinc-500 text-sm leading-relaxed mb-4">
+						Experience in remote contract work including AI data annotation, web evaluation, transcription, and market research through platforms like Appen (Project Uolo), Figure8, and Wonder.
+					</p>
+				</div>
+
+				<div class="p-5 rounded-xl border border-zinc-800/50 bg-zinc-900/30">
+					<h3 class="font-semibold text-zinc-100 mb-2">Content Creation</h3>
+					<p class="text-zinc-500 text-sm leading-relaxed">
+						Active content creator leveraging AI tools for automation, with experience in subscription-based platforms and building automated content pipelines using Stable Diffusion, AnimateDiff, and custom workflows.
+					</p>
+				</div>
+
+				<div class="p-5 rounded-xl border border-zinc-800/50 bg-zinc-900/30">
+					<h3 class="font-semibold text-zinc-100 mb-2">E-commerce & Merchandising</h3>
+					<p class="text-zinc-500 text-sm leading-relaxed">
+						Building e-commerce presence through Etsy and Print-on-Demand services (Printful/Printify) for AI-generated art and retro-glitch merchandise.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Philosophy -->
+		<section class="border-t border-zinc-800/50 pt-16">
+			<div class="max-w-2xl">
+				<h2 class="text-xl font-bold text-zinc-100 font-display mb-4">The Polymath Philosophy</h2>
+				<p class="text-zinc-400 leading-relaxed mb-4">
+					In a world of increasing specialization, there's power in being a generalist who can connect dots across domains. Game development informs UI design. AI research improves automation workflows. Database knowledge strengthens app architecture.
+				</p>
+				<p class="text-zinc-500 leading-relaxed mb-4">
+					These field notes exist because the best learning happens when you document and share. Every bug fixed, every workflow optimized, every project shipped—they're all lessons worth preserving.
+				</p>
+				<p class="text-zinc-500 leading-relaxed">
+					The goal isn't to master everything. It's to know enough about everything to build anything.
+				</p>
+			</div>
+		</section>
+
+		<!-- Contact -->
+		<section class="border-t border-zinc-800/50 pt-16">
+			<div class="max-w-2xl">
+				<h2 class="text-xl font-bold text-zinc-100 font-display mb-4">Get in Touch</h2>
+				<p class="text-zinc-400 leading-relaxed mb-6">
+					Interested in collaborating, have questions about a project, or just want to connect? Reach out through any of these channels.
+				</p>
+				<div class="flex flex-wrap gap-3">
+					<a href="https://github.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-300 bg-zinc-800 rounded-lg border border-zinc-700 hover:border-emerald-500/50 hover:text-emerald-400 transition-all">
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+						GitHub
+					</a>
+					<a href="https://lyricodes.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-300 bg-zinc-800 rounded-lg border border-zinc-700 hover:border-cyan-500/50 hover:text-cyan-400 transition-all">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+						LyriCodes.com
+					</a>
+				</div>
+			</div>
+		</section>
+	</div>
+</Layout>

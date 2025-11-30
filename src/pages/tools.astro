@@ -1,0 +1,408 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const categories = [
+	// ============ AI & MACHINE LEARNING ============
+	{
+		id: 'ai-apis',
+		title: 'AI APIs & Platforms',
+		icon: '🧠',
+		color: 'violet',
+		description: 'Essential APIs and platforms for AI development and deployment.',
+		tools: [
+			{ name: 'Hugging Face', description: 'Essential toolkit for NLP developers with premium models and private repos', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Replicate API', description: 'Generate AI art without managing infrastructure - perfect for automation scripts', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'ElevenLabs', description: 'Industry-standard realistic voice synthesis and cloning', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Runway ML', description: 'Ultimate AI-powered toolkit for artists - video and image generation', commission: 'Varies', url: '#' },
+			{ name: 'Jasper AI', description: 'AI content generation for marketing', commission: '30% recurring', url: '#' },
+			{ name: 'CustomGPT.ai', description: 'Build custom AI agents for specific use cases', commission: 'Varies', url: '#' },
+			{ name: 'Deepbrain AI', description: 'AI video creation with virtual avatars', commission: '30%', url: '#' },
+			{ name: 'Creatify', description: 'AI video ad generation', commission: '25% recurring', url: '#' },
+		]
+	},
+	{
+		id: 'cloud-gpu',
+		title: 'Cloud & GPU Services',
+		icon: '⚡',
+		color: 'amber',
+		description: 'Scalable compute resources for model training and deployment.',
+		tools: [
+			{ name: 'Google Colab Pro/Pro+', description: 'Most accessible entry point for GPU resources and experimentation', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'RunPod', description: 'Cloud GPUs for ML training with community templates', commission: 'Community rewards', highlight: true, url: '#' },
+			{ name: 'AWS Cloud Credits', description: 'Scalable infrastructure for large-scale AI deployment', commission: 'Varies', url: '#' },
+			{ name: 'Google Cloud Platform', description: 'Enterprise-grade ML infrastructure and TPUs', commission: 'Varies', url: '#' },
+			{ name: 'Azure', description: 'Microsoft cloud with OpenAI integration', commission: 'Varies', url: '#' },
+			{ name: 'Kaggle', description: 'Free GPUs and competitions as launchpad for cloud learning', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'ai-software',
+		title: 'AI-Powered Software',
+		icon: '✨',
+		color: 'cyan',
+		description: 'Production-ready AI tools for content creation and automation.',
+		tools: [
+			{ name: 'Topaz Video AI', description: 'Powerful video upscaling - see before/after results', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'DeepMotion', description: 'AI-driven 3D character rigging saves hours of manual animation work', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'n8n', description: 'Build complex automated workflows between APIs and services', commission: 'Varies', url: '#' },
+			{ name: 'Zapier Premium', description: 'No-code automation for entrepreneurs', commission: 'Varies', url: '#' },
+			{ name: 'Data Annotation Services', description: 'Label large datasets for custom ML model training', commission: 'Varies', url: '#' },
+		]
+	},
+	// ============ SOFTWARE & WEB DEVELOPMENT ============
+	{
+		id: 'hosting',
+		title: 'Hosting & Infrastructure',
+		icon: '☁',
+		color: 'emerald',
+		description: 'Deploy and scale your web applications.',
+		tools: [
+			{ name: 'Vercel', description: 'Deploy modern React/Next.js apps with zero config', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Netlify', description: 'JAMstack hosting with powerful CI/CD', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'DigitalOcean', description: 'Developer-friendly cloud with Linux servers', commission: 'Varies', url: '#' },
+			{ name: 'Linode', description: 'Simple cloud hosting for developers', commission: 'Varies', url: '#' },
+			{ name: 'Vultr', description: 'High-performance cloud compute', commission: 'Varies', url: '#' },
+			{ name: 'Render', description: 'Simplest way to host backends and databases', commission: 'Varies', url: '#' },
+			{ name: 'Railway', description: 'Deploy apps with minimal configuration', commission: 'Varies', url: '#' },
+			{ name: 'Cloudways', description: 'Managed cloud hosting with easy scaling', commission: '30% or $125/sale', url: '#' },
+			{ name: 'Namecheap', description: 'Domains - the first step for any web project', commission: '35–50%', url: '#' },
+		]
+	},
+	{
+		id: 'dev-tools',
+		title: 'Development Tools',
+		icon: '{ }',
+		color: 'sky',
+		description: 'Professional tools for serious developers.',
+		tools: [
+			{ name: 'GitHub Copilot', description: 'AI-powered code completion that dramatically speeds up development', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'JetBrains IDEs', description: 'Professional IDEs for Python, JavaScript, and more', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Postman Pro', description: 'Industry-standard API testing and collaboration', commission: 'Varies', url: '#' },
+			{ name: 'Notion', description: 'Project management and documentation', commission: 'Varies', url: '#' },
+			{ name: 'Stripe', description: 'Payment processing API for apps', commission: 'Varies', url: '#' },
+			{ name: 'GanttPRO', description: 'Project management with Gantt charts', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'learning',
+		title: 'Learning Platforms',
+		icon: '📚',
+		color: 'rose',
+		description: 'Level up your skills with structured courses.',
+		tools: [
+			{ name: 'Udemy', description: 'Affordable courses on Python, React, Three.js and more', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Coursera', description: 'University-level AI/ML specializations', commission: 'Varies', url: '#' },
+			{ name: 'Skillshare', description: 'Project-based creative and technical classes', commission: 'Varies', url: '#' },
+			{ name: 'Pluralsight', description: 'Professional-grade structured learning paths', commission: 'Varies', url: '#' },
+			{ name: 'LinkedIn Learning', description: 'Career-focused certifications', commission: 'Varies', url: '#' },
+			{ name: 'Codecademy', description: 'Interactive programming courses', commission: '5%+ or $18+/annual', url: '#' },
+		]
+	},
+	// ============ GAME DEV & VR/AR ============
+	{
+		id: 'game-engines',
+		title: 'Game Engines & Tools',
+		icon: '🎮',
+		color: 'indigo',
+		description: 'Build games and immersive experiences.',
+		tools: [
+			{ name: 'Unity Pro', description: 'Industry-standard game engine for mobile and VR', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Unreal Marketplace', description: 'Assets and plugins for Unreal Engine', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'A-Frame Courses', description: 'Web-based VR framework tutorials', commission: 'Varies', url: '#' },
+			{ name: 'Babylon.js Resources', description: 'WebGL game engine learning materials', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: '3d-modeling',
+		title: '3D Modeling & Animation',
+		icon: '🎨',
+		color: 'orange',
+		description: 'Create and animate 3D assets.',
+		tools: [
+			{ name: 'Blender Courses', description: 'Master the free industry-standard 3D tool', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'ZBrush', description: 'Professional digital sculpting', commission: 'Varies', url: '#' },
+			{ name: 'Adobe Substance 3D', description: 'Texturing and material creation', commission: 'Varies', url: '#' },
+			{ name: 'Mixamo', description: 'Auto-rigging and animation library', commission: 'Free/Varies', url: '#' },
+			{ name: 'Sketchfab', description: '3D model marketplace', commission: 'Varies', url: '#' },
+			{ name: 'Unity Asset Store', description: 'Game-ready 3D assets', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'vr-hardware',
+		title: 'VR/AR Hardware',
+		icon: '🥽',
+		color: 'purple',
+		description: 'High-ticket immersive tech gear.',
+		tools: [
+			{ name: 'Meta Quest Headsets', description: 'Standalone VR for development and gaming', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'PC VR Headsets', description: 'High-end tethered VR experiences', commission: 'Varies', url: '#' },
+			{ name: 'USB-C Cables (VR)', description: 'Essential high-speed cables for reliable VR', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'game-services',
+		title: 'Game Dev Services',
+		icon: '🔧',
+		color: 'slate',
+		description: 'Backend and support services for indie devs.',
+		tools: [
+			{ name: 'PlayFab', description: 'Backend-as-a-service for games', commission: 'Varies', url: '#' },
+			{ name: 'Firebase', description: 'Real-time database and auth for games', commission: 'Varies', url: '#' },
+			{ name: 'Game Localization', description: 'Translate your game for global markets', commission: 'Varies', url: '#' },
+			{ name: 'QA Testing Platforms', description: 'Professional game testing services', commission: 'Varies', url: '#' },
+		]
+	},
+	// ============ MUSIC PRODUCTION ============
+	{
+		id: 'daws',
+		title: 'Digital Audio Workstations',
+		icon: '🎹',
+		color: 'pink',
+		description: 'Professional music production software.',
+		tools: [
+			{ name: 'FL Studio', description: 'Pattern-based workflow for hip-hop and electronic', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Ableton Live', description: 'Live performance and electronic music creation', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Logic Pro X', description: 'Comprehensive Mac-based production', commission: 'Apple Affiliate', url: '#' },
+		]
+	},
+	{
+		id: 'plugins',
+		title: 'Plugins & VSTs',
+		icon: '🎛',
+		color: 'fuchsia',
+		description: 'Synthesizers, effects, and mixing tools.',
+		tools: [
+			{ name: 'Serum', description: 'Go-to wavetable synth for modern sounds', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Massive X', description: 'Powerful synth for cutting-edge sound design', commission: 'Varies', url: '#' },
+			{ name: 'iZotope Ozone', description: 'All-in-one mastering suite for professional polish', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'FabFilter', description: 'Premium EQ, compression, and effects', commission: 'Varies', url: '#' },
+			{ name: 'Moises', description: 'AI stem separation for remixing', commission: 'Varies', url: '#' },
+			{ name: 'RipX', description: 'AI-powered audio manipulation', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'audio-gear',
+		title: 'Audio Hardware',
+		icon: '🎤',
+		color: 'red',
+		description: 'Essential gear for recording and production.',
+		tools: [
+			{ name: 'Focusrite Interfaces', description: 'Essential first step for quality audio recording', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'PreSonus Interfaces', description: 'Affordable pro-quality audio interfaces', commission: 'Varies', url: '#' },
+			{ name: 'MIDI Controllers', description: 'Core of any producer\'s creative workflow', commission: 'Varies', url: '#' },
+			{ name: 'Studio Microphones', description: 'USB and XLR mics for all recording needs', commission: 'Varies', url: '#' },
+			{ name: 'Behringer Mixers', description: 'Affordable routing for hardware setups', commission: 'Varies', url: '#' },
+			{ name: 'Studio Monitors', description: 'Accurate mixing requires accurate speakers', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'samples',
+		title: 'Samples & Sound Libraries',
+		icon: '📀',
+		color: 'lime',
+		description: 'Royalty-free sounds and loops.',
+		tools: [
+			{ name: 'Splice', description: 'Infinite library of royalty-free sounds', commission: '$0.80 trial / $11.20 sub', highlight: true, url: '#' },
+			{ name: 'Loopcloud', description: 'Audition sounds in sync with your project', commission: 'Varies', url: '#' },
+			{ name: 'ADSR Sounds', description: 'Sample packs and plugins', commission: '20%', url: '#' },
+			{ name: 'Plugin Boutique', description: 'Music software marketplace', commission: 'Up to 15%', url: '#' },
+		]
+	},
+	// ============ CONTENT CREATION & BUSINESS ============
+	{
+		id: 'ecommerce',
+		title: 'E-commerce & Digital Sales',
+		icon: '🛒',
+		color: 'green',
+		description: 'Sell products and digital goods.',
+		tools: [
+			{ name: 'Shopify', description: 'Build a dedicated storefront for merch or digital products', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Printful', description: 'Print-on-demand with no upfront inventory', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Printify', description: 'POD alternative with wide product selection', commission: 'Varies', url: '#' },
+			{ name: 'Gumroad', description: 'Sell digital goods, art files, and templates', commission: 'Varies', url: '#' },
+			{ name: 'Etsy', description: 'Marketplace for art and handmade goods', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'creator-tools',
+		title: 'Creator Tools',
+		icon: '📹',
+		color: 'teal',
+		description: 'Production and streaming essentials.',
+		tools: [
+			{ name: 'Adobe Premiere Pro', description: 'Professional video editing', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'DaVinci Resolve Studio', description: 'Hollywood-grade color and editing', commission: 'Varies', url: '#' },
+			{ name: 'Final Cut Pro', description: 'Mac-native professional editing', commission: 'Apple Affiliate', url: '#' },
+			{ name: 'Canva Pro', description: 'Design branding and promotional materials', commission: 'Varies', url: '#' },
+			{ name: 'Adobe Creative Cloud', description: 'Industry-standard creative suite', commission: 'Varies', url: '#' },
+			{ name: 'Streaming Gear', description: 'Webcams, ring lights, green screens', commission: 'Varies', url: '#' },
+			{ name: 'VPN Services', description: 'Privacy and security for creators', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'business',
+		title: 'Business & Marketing',
+		icon: '💼',
+		color: 'yellow',
+		description: 'Grow and monetize your audience.',
+		tools: [
+			{ name: 'ConvertKit', description: 'Email marketing for creators', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Mailchimp', description: 'Email marketing and automation', commission: 'Varies', url: '#' },
+			{ name: 'Semrush', description: 'Comprehensive SEO toolkit', commission: 'Varies', url: '#' },
+			{ name: 'Surfer SEO', description: 'Content optimization platform', commission: 'Varies', url: '#' },
+			{ name: 'HubSpot', description: 'CRM and marketing automation', commission: 'Varies', url: '#' },
+			{ name: 'S-Corp Formation', description: 'Formalize your business for tax advantages', commission: 'Varies', url: '#' },
+		]
+	},
+	// ============ HARDWARE & IT ============
+	{
+		id: 'computing',
+		title: 'Computing & Components',
+		icon: '💻',
+		color: 'zinc',
+		description: 'High-performance hardware for creators.',
+		tools: [
+			{ name: 'NVIDIA GPUs', description: 'Critical for AI, game dev, and 3D rendering', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'AMD GPUs', description: 'Powerful graphics for content creation', commission: 'Varies', url: '#' },
+			{ name: 'Developer Laptops', description: 'Portable power for development and gaming', commission: 'Varies', url: '#' },
+			{ name: 'eGPU Enclosures', description: 'Supercharge laptop graphics performance', commission: 'Varies', url: '#' },
+			{ name: 'NVMe SSDs', description: 'Fast storage for large projects', commission: 'Varies', url: '#' },
+			{ name: 'RAM Kits', description: 'Most effective performance upgrade', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'peripherals',
+		title: 'Networking & Peripherals',
+		icon: '🖥',
+		color: 'neutral',
+		description: 'Essential accessories for your setup.',
+		tools: [
+			{ name: 'Wi-Fi Routers', description: 'High-performance for streaming and gaming', commission: 'Varies', url: '#' },
+			{ name: 'Cat 6+ Ethernet', description: 'Reliable high-speed wired connection', commission: 'Varies', url: '#' },
+			{ name: 'Mechanical Keyboards', description: 'Better performance and comfort', commission: 'Varies', url: '#' },
+			{ name: 'Ergonomic Mice', description: 'Precision and comfort for long sessions', commission: 'Varies', url: '#' },
+			{ name: 'High-Res Monitors', description: 'Color accuracy and high refresh rates', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'USB Hubs & Docks', description: 'Expand laptop connectivity', commission: 'Varies', url: '#' },
+		]
+	},
+	{
+		id: 'diy-tech',
+		title: 'DIY & Maker Tech',
+		icon: '🔌',
+		color: 'stone',
+		description: 'Electronics and IoT projects.',
+		tools: [
+			{ name: 'Raspberry Pi Kits', description: 'Perfect for DIY electronics and IoT', commission: 'Varies', highlight: true, url: '#' },
+			{ name: 'Arduino Kits', description: 'Microcontroller projects and prototyping', commission: 'Varies', url: '#' },
+			{ name: 'Powerline Adapters', description: 'Extend wired network via electrical wiring', commission: 'Varies', url: '#' },
+		]
+	},
+	// ============ AFFILIATE NETWORKS ============
+	{
+		id: 'networks',
+		title: 'Affiliate Networks',
+		icon: '🔗',
+		color: 'blue',
+		description: 'Find more affiliate opportunities.',
+		tools: [
+			{ name: 'PartnerStack', description: 'B2B SaaS affiliate programs', commission: 'Varies', url: '#' },
+			{ name: 'Impact.com', description: 'Partnership management platform', commission: 'Varies', url: '#' },
+			{ name: 'Awin', description: 'Global affiliate campaigns', commission: 'Varies', url: '#' },
+			{ name: 'ClickBank', description: 'Digital products marketplace', commission: 'Varies', url: '#' },
+			{ name: 'Amazon Associates', description: 'Massive product selection', commission: '1-10%', url: '#' },
+		]
+	}
+];
+---
+
+<Layout title="Recommended Tools — Digital Polymath" description="Curated tools, platforms, and resources for developers, creators, and digital polymaths.">
+	<div class="space-y-16">
+		<!-- Hero -->
+		<section class="py-8">
+			<h1 class="text-4xl md:text-5xl font-bold text-zinc-100 mb-6 font-display leading-tight">
+				Recommended <span class="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">Tools</span>
+			</h1>
+			<p class="text-lg text-zinc-400 leading-relaxed max-w-3xl mb-4">
+				A curated collection of tools, platforms, and services I use or recommend for development, AI/ML, content creation, and more. These are the building blocks for digital polymaths.
+			</p>
+			<p class="text-sm text-zinc-500">
+				<span class="text-amber-400">*</span> Some links are affiliate links. Using them supports this site at no extra cost to you.
+			</p>
+		</section>
+
+		<!-- Quick Nav -->
+		<nav class="flex flex-wrap gap-2">
+			{categories.map((cat) => (
+				<a href={`#${cat.id}`} class={`text-xs px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-${cat.color}-500/30 hover:text-${cat.color}-400 transition-all font-mono`}>
+					{cat.icon} {cat.title}
+				</a>
+			))}
+		</nav>
+
+		<!-- Categories -->
+		{categories.map((category, index) => (
+			<section id={category.id}>
+				<div class="flex items-center gap-3 mb-3">
+					<span class={`text-${category.color}-400 font-mono text-sm`}>{String(index + 1).padStart(2, '0')}</span>
+					<div class={`flex-1 h-px bg-gradient-to-r from-${category.color}-500/50 to-transparent`}></div>
+				</div>
+				<div class="mb-6">
+					<h2 class="text-2xl font-bold text-zinc-100 font-display mb-2 flex items-center gap-3">
+						<span class="text-2xl">{category.icon}</span>
+						{category.title}
+					</h2>
+					<p class="text-zinc-500 text-sm">{category.description}</p>
+				</div>
+				
+				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+					{category.tools.map((tool) => (
+						<a href={tool.url} target="_blank" rel="noopener sponsored" class={`group block p-4 rounded-xl border transition-all ${
+							tool.highlight 
+								? `border-${category.color}-500/30 bg-${category.color}-500/5 hover:border-${category.color}-500/50` 
+								: 'border-zinc-800/50 bg-zinc-900/30 hover:border-zinc-700'
+						}`}>
+							<div class="flex items-start justify-between gap-2 mb-2">
+								<h3 class={`font-semibold text-zinc-100 group-hover:text-${category.color}-400 transition-colors`}>{tool.name}</h3>
+								{tool.highlight && (
+									<span class={`text-[9px] px-1.5 py-0.5 rounded bg-${category.color}-500/20 text-${category.color}-400 font-mono uppercase`}>Top Pick</span>
+								)}
+							</div>
+							<p class="text-zinc-500 text-sm mb-3 leading-relaxed">{tool.description}</p>
+							<div class="flex items-center justify-between">
+								<span class="text-xs font-mono text-zinc-600">{tool.commission}</span>
+								<svg class="w-4 h-4 text-zinc-700 group-hover:text-zinc-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+								</svg>
+							</div>
+						</a>
+					))}
+				</div>
+			</section>
+		))}
+
+		<!-- Disclaimer -->
+		<section class="border-t border-zinc-800/50 pt-12">
+			<div class="max-w-2xl p-6 rounded-xl border border-zinc-800/50 bg-zinc-900/30">
+				<h3 class="font-semibold text-zinc-100 mb-3 flex items-center gap-2">
+					<span class="text-amber-400">ℹ</span> Affiliate Disclosure
+				</h3>
+				<p class="text-zinc-500 text-sm leading-relaxed mb-3">
+					Some links on this page are affiliate links. This means I may earn a commission if you make a purchase through these links, at no additional cost to you. I only recommend tools and services I genuinely use or believe provide value.
+				</p>
+				<p class="text-zinc-600 text-xs">
+					Commission rates shown are approximate and subject to change by the respective programs.
+				</p>
+			</div>
+		</section>
+
+		<!-- Back -->
+		<section>
+			<a href="/" class="inline-flex items-center gap-2 text-sm font-mono text-zinc-400 hover:text-emerald-400 transition-colors">
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+				</svg>
+				Back to Field Notes
+			</a>
+		</section>
+	</div>
+</Layout>

@@ -6,73 +6,106 @@ export async function getStaticPaths() {
 	const posts = await getCollection('posts');
 	return posts.map((post) => ({
 		params: { slug: post.slug },
-		props: { post },
+		props: { post, allPosts: posts },
 	}));
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const { post, allPosts } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await post.render();
+
+// Calculate reading time (rough estimate: 200 words per minute)
+const wordCount = post.body.split(/\s+/).length;
+const readingTime = Math.ceil(wordCount / 200);
+
+const categoryLabels = {
+	'indie-dev': 'The Indie Dev\'s Playbook',
+	'ai-ml': 'ML Diaries',
+	'it-tech': 'Troubleshoot.exe',
+};
+
+const categoryColors = {
+	'indie-dev': 'emerald',
+	'ai-ml': 'cyan',
+	'it-tech': 'violet',
+};
+
+const category = post.data.category || 'indie-dev';
+const categoryLabel = categoryLabels[category];
+const accentColor = categoryColors[category];
+
+// Get related posts (same category, excluding current)
+const relatedPosts = allPosts
+	.filter(p => p.data.category === category && p.slug !== post.slug)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+
+// Format date
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric'
+});
 ---
 
-<Layout title={`${post.data.title} — void/signal`} description={post.data.description}>
-	<article>
-		<header class="mb-10 pb-8 border-b border-zinc-800">
+<Layout title={`${post.data.title} — Digital Polymath`} description={post.data.description}>
+	<article class="max-w-3xl mx-auto">
+		<!-- Breadcrumb -->
+		<nav class="mb-6">
+			<a href={`/#${category}`} class={`text-sm font-mono text-${accentColor}-400 hover:text-${accentColor}-300 transition-colors`}>
+				← {categoryLabel}
+			</a>
+		</nav>
+
+		<header class="mb-10 pb-8 border-b border-zinc-800" transition:name={`post-${post.slug}`}>
 			{post.data.tags && post.data.tags.length > 0 && (
-				<div class="flex gap-2 mb-4">
-					{post.data.tags.slice(0, 3).map((tag) => (
-						<span class="tag">{tag}</span>
+				<div class="flex flex-wrap gap-2 mb-4">
+					{post.data.tags.slice(0, 4).map((tag) => (
+						<span class={`text-xs px-2.5 py-1 bg-${accentColor}-500/10 text-${accentColor}-400 rounded font-mono border border-${accentColor}-500/20`}>{tag}</span>
 					))}
 				</div>
 			)}
-			<h1 class="text-3xl font-bold text-zinc-100 leading-tight mb-4 font-display">{post.data.title}</h1>
-			<p class="text-lg text-zinc-400 leading-relaxed">{post.data.description}</p>
+			<h1 class="text-3xl md:text-4xl font-bold text-zinc-100 leading-tight mb-4 font-display">{post.data.title}</h1>
+			<p class="text-lg text-zinc-400 leading-relaxed mb-4">{post.data.description}</p>
+			
+			<!-- Meta info -->
+			<div class="flex flex-wrap items-center gap-4 text-sm text-zinc-500 font-mono">
+				<time datetime={post.data.pubDate.toISOString()}>
+					{formattedDate}
+				</time>
+				<span class="text-zinc-700">•</span>
+				<span>{readingTime} min read</span>
+				<span class="text-zinc-700">•</span>
+				<span>{wordCount.toLocaleString()} words</span>
+			</div>
 		</header>
-
-		<!-- Subtle affiliate disclosure -->
-		<aside class="bg-zinc-900/50 border-l-2 border-emerald-500/50 px-4 py-3 mb-8 text-sm text-zinc-500">
-			<span class="text-emerald-400 font-mono">ℹ</span> Some links may earn us a commission at no extra cost to you.
-		</aside>
 
 		<div class="prose">
 			<Content />
 		</div>
 
-		{post.data.affiliateLinks && post.data.affiliateLinks.length > 0 && (
-			<aside class="mt-12 pt-8 border-t border-zinc-800">
-				<div class="flex items-center gap-3 mb-4">
-					<span class="text-emerald-400 font-mono text-sm">$</span>
-					<h3 class="text-sm font-mono text-zinc-500 uppercase tracking-wider">get_tools</h3>
-				</div>
-				<div class="flex flex-wrap gap-3">
-					{post.data.affiliateLinks.map((link) => (
-						<a 
-							href={link.url} 
-							class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-300 bg-zinc-800 rounded-lg border border-zinc-700 hover:border-emerald-500/50 hover:text-emerald-400 transition-all" 
-							target="_blank" 
-							rel="noopener noreferrer sponsored"
-						>
-							{link.text}
-							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-							</svg>
+		<!-- Related Posts -->
+		{relatedPosts.length > 0 && (
+			<aside class="mt-16 pt-8 border-t border-zinc-800">
+				<h3 class="text-lg font-bold text-zinc-100 font-display mb-6">More from {categoryLabel}</h3>
+				<div class="grid gap-4">
+					{relatedPosts.map((related) => (
+						<a href={`/posts/${related.slug}/`} class={`group block p-4 rounded-xl border border-zinc-800/50 bg-zinc-900/30 hover:border-${accentColor}-500/30 hover:bg-${accentColor}-500/5 transition-all`}>
+							<h4 class={`font-semibold text-zinc-100 group-hover:text-${accentColor}-400 transition-colors mb-1`}>{related.data.title}</h4>
+							<p class="text-zinc-500 text-sm line-clamp-2">{related.data.description}</p>
 						</a>
 					))}
 				</div>
 			</aside>
 		)}
 
-		<!-- Native ad placement -->
-		<div class="mt-12 pt-8 border-t border-zinc-800">
-			<p class="text-xs text-zinc-600 font-mono mb-2">// sponsored</p>
-			<ins class="adsbygoogle"
-				 style="display:block"
-				 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-				 data-ad-slot="1234567890"
-				 data-ad-format="auto"
-				 data-full-width-responsive="true"></ins>
-			<script>
-				(adsbygoogle = window.adsbygoogle || []).push({});
-			</script>
-		</div>
+		<!-- Back to section -->
+		<footer class="mt-12 pt-8 border-t border-zinc-800">
+			<a href={`/#${category}`} class={`inline-flex items-center gap-2 text-sm font-mono text-zinc-400 hover:text-${accentColor}-400 transition-colors`}>
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+				</svg>
+				Back to {categoryLabel}
+			</a>
+		</footer>
 	</article>
 </Layout>

@@ -2,56 +2,63 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-// Only show the most recent 5 posts (hide archive)
-const posts = (await getCollection('posts'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 5);
+const allPosts = await getCollection('posts');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const indieDevPosts = sortedPosts.filter(post => post.data.category === 'indie-dev');
+const aiMlPosts = sortedPosts.filter(post => post.data.category === 'ai-ml');
+const itTechPosts = sortedPosts.filter(post => post.data.category === 'it-tech');
+
+const categoryColors = {
+	'indie-dev': { accent: 'emerald', border: 'emerald-500/30', text: 'emerald-400', bg: 'emerald-500/10' },
+	'ai-ml': { accent: 'cyan', border: 'cyan-500/30', text: 'cyan-400', bg: 'cyan-500/10' },
+	'it-tech': { accent: 'violet', border: 'violet-500/30', text: 'violet-400', bg: 'violet-500/10' },
+};
 ---
 
-<Layout title="void/signal — AI Tools, Automation & Workflows" description="Curated guides on AI tools, automation scripts, and developer workflows. No hype, just signal.">
-	<div class="space-y-16">
+<Layout title="Digital Polymath's Field Notes — Guides & Insights" description="A collection of field notes for aspiring developers, digital artists, and creators navigating the world of independent development.">
+	<div class="space-y-20">
 		<!-- Hero section -->
 		<section class="py-8">
-			<h2 class="text-3xl font-bold text-zinc-100 mb-4 font-display">
-				Cut through the noise.<br/>
-				<span class="gradient-text">Find the signal.</span>
+			<h2 class="text-4xl md:text-5xl font-bold text-zinc-100 mb-6 font-display leading-tight">
+				The Digital Polymath's<br/>
+				<span class="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">Field Notes</span>
 			</h2>
-			<p class="text-lg text-zinc-400 leading-relaxed max-w-2xl">
-				We test AI tools, automation workflows, and developer resources so you don't have to wade through the hype. 
-				Practical guides for builders who ship.
+			<p class="text-lg text-zinc-400 leading-relaxed max-w-3xl">
+				A collection of guides and insights for aspiring developers, digital artists, and creators navigating the complex and exhilarating world of independent development. This is a space for the DIY ethos, for those of us piecing together vast digital worlds with passion, persistence, and a healthy dose of Stack Overflow.
 			</p>
 		</section>
 
-		<!-- Featured posts -->
-		<section>
-			<div class="flex items-center gap-3 mb-8">
-				<span class="text-emerald-400 font-mono text-sm">$</span>
-				<h2 class="text-sm font-mono text-zinc-500 uppercase tracking-wider">latest_guides</h2>
-				<div class="flex-1 h-px bg-zinc-800"></div>
+		<!-- Section 1: The Indie Dev's Playbook -->
+		<section id="indie-dev">
+			<div class="flex items-center gap-3 mb-3">
+				<span class="text-emerald-400 font-mono text-sm">01</span>
+				<div class="flex-1 h-px bg-gradient-to-r from-emerald-500/50 to-transparent"></div>
+			</div>
+			<div class="mb-8">
+				<h2 class="text-2xl font-bold text-zinc-100 font-display mb-2">The Indie Dev's Playbook</h2>
+				<p class="text-zinc-500 text-sm">From Concept to Code — worldbuilding, engine choices, and technical troubleshooting.</p>
 			</div>
 			
-			<div class="space-y-6">
-				{posts.map((post, index) => (
+			<div class="grid md:grid-cols-2 gap-4">
+				{indieDevPosts.map((post, index) => (
 					<article class="group">
-						<a href={`/posts/${post.slug}/`} class="block p-5 rounded-lg border border-zinc-800/50 bg-zinc-900/30 hover:border-emerald-500/30 hover:bg-zinc-900/50 transition-all">
-							<div class="flex items-start gap-4">
-								<span class="text-zinc-700 font-mono text-sm mt-1">{String(index + 1).padStart(2, '0')}</span>
+						<a href={`/posts/${post.slug}/`} class="block h-full p-5 rounded-xl border border-zinc-800/50 bg-zinc-900/30 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all">
+							<div class="flex items-start gap-3">
+								<span class="text-emerald-500/50 font-mono text-xs mt-1">{String(index + 1).padStart(2, '0')}</span>
 								<div class="flex-1">
 									{post.data.tags && post.data.tags.length > 0 && (
-										<div class="flex gap-2 mb-2">
+										<div class="flex flex-wrap gap-1.5 mb-2">
 											{post.data.tags.slice(0, 2).map((tag) => (
-												<span class="tag">{tag}</span>
+												<span class="text-[10px] px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded font-mono">{tag}</span>
 											))}
 										</div>
 									)}
-									<h3 class="text-lg font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors mb-2">
+									<h3 class="text-base font-semibold text-zinc-100 group-hover:text-emerald-400 transition-colors mb-2 leading-snug">
 										{post.data.title}
 									</h3>
-									<p class="text-zinc-500 text-sm leading-relaxed">{post.data.description}</p>
+									<p class="text-zinc-500 text-sm leading-relaxed line-clamp-2">{post.data.description}</p>
 								</div>
-								<svg class="w-5 h-5 text-zinc-700 group-hover:text-emerald-400 transition-colors mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-								</svg>
 							</div>
 						</a>
 					</article>
@@ -59,31 +66,90 @@ const posts = (await getCollection('posts'))
 			</div>
 		</section>
 
-		<!-- Categories/Topics -->
-		<section>
-			<div class="flex items-center gap-3 mb-6">
-				<span class="text-emerald-400 font-mono text-sm">$</span>
-				<h2 class="text-sm font-mono text-zinc-500 uppercase tracking-wider">topics</h2>
-				<div class="flex-1 h-px bg-zinc-800"></div>
+		<!-- Section 2: ML Diaries -->
+		<section id="ai-ml">
+			<div class="flex items-center gap-3 mb-3">
+				<span class="text-cyan-400 font-mono text-sm">02</span>
+				<div class="flex-1 h-px bg-gradient-to-r from-cyan-500/50 to-transparent"></div>
+			</div>
+			<div class="mb-8">
+				<h2 class="text-2xl font-bold text-zinc-100 font-display mb-2">ML Diaries</h2>
+				<p class="text-zinc-500 text-sm">Practical AI & ML Projects — from training models to prompt engineering.</p>
 			</div>
 			
-			<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-				<a href="#" class="p-4 rounded-lg border border-zinc-800 hover:border-emerald-500/30 transition-colors text-center">
-					<span class="text-2xl mb-2 block">🤖</span>
-					<span class="text-sm text-zinc-400">AI Tools</span>
-				</a>
-				<a href="#" class="p-4 rounded-lg border border-zinc-800 hover:border-emerald-500/30 transition-colors text-center">
-					<span class="text-2xl mb-2 block">⚡</span>
-					<span class="text-sm text-zinc-400">Automation</span>
-				</a>
-				<a href="#" class="p-4 rounded-lg border border-zinc-800 hover:border-emerald-500/30 transition-colors text-center">
-					<span class="text-2xl mb-2 block">🐍</span>
-					<span class="text-sm text-zinc-400">Python</span>
-				</a>
-				<a href="#" class="p-4 rounded-lg border border-zinc-800 hover:border-emerald-500/30 transition-colors text-center">
-					<span class="text-2xl mb-2 block">🔧</span>
-					<span class="text-sm text-zinc-400">Dev Tools</span>
-				</a>
+			<div class="grid md:grid-cols-2 gap-4">
+				{aiMlPosts.map((post, index) => (
+					<article class="group">
+						<a href={`/posts/${post.slug}/`} class="block h-full p-5 rounded-xl border border-zinc-800/50 bg-zinc-900/30 hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all">
+							<div class="flex items-start gap-3">
+								<span class="text-cyan-500/50 font-mono text-xs mt-1">{String(index + 1).padStart(2, '0')}</span>
+								<div class="flex-1">
+									{post.data.tags && post.data.tags.length > 0 && (
+										<div class="flex flex-wrap gap-1.5 mb-2">
+											{post.data.tags.slice(0, 2).map((tag) => (
+												<span class="text-[10px] px-2 py-0.5 bg-cyan-500/10 text-cyan-400 rounded font-mono">{tag}</span>
+											))}
+										</div>
+									)}
+									<h3 class="text-base font-semibold text-zinc-100 group-hover:text-cyan-400 transition-colors mb-2 leading-snug">
+										{post.data.title}
+									</h3>
+									<p class="text-zinc-500 text-sm leading-relaxed line-clamp-2">{post.data.description}</p>
+								</div>
+							</div>
+						</a>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- Section 3: Troubleshoot.exe -->
+		<section id="it-tech">
+			<div class="flex items-center gap-3 mb-3">
+				<span class="text-violet-400 font-mono text-sm">03</span>
+				<div class="flex-1 h-px bg-gradient-to-r from-violet-500/50 to-transparent"></div>
+			</div>
+			<div class="mb-8">
+				<h2 class="text-2xl font-bold text-zinc-100 font-display mb-2">Troubleshoot.exe</h2>
+				<p class="text-zinc-500 text-sm">IT & Tech Troubleshooting — demystifying and solving common technology problems.</p>
+			</div>
+			
+			<div class="grid md:grid-cols-2 gap-4">
+				{itTechPosts.map((post, index) => (
+					<article class="group">
+						<a href={`/posts/${post.slug}/`} class="block h-full p-5 rounded-xl border border-zinc-800/50 bg-zinc-900/30 hover:border-violet-500/30 hover:bg-violet-500/5 transition-all">
+							<div class="flex items-start gap-3">
+								<span class="text-violet-500/50 font-mono text-xs mt-1">{String(index + 1).padStart(2, '0')}</span>
+								<div class="flex-1">
+									{post.data.tags && post.data.tags.length > 0 && (
+										<div class="flex flex-wrap gap-1.5 mb-2">
+											{post.data.tags.slice(0, 2).map((tag) => (
+												<span class="text-[10px] px-2 py-0.5 bg-violet-500/10 text-violet-400 rounded font-mono">{tag}</span>
+											))}
+										</div>
+									)}
+									<h3 class="text-base font-semibold text-zinc-100 group-hover:text-violet-400 transition-colors mb-2 leading-snug">
+										{post.data.title}
+									</h3>
+									<p class="text-zinc-500 text-sm leading-relaxed line-clamp-2">{post.data.description}</p>
+								</div>
+							</div>
+						</a>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- About Section -->
+		<section class="border-t border-zinc-800/50 pt-16">
+			<div class="max-w-2xl">
+				<h2 class="text-xl font-bold text-zinc-100 font-display mb-4">About These Field Notes</h2>
+				<p class="text-zinc-400 leading-relaxed mb-4">
+					The guides you'll find here are born from real-world trial and error, covering the entire creative stack—from the initial spark of an idea and deep worldbuilding to the inevitable technical troubleshooting that follows.
+				</p>
+				<p class="text-zinc-500 leading-relaxed">
+					We explore game design, engine choices, common coding pitfalls, AI tools, prompt engineering, and the diverse skills needed to bring a project to life. Our journey begins where all great projects do: with curiosity and the willingness to learn.
+				</p>
 			</div>
 		</section>
 	</div>

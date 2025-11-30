@@ -9,6 +9,7 @@ const posts = defineCollection({
 		updatedDate: z.coerce.date().optional(),
 		heroImage: z.string().optional(),
 		tags: z.array(z.string()).optional(),
+		category: z.enum(['indie-dev', 'ai-ml', 'it-tech']).optional(),
 		affiliateLinks: z.array(z.object({
 			text: z.string(),
 			url: z.string(),

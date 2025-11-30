@@ -1,0 +1,199 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const stack = {
+	languages: {
+		title: 'Languages',
+		icon: '{ }',
+		color: 'emerald',
+		items: [
+			{ name: 'Python', description: 'ML, scripts, backend development (Flask/FastAPI), scraping, and data analysis', level: 'primary' },
+			{ name: 'JavaScript', description: 'Core language for web and mobile development (Vanilla JS, React, Node.js)', level: 'primary' },
+			{ name: 'C#', description: 'Unity game development for mobile and VR projects', level: 'secondary' },
+			{ name: 'SQL', description: 'Database queries and data management', level: 'secondary' }
+		]
+	},
+	frontend: {
+		title: 'Frontend & Mobile',
+		icon: '< >',
+		color: 'cyan',
+		items: [
+			{ name: 'React / React Native', description: 'Preferred framework for front-end UI and mobile app development', level: 'primary' },
+			{ name: 'Expo', description: 'Preferred toolchain for React Native mobile app development', level: 'primary' },
+			{ name: 'Three.js', description: 'Core technology for 3D web graphics and WebGL experiences', level: 'primary' },
+			{ name: 'A-Frame', description: 'Framework for fast VR prototyping', level: 'secondary' },
+			{ name: 'Astro', description: 'Static site generation for content-focused websites', level: 'secondary' },
+			{ name: 'TailwindCSS', description: 'Utility-first CSS framework', level: 'secondary' }
+		]
+	},
+	backend: {
+		title: 'Backend & Database',
+		icon: '[ ]',
+		color: 'violet',
+		items: [
+			{ name: 'Flask / FastAPI', description: 'Lightweight Python frameworks for back-end logic and AI services', level: 'primary' },
+			{ name: 'Firebase', description: 'Cloud storage, database, and authentication', level: 'primary' },
+			{ name: 'Supabase', description: 'Open-source Firebase alternative', level: 'secondary' },
+			{ name: 'MongoDB', description: 'NoSQL database for user/asset storage', level: 'secondary' },
+			{ name: 'Node.js', description: 'JavaScript runtime for server-side applications', level: 'secondary' }
+		]
+	},
+	ai: {
+		title: 'AI & Machine Learning',
+		icon: '◈',
+		color: 'amber',
+		items: [
+			{ name: 'Stable Diffusion', description: 'Primary model for AI image generation, with DreamBooth and AnimateDiff', level: 'primary' },
+			{ name: 'Mistral 7B / Mixtral', description: 'Preferred local LLMs for text generation', level: 'primary' },
+			{ name: 'OpenAI API (GPT-4)', description: 'AI logic, summarization, and prompt interpretation', level: 'primary' },
+			{ name: 'Hugging Face', description: 'Open-source models and TTS (Bark, Coqui, Tortoise)', level: 'primary' },
+			{ name: 'Whisper', description: 'Speech-to-text transcription', level: 'secondary' },
+			{ name: 'Bark / ElevenLabs', description: 'Text-to-Speech services for voice integration', level: 'secondary' }
+		]
+	},
+	'3d': {
+		title: '3D & Game Development',
+		icon: '△',
+		color: 'rose',
+		items: [
+			{ name: 'Unity (C#)', description: 'Game engine for mobile and VR projects', level: 'primary' },
+			{ name: 'DeepMotion / Mixamo', description: '3D model rigging and animation', level: 'secondary' },
+			{ name: 'Tripo3D / Meshy / Rodin', description: 'Image-to-3D conversion tools', level: 'secondary' },
+			{ name: 'Artbreeder', description: 'AI image generator for concept art', level: 'secondary' },
+			{ name: 'Blender', description: '3D modeling and animation', level: 'learning' }
+		]
+	},
+	automation: {
+		title: 'Automation & Scraping',
+		icon: '⚡',
+		color: 'sky',
+		items: [
+			{ name: 'Playwright', description: 'Web scraping for complex, JavaScript-heavy sites', level: 'primary' },
+			{ name: 'n8n', description: 'Workflow automation for monetization and app logic', level: 'primary' },
+			{ name: 'BeautifulSoup', description: 'General web scraping', level: 'secondary' },
+			{ name: 'Selenium', description: 'Browser automation', level: 'secondary' },
+			{ name: 'pynput / pyautogui', description: 'Screen interaction for AI agents', level: 'secondary' }
+		]
+	},
+	devtools: {
+		title: 'Development Tools',
+		icon: '⚙',
+		color: 'zinc',
+		items: [
+			{ name: 'VS Code', description: 'Primary code editor', level: 'primary' },
+			{ name: 'Git / GitHub', description: 'Version control and collaboration', level: 'primary' },
+			{ name: 'Docker', description: 'Containerization for workflow management', level: 'secondary' },
+			{ name: 'Google Colab', description: 'Online environment for AI models and workflows', level: 'secondary' },
+			{ name: 'Replit / CodePen / Glitch', description: 'Web dev playgrounds for prototyping', level: 'secondary' }
+		]
+	},
+	platforms: {
+		title: 'Platforms & Services',
+		icon: '☁',
+		color: 'indigo',
+		items: [
+			{ name: 'Porkbun', description: 'Domain hosting', level: 'primary' },
+			{ name: 'Zoho', description: 'Custom domain email', level: 'secondary' },
+			{ name: 'Printful / Printify', description: 'Print-on-Demand services', level: 'secondary' },
+			{ name: 'Etsy', description: 'E-commerce platform for art and merchandise', level: 'secondary' },
+			{ name: 'Hootsuite', description: 'Social media management', level: 'secondary' }
+		]
+	}
+};
+
+const levelColors = {
+	primary: { bg: 'emerald-500/10', text: 'emerald-400', border: 'emerald-500/20' },
+	secondary: { bg: 'zinc-800', text: 'zinc-400', border: 'zinc-700' },
+	learning: { bg: 'amber-500/10', text: 'amber-400', border: 'amber-500/20' }
+};
+---
+
+<Layout title="Tech Stack — Digital Polymath" description="The complete technology stack, tools, and platforms used across all projects.">
+	<div class="space-y-16">
+		<!-- Hero -->
+		<section class="py-8">
+			<h1 class="text-4xl md:text-5xl font-bold text-zinc-100 mb-6 font-display leading-tight">
+				Tech <span class="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">Stack</span>
+			</h1>
+			<p class="text-lg text-zinc-400 leading-relaxed max-w-3xl">
+				A comprehensive breakdown of the languages, frameworks, tools, and platforms I use across all projects. From AI/ML to game development, web apps to automation.
+			</p>
+		</section>
+
+		<!-- Legend -->
+		<section class="flex flex-wrap gap-4 text-sm">
+			<div class="flex items-center gap-2">
+				<span class="w-3 h-3 rounded-full bg-emerald-500/30 border border-emerald-500/50"></span>
+				<span class="text-zinc-400">Primary / Daily Use</span>
+			</div>
+			<div class="flex items-center gap-2">
+				<span class="w-3 h-3 rounded-full bg-zinc-700 border border-zinc-600"></span>
+				<span class="text-zinc-400">Secondary / Regular Use</span>
+			</div>
+			<div class="flex items-center gap-2">
+				<span class="w-3 h-3 rounded-full bg-amber-500/30 border border-amber-500/50"></span>
+				<span class="text-zinc-400">Learning / Exploring</span>
+			</div>
+		</section>
+
+		<!-- Stack Categories -->
+		{Object.entries(stack).map(([key, category], index) => (
+			<section>
+				<div class="flex items-center gap-3 mb-6">
+					<span class={`text-${category.color}-400 font-mono text-lg`}>{category.icon}</span>
+					<h2 class="text-xl font-bold text-zinc-100 font-display">{category.title}</h2>
+					<div class={`flex-1 h-px bg-gradient-to-r from-${category.color}-500/30 to-transparent`}></div>
+				</div>
+				
+				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+					{category.items.map((item) => (
+						<div class={`p-4 rounded-lg border transition-all hover:border-${category.color}-500/30 ${
+							item.level === 'primary' 
+								? 'border-emerald-500/20 bg-emerald-500/5' 
+								: item.level === 'learning'
+								? 'border-amber-500/20 bg-amber-500/5'
+								: 'border-zinc-800/50 bg-zinc-900/30'
+						}`}>
+							<div class="flex items-start justify-between gap-2 mb-1">
+								<h3 class="font-medium text-zinc-100 text-sm">{item.name}</h3>
+								{item.level === 'primary' && (
+									<span class="w-2 h-2 rounded-full bg-emerald-400 mt-1.5"></span>
+								)}
+								{item.level === 'learning' && (
+									<span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5"></span>
+								)}
+							</div>
+							<p class="text-zinc-500 text-xs leading-relaxed">{item.description}</p>
+						</div>
+					))}
+				</div>
+			</section>
+		))}
+
+		<!-- Hardware -->
+		<section>
+			<div class="flex items-center gap-3 mb-6">
+				<span class="text-zinc-400 font-mono text-lg">◉</span>
+				<h2 class="text-xl font-bold text-zinc-100 font-display">Hardware</h2>
+				<div class="flex-1 h-px bg-gradient-to-r from-zinc-500/30 to-transparent"></div>
+			</div>
+			
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+				<div class="p-4 rounded-lg border border-zinc-800/50 bg-zinc-900/30">
+					<h3 class="font-medium text-zinc-100 text-sm mb-1">Quest 2 VR Headset</h3>
+					<p class="text-zinc-500 text-xs">Primary device for developing and prototyping VR projects</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Back -->
+		<section class="border-t border-zinc-800/50 pt-8">
+			<a href="/about" class="inline-flex items-center gap-2 text-sm font-mono text-zinc-400 hover:text-emerald-400 transition-colors">
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+				</svg>
+				Back to About
+			</a>
+		</section>
+	</div>
+</Layout>
