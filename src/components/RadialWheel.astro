@@ -1,0 +1,461 @@
+---
+interface Category {
+  id: string;
+  title: string;
+  icon: string;
+  color: string;
+  description: string;
+  tools?: any[];
+}
+
+interface Props {
+  categories: Category[];
+  onCategorySelect?: (category: Category) => void;
+}
+
+const { categories, onCategorySelect } = Astro.props;
+
+// Calculate positions for radial layout
+function calculateWheelPositions(categories: Category[], radius: number = 150) {
+  const angleStep = (2 * Math.PI) / categories.length;
+  return categories.map((category, index) => {
+    const angle = index * angleStep - Math.PI / 2; // Start from top
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius;
+    const rotation = (angle * 180) / Math.PI + 90; // Adjust rotation to face outward
+    
+    return {
+      ...category,
+      x,
+      y,
+      rotation,
+      index
+    };
+  });
+}
+
+const wheelCategories = calculateWheelPositions(categories);
+---
+
+<div class="radial-wheel-container" id="radial-wheel">
+  <!-- Parallax background layers -->
+  <div class="parallax-layer parallax-bg"></div>
+  <div class="parallax-layer parallax-mid"></div>
+  <div class="parallax-layer parallax-fg"></div>
+  
+  <!-- Cyber grid overlay -->
+  <div class="cyber-grid"></div>
+  
+  <!-- Radial wheel -->
+  <div class="radial-wheel" id="wheel">
+    <!-- Wheel segments -->
+    {wheelCategories.map((category) => (
+      <div 
+        class={`wheel-segment liquid-glass hover-lift hover-glow`}
+        style={`transform: translate(-50%, -50%) translate(${category.x}px, ${category.y}px) rotate(${category.rotation}deg);`}
+        data-category={category.id}
+        data-color={category.color}
+      >
+        <div class="segment-content">
+          <div class="segment-icon">{category.icon}</div>
+          <div class="segment-title">{category.title}</div>
+        </div>
+      </div>
+    ))}
+    
+    <!-- Center hub -->
+    <div class="wheel-center control-panel">
+      <div class="center-content">
+        <div class="center-icon">🎯</div>
+        <div class="center-text">Navigate</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Category details panel -->
+  <div class="category-details control-panel" id="category-details">
+    <div class="details-content">
+      <div class="details-header">
+        <div class="details-icon" id="details-icon">📁</div>
+        <div class="details-title" id="details-title">Select a category</div>
+      </div>
+      <div class="details-description" id="details-description">
+        Spin or click on any segment to explore tools and resources
+      </div>
+      <div class="details-tools" id="details-tools"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .radial-wheel-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 600px;
+    margin: 0 auto 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .segment-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 1rem;
+    transform: rotate(-45deg); /* Counter-rotate to keep text upright */
+  }
+
+  .segment-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 0 10px currentColor);
+  }
+
+  .segment-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Orbitron', monospace;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .center-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.6));
+  }
+
+  .center-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: 'Orbitron', monospace;
+    color: rgba(0, 212, 255, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .category-details {
+    position: absolute;
+    bottom: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .category-details.active {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+  }
+
+  .details-content {
+    text-align: center;
+  }
+
+  .details-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .details-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 10px currentColor);
+  }
+
+  .details-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .details-description {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .details-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .tool-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 9999px;
+    color: rgba(0, 212, 255, 0.9);
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.3s ease;
+  }
+
+  .tool-tag:hover {
+    background: rgba(0, 212, 255, 0.2);
+    border-color: rgba(0, 212, 255, 0.5);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .radial-wheel-container {
+      height: 500px;
+      max-width: 500px;
+    }
+
+    .radial-wheel {
+      width: 350px;
+      height: 350px;
+    }
+
+    .wheel-segment {
+      width: 90px;
+      height: 90px;
+    }
+
+    .segment-icon {
+      font-size: 1.5rem;
+    }
+
+    .segment-title {
+      font-size: 0.625rem;
+    }
+
+    .category-details {
+      width: 95%;
+      bottom: -100px;
+    }
+  }
+</style>
+
+<script>
+  class RadialWheel {
+    constructor() {
+      this.wheel = document.getElementById('wheel');
+      this.segments = document.querySelectorAll('.wheel-segment');
+      this.detailsPanel = document.getElementById('category-details');
+      this.currentRotation = 0;
+      this.isSpinning = false;
+      this.selectedCategory = null;
+      
+      this.init();
+    }
+
+    init() {
+      this.attachEventListeners();
+      this.startIdleAnimation();
+    }
+
+    attachEventListeners() {
+      // Click events for segments
+      this.segments.forEach(segment => {
+        segment.addEventListener('click', (e) => this.handleSegmentClick(e));
+        segment.addEventListener('mouseenter', (e) => this.handleSegmentHover(e));
+      });
+
+      // Touch events for mobile
+      this.wheel.addEventListener('touchstart', (e) => this.handleTouchStart(e));
+      this.wheel.addEventListener('touchmove', (e) => this.handleTouchMove(e));
+      this.wheel.addEventListener('touchend', (e) => this.handleTouchEnd(e));
+
+      // Mouse wheel for spinning
+      this.wheel.addEventListener('wheel', (e) => this.handleWheel(e));
+    }
+
+    handleSegmentClick(e) {
+      const segment = e.currentTarget;
+      const categoryId = segment.dataset.category;
+      const color = segment.dataset.color;
+      
+      if (this.isSpinning) return;
+      
+      this.selectCategory(categoryId, color);
+      this.spinToSegment(segment);
+    }
+
+    handleSegmentHover(e) {
+      const segment = e.currentTarget;
+      const categoryId = segment.dataset.category;
+      const color = segment.dataset.color;
+      
+      this.previewCategory(categoryId, color);
+    }
+
+    selectCategory(categoryId, color) {
+      this.selectedCategory = categoryId;
+      this.updateDetailsPanel(categoryId, color);
+      
+      // Add visual feedback
+      this.segments.forEach(seg => {
+        if (seg.dataset.category === categoryId) {
+          seg.style.borderColor = this.getColorValue(color, '0.6');
+          seg.style.boxShadow = `0 0 30px ${this.getColorValue(color, '0.4')}`;
+        } else {
+          seg.style.borderColor = '';
+          seg.style.boxShadow = '';
+        }
+      });
+    }
+
+    previewCategory(categoryId, color) {
+      const categoryData = this.getCategoryData(categoryId);
+      if (!categoryData) return;
+
+      const detailsIcon = document.getElementById('details-icon');
+      const detailsTitle = document.getElementById('details-title');
+      const detailsDescription = document.getElementById('details-description');
+      const detailsTools = document.getElementById('details-tools');
+
+      detailsIcon.textContent = categoryData.icon;
+      detailsIcon.style.color = this.getColorValue(color, '0.9');
+      detailsTitle.textContent = categoryData.title;
+      detailsDescription.textContent = categoryData.description;
+
+      // Show first few tools as tags
+      detailsTools.innerHTML = '';
+      if (categoryData.tools && categoryData.tools.length > 0) {
+        categoryData.tools.slice(0, 5).forEach(tool => {
+          const tag = document.createElement('div');
+          tag.className = 'tool-tag';
+          tag.textContent = tool.name;
+          tag.style.borderColor = this.getColorValue(color, '0.5');
+          tag.style.color = this.getColorValue(color, '0.9');
+          detailsTools.appendChild(tag);
+        });
+      }
+
+      this.detailsPanel.classList.add('active');
+    }
+
+    updateDetailsPanel(categoryId, color) {
+      // Similar to preview but with more persistent state
+      this.previewCategory(categoryId, color);
+    }
+
+    spinToSegment(targetSegment) {
+      if (this.isSpinning) return;
+      
+      this.isSpinning = true;
+      const segmentRect = targetSegment.getBoundingClientRect();
+      const wheelRect = this.wheel.getBoundingClientRect();
+      
+      // Calculate the angle to spin to center the segment
+      const segmentCenterX = segmentRect.left + segmentRect.width / 2 - wheelRect.left;
+      const segmentCenterY = segmentRect.top + segmentRect.height / 2 - wheelRect.top;
+      
+      const angle = Math.atan2(segmentCenterY - wheelRect.height / 2, segmentCenterX - wheelRect.width / 2);
+      const degrees = (angle * 180) / Math.PI + 90;
+      
+      // Add multiple rotations for dramatic effect
+      const spinDegrees = 360 * 2 - degrees;
+      this.currentRotation += spinDegrees;
+      
+      this.wheel.style.transform = `rotate(${this.currentRotation}deg)`;
+      
+      setTimeout(() => {
+        this.isSpinning = false;
+      }, 600);
+    }
+
+    handleTouchStart(e) {
+      this.touchStartX = e.touches[0].clientX;
+      this.touchStartY = e.touches[0].clientY;
+    }
+
+    handleTouchMove(e) {
+      if (!this.touchStartX || !this.touchStartY) return;
+      
+      const touchEndX = e.touches[0].clientX;
+      const touchEndY = e.touches[0].clientY;
+      
+      const diffX = this.touchStartX - touchEndX;
+      const diffY = this.touchStartY - touchEndY;
+      
+      // Convert swipe to rotation
+      const rotation = diffX * 0.5;
+      this.currentRotation -= rotation;
+      this.wheel.style.transform = `rotate(${this.currentRotation}deg)`;
+      
+      this.touchStartX = touchEndX;
+      this.touchStartY = touchEndY;
+    }
+
+    handleTouchEnd(e) {
+      this.touchStartX = null;
+      this.touchStartY = null;
+    }
+
+    handleWheel(e) {
+      e.preventDefault();
+      const delta = e.deltaY * 0.1;
+      this.currentRotation += delta;
+      this.wheel.style.transform = `rotate(${this.currentRotation}deg)`;
+    }
+
+    startIdleAnimation() {
+      // Subtle idle animation
+      setInterval(() => {
+        if (!this.isSpinning) {
+          this.currentRotation += 0.5;
+          this.wheel.style.transform = `rotate(${this.currentRotation}deg)`;
+        }
+      }, 50);
+    }
+
+    getCategoryData(categoryId) {
+      // This would be passed from Astro props, for now return mock data
+      const categories = {
+        'ai-ides': { icon: '🤖', title: 'AI IDEs', description: 'AI-native development environments', tools: [] },
+        'general-ai': { icon: '💬', title: 'General AI', description: 'Large language models', tools: [] },
+        'creative-ai': { icon: '🎬', title: 'Creative AI', description: 'Image and video generation', tools: [] },
+        'hosting': { icon: '☁', title: 'Hosting', description: 'Deploy and scale applications', tools: [] },
+        'dev-tools': { icon: '{ }', title: 'Dev Tools', description: 'Professional development tools', tools: [] },
+        'learning': { icon: '📚', title: 'Learning', description: 'Educational platforms', tools: [] }
+      };
+      
+      return categories[categoryId];
+    }
+
+    getColorValue(colorName, alpha = '1') {
+      const colors = {
+        'cyan': `rgba(0, 212, 255, ${alpha})`,
+        'violet': `rgba(168, 85, 247, ${alpha})`,
+        'pink': `rgba(236, 72, 153, ${alpha})`,
+        'emerald': `rgba(52, 211, 153, ${alpha})`,
+        'amber': `rgba(251, 191, 36, ${alpha})`,
+        'red': `rgba(239, 68, 68, ${alpha})`
+      };
+      
+      return colors[colorName] || `rgba(255, 255, 255, ${alpha})`;
+    }
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    new RadialWheel();
+  });
+</script>

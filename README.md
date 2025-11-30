@@ -1,11 +1,11 @@
-# LyriCodes Field Notes
+# Digital Polymath's Field Notes
 
-A collection of guides and insights for aspiring developers, digital artists, and creators navigating the complex and exhilarating world of independent development. Built with Astro, Tailwind CSS v4, and Starwind UI.
+A collection of guides and insights for aspiring developers, digital artists, and creators navigating the complex and exhilarating world of independent development. Built with Astro and Tailwind CSS v4.
 
 ## 🚀 Features
 
-- **Three Content Sections**: Indie Dev's Playbook, ML Diaries, Troubleshoot.exe
-- **Neon Cyberpunk Aesthetic**: Cyan/purple/pink color scheme with glass morphism
+- **Three Content Sections**: Indie Dev's Playbook, AI Alchemist's Grimoire, Digital Fixer's Toolkit
+- **Dark Cyberpunk Aesthetic**: Modern UI with gradient accents and grid backgrounds
 - **Category-Based Navigation**: Color-coded sections (emerald, cyan, violet)
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
 - **Static Site**: Built with Astro for fast loading and SEO
