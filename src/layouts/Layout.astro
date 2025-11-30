@@ -45,8 +45,34 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<ViewTransitions />
 	</head>
 	<body class="bg-background text-foreground font-sans antialiased">
-		<!-- Subtle grid background with purple tint -->
-		<div class="fixed inset-0 bg-[linear-gradient(rgba(168,85,247,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.03)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none"></div>
+		<!-- 3D Matrix Grid Background -->
+		<div class="fixed inset-0 pointer-events-none overflow-hidden">
+			<!-- Perspective grid floor -->
+			<div class="absolute inset-0" style="
+				background: 
+					linear-gradient(to bottom, transparent 0%, rgba(168, 85, 247, 0.03) 50%, rgba(168, 85, 247, 0.08) 100%);
+			"></div>
+			<div class="absolute bottom-0 left-0 right-0 h-[60vh]" style="
+				background: 
+					linear-gradient(90deg, rgba(168, 85, 247, 0.15) 1px, transparent 1px),
+					linear-gradient(0deg, rgba(168, 85, 247, 0.15) 1px, transparent 1px);
+				background-size: 60px 60px;
+				transform: perspective(500px) rotateX(60deg);
+				transform-origin: bottom center;
+				mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+				-webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+			"></div>
+			<!-- Vertical grid lines fading up -->
+			<div class="absolute inset-0" style="
+				background: 
+					linear-gradient(180deg, transparent 0%, rgba(0, 212, 255, 0.02) 100%),
+					repeating-linear-gradient(90deg, transparent, transparent 119px, rgba(168, 85, 247, 0.05) 120px);
+			"></div>
+			<!-- Glow at horizon -->
+			<div class="absolute bottom-0 left-0 right-0 h-32" style="
+				background: radial-gradient(ellipse at bottom center, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+			"></div>
+		</div>
 		
 		<div class="relative">
 			<header class="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50" transition:persist>

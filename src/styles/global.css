@@ -2,12 +2,13 @@
 
 /* CSS Custom Properties - Neon Cyberpunk Theme */
 :root {
-  --charcoal: #2e2e2e;
+  --black: #000000;
+  --deep-purple: #1a0a2e;
   --cyan: #00d4ff;
   --purple: #a855f7;
   --pink: #ec4899;
   --red: #ef4444;
-  --dark-bg: #0f0f1a;
+  --dark-bg: #050510;
   --glass-bg: rgba(168, 85, 247, 0.08);
   --glass-border: rgba(168, 85, 247, 0.2);
 }
@@ -19,7 +20,9 @@ html {
 }
 
 body {
-  background: linear-gradient(135deg, var(--charcoal) 0%, var(--dark-bg) 100%);
+  background: 
+    radial-gradient(ellipse at bottom, var(--deep-purple) 0%, var(--black) 60%),
+    linear-gradient(180deg, var(--black) 0%, var(--deep-purple) 100%);
   color: white;
   font-family: 'Inter', system-ui, sans-serif;
   min-height: 100vh;
