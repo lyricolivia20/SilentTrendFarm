@@ -95,47 +95,49 @@
   --radius: 0.625rem;
 }
 
-/* Cyberpunk Lime Theme - Always Dark */
+/* Cyberpunk Neon Theme - Blue/Cyan/Purple/Pink */
 .dark,
 :root {
   /* Custom cyberpunk colors */
-  --lime: #bfff00;
-  --electric: #00d4ff;
+  --cyan: #00d4ff;
+  --purple: #a855f7;
+  --pink: #ec4899;
+  --red: #ef4444;
   --charcoal: #2e2e2e;
-  --dark-bg: #1a1a1a;
+  --dark-bg: #0f0f1a;
   
-  --background: #1a1a1a;
+  --background: #0f0f1a;
   --foreground: var(--color-neutral-50);
-  --card: rgba(255, 255, 255, 0.08);
+  --card: rgba(168, 85, 247, 0.08);
   --card-foreground: var(--color-neutral-50);
-  --popover: #2e2e2e;
+  --popover: #1a1a2e;
   --popover-foreground: var(--color-neutral-50);
   
-  /* Primary = Lime */
-  --primary: #bfff00;
-  --primary-foreground: #1a1a1a;
-  --primary-accent: #bfff00;
+  /* Primary = Cyan */
+  --primary: #00d4ff;
+  --primary-foreground: #0f0f1a;
+  --primary-accent: #00d4ff;
   
-  /* Secondary = Electric Blue */
-  --secondary: #00d4ff;
-  --secondary-foreground: #1a1a1a;
-  --secondary-accent: #00d4ff;
+  /* Secondary = Purple */
+  --secondary: #a855f7;
+  --secondary-foreground: #0f0f1a;
+  --secondary-accent: #c084fc;
   
   --muted: var(--color-neutral-800);
   --muted-foreground: var(--color-neutral-400);
-  --accent: var(--color-neutral-700);
-  --accent-foreground: var(--color-neutral-100);
-  --info: var(--electric);
-  --info-foreground: #1a1a1a;
-  --success: var(--lime);
-  --success-foreground: #1a1a1a;
+  --accent: rgba(236, 72, 153, 0.2);
+  --accent-foreground: #ec4899;
+  --info: var(--cyan);
+  --info-foreground: #0f0f1a;
+  --success: #22c55e;
+  --success-foreground: #0f0f1a;
   --warning: var(--color-amber-300);
   --warning-foreground: var(--color-amber-950);
-  --error: var(--color-red-500);
+  --error: #ef4444;
   --error-foreground: var(--color-neutral-50);
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.15);
-  --outline: var(--lime);
+  --border: rgba(168, 85, 247, 0.2);
+  --input: rgba(168, 85, 247, 0.15);
+  --outline: var(--cyan);
 }
 
 @layer base {

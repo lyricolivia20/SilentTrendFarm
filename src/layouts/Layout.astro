@@ -45,19 +45,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<ViewTransitions />
 	</head>
 	<body class="bg-background text-foreground font-sans antialiased">
-		<!-- Subtle grid background with lime tint -->
-		<div class="fixed inset-0 bg-[linear-gradient(rgba(191,255,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(191,255,0,0.02)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none"></div>
+		<!-- Subtle grid background with purple tint -->
+		<div class="fixed inset-0 bg-[linear-gradient(rgba(168,85,247,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.03)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none"></div>
 		
 		<div class="relative">
 			<header class="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50" transition:persist>
 				<div class="max-w-5xl mx-auto px-6 py-5">
 					<div class="flex items-center justify-between">
 						<a href="/" class="inline-flex items-center gap-3 group" transition:name="logo">
-							<div class="w-10 h-10 bg-gradient-to-br from-primary via-secondary to-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-shadow">
-								<span class="text-primary-foreground font-mono font-bold text-lg">DP</span>
+							<div class="w-10 h-10 bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:shadow-purple-500/40 transition-shadow">
+								<span class="text-white font-mono font-bold text-lg">LC</span>
 							</div>
 							<div>
-								<h1 class="text-xl font-bold text-foreground tracking-tight section-title">Digital Polymath</h1>
+								<h1 class="text-xl font-bold text-foreground tracking-tight section-title">LyriCodes</h1>
 								<p class="text-xs text-muted-foreground font-mono">field notes & guides</p>
 							</div>
 						</a>
@@ -106,7 +106,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 				<div class="max-w-5xl mx-auto px-6 py-12">
 					<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 						<div class="text-sm space-y-2">
-							<p class="font-mono section-title font-bold">Digital Polymath's Field Notes</p>
+							<p class="font-mono section-title font-bold">LyriCodes Field Notes</p>
 							<p class="text-muted-foreground max-w-md">A collection of guides and insights for aspiring developers, digital artists, and creators.</p>
 						</div>
 						<div class="flex items-center gap-4">
@@ -123,7 +123,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 						</div>
 					</div>
 					<div class="mt-8 pt-6 border-t border-border">
-						<p class="text-muted-foreground/50 font-mono text-xs">&copy; {currentYear} Digital Polymath</p>
+						<p class="text-muted-foreground/50 font-mono text-xs">&copy; {currentYear} LyriCodes</p>
 					</div>
 				</div>
 			</footer>
