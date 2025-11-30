@@ -56,20 +56,26 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<ViewTransitions />
 	</head>
 	<body class="bg-zinc-950 text-zinc-100 font-sans antialiased">
-		<!-- Subtle grid background -->
-		<div class="fixed inset-0 bg-[linear-gradient(rgba(39,39,42,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(39,39,42,0.3)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none"></div>
+		<!-- Subtle grid background (8px based: 64px = 8x8) -->
+		<div class="fixed inset-0 bg-[linear-gradient(rgba(39,39,42,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(39,39,42,0.2)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none"></div>
 		
-		<div class="relative">
+		<!-- Floating particles -->
+		<div class="particles-container" id="particles"></div>
+		
+		<!-- Subtle scanlines for CRT vibe -->
+		<div class="scanlines"></div>
+		
+		<div class="relative z-10">
 			<header class="border-b border-zinc-800/50 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-50" transition:persist>
 				<div class="max-w-5xl mx-auto px-6 py-5">
 					<div class="flex items-center justify-between">
 						<a href="/" class="inline-flex items-center gap-3 group" transition:name="logo">
-							<div class="w-10 h-10 bg-gradient-to-br from-emerald-400 via-cyan-500 to-violet-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
-								<span class="text-zinc-950 font-mono font-bold text-lg">LC</span>
+							<div class="w-9 h-9 bg-zinc-800 border border-zinc-700 rounded-lg flex items-center justify-center">
+								<span class="text-zinc-300 font-mono font-bold text-sm">LC</span>
 							</div>
 							<div>
-								<h1 class="text-xl font-bold text-zinc-100 tracking-tight font-display">LyriCodes</h1>
-								<p class="text-xs text-zinc-500 font-mono">field notes & guides</p>
+								<h1 class="text-lg font-semibold text-zinc-100 tracking-tight font-display">LyriCodes</h1>
+								<p class="text-xs text-zinc-600 font-mono">field notes</p>
 							</div>
 						</a>
 						
@@ -103,6 +109,51 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 				document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
 					document.getElementById('mobile-menu')?.classList.toggle('hidden');
 				});
+
+				// Create floating particles
+				const particlesContainer = document.getElementById('particles');
+				if (particlesContainer) {
+					const colors = ['#34d399', '#22d3ee', '#a78bfa'];
+					for (let i = 0; i < 15; i++) {
+						const particle = document.createElement('div');
+						particle.className = 'particle';
+						particle.style.left = Math.random() * 100 + '%';
+						particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+						particle.style.animationDelay = Math.random() * 15 + 's';
+						particle.style.animationDuration = (12 + Math.random() * 8) + 's';
+						particlesContainer.appendChild(particle);
+					}
+				}
+
+				// Konami Code Easter Egg: ↑↑↓↓←→←→BA
+				const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+				let konamiIndex = 0;
+				let glowModeActive = false;
+
+				document.addEventListener('keydown', (e) => {
+					if (e.code === konamiCode[konamiIndex]) {
+						konamiIndex++;
+						if (konamiIndex === konamiCode.length) {
+							konamiIndex = 0;
+							glowModeActive = !glowModeActive;
+							document.body.classList.toggle('glow-mode', glowModeActive);
+							
+							// Show a little message
+							const msg = document.createElement('div');
+							msg.textContent = glowModeActive ? '✨ GLOW MODE ACTIVATED ✨' : '💤 glow mode off';
+							msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(24,24,27,0.95);border:1px solid #34d399;padding:16px 32px;border-radius:8px;font-family:monospace;color:#34d399;z-index:10000;animation:fadeOut 2s forwards';
+							document.body.appendChild(msg);
+							setTimeout(() => msg.remove(), 2000);
+						}
+					} else {
+						konamiIndex = 0;
+					}
+				});
+
+				// Add fadeOut animation
+				const style = document.createElement('style');
+				style.textContent = '@keyframes fadeOut { 0% { opacity: 1; } 100% { opacity: 0; } }';
+				document.head.appendChild(style);
 			</script>
 
 			<main class="max-w-5xl mx-auto px-6 py-12">
@@ -113,7 +164,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 				<div class="max-w-5xl mx-auto px-6 py-12">
 					<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
 						<div class="text-sm text-zinc-500 space-y-2">
-							<p class="font-mono bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent font-bold">LyriCodes Field Notes</p>
+							<p class="font-mono text-zinc-400 font-semibold">LyriCodes <span class="text-emerald-500/70">Field Notes</span></p>
 							<p class="text-zinc-600 max-w-md">A collection of guides and insights for aspiring developers, digital artists, and creators.</p>
 						</div>
 						<div class="flex items-center gap-4">
