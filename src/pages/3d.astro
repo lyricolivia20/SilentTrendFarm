@@ -18,14 +18,14 @@ import Layout from '../layouts/Layout.astro';
 			<div id="ui-overlay" class="absolute inset-0 pointer-events-none z-20 opacity-0 transition-opacity duration-500">
 				<!-- Title -->
 				<div class="absolute top-8 left-8 pointer-events-auto">
-					<h1 class="text-3xl font-bold text-zinc-100 font-display mb-2">3D Generator</h1>
-					<p class="text-zinc-500 font-mono text-sm">// Text → Image → 3D</p>
+					<h1 class="text-3xl font-bold text-zinc-100 font-display mb-2">3D Model Viewer</h1>
+					<p class="text-zinc-500 font-mono text-sm">// AI Image Generation + 3D Preview</p>
 				</div>
 				
 				<!-- Text-to-Image Input -->
 				<div class="absolute top-24 left-8 pointer-events-auto w-80">
 					<div class="glass-panel p-4 rounded-xl">
-						<p class="text-emerald-400 font-mono text-xs mb-3">Text to Image</p>
+						<p class="text-emerald-400 font-mono text-xs mb-3">AI Image Generator</p>
 						<input 
 							type="text" 
 							id="prompt-input" 
@@ -38,14 +38,11 @@ import Layout from '../layouts/Layout.astro';
 					</div>
 				</div>
 				
-				<!-- Generated Image Preview + Convert to 3D -->
-				<div id="image-preview-container" class="absolute top-64 left-8 pointer-events-auto w-80 hidden">
+				<!-- Generated Image Preview -->
+				<div id="image-preview-container" class="absolute top-56 left-8 pointer-events-auto w-80 hidden">
 					<div class="glass-panel p-4 rounded-xl">
 						<p class="text-cyan-400 font-mono text-xs mb-3">Generated Image</p>
-						<img id="generated-image" class="w-full h-48 object-cover rounded-lg border border-zinc-700 mb-3" />
-						<button id="btn-convert-3d" class="w-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/50 text-cyan-400 px-3 py-2 rounded-lg text-xs font-mono transition-colors">
-							Convert to 3D
-						</button>
+						<img id="generated-image" class="w-full h-48 object-cover rounded-lg border border-zinc-700" />
 					</div>
 				</div>
 				
@@ -503,7 +500,6 @@ import Layout from '../layouts/Layout.astro';
 			// UI Elements for generation
 			const promptInput = document.getElementById('prompt-input');
 			const btnGenerateImage = document.getElementById('btn-generate-image');
-			const btnConvert3D = document.getElementById('btn-convert-3d');
 			const btnDemo = document.getElementById('btn-demo');
 			const demoContainer = document.getElementById('demo-container');
 			const modelInfo = document.getElementById('model-info');
@@ -511,8 +507,6 @@ import Layout from '../layouts/Layout.astro';
 			const statusText = document.getElementById('status-text');
 			const imagePreviewContainer = document.getElementById('image-preview-container');
 			const generatedImage = document.getElementById('generated-image');
-			
-			let currentImageUrl = null;
 			
 			function showStatus(text) {
 				statusText.textContent = text;
@@ -525,11 +519,9 @@ import Layout from '../layouts/Layout.astro';
 			
 			// Text-to-Image using Pollinations.ai (free, no CORS, no API key needed)
 			async function generateImage(prompt) {
-				// Pollinations.ai provides free AI image generation with no CORS issues
 				const encodedPrompt = encodeURIComponent(prompt);
 				const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true`;
 				
-				// Pre-load the image to ensure it's generated
 				return new Promise((resolve, reject) => {
 					const img = new Image();
 					img.crossOrigin = 'anonymous';
@@ -537,39 +529,6 @@ import Layout from '../layouts/Layout.astro';
 					img.onerror = () => reject(new Error('Image generation failed'));
 					img.src = imageUrl;
 				});
-			}
-			
-			// Image-to-3D using our API endpoint (proxies to Meshy.ai)
-			async function generateMesh(imageUrl) {
-				try {
-					const response = await fetch('/api/image-to-3d', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({ imageUrl }),
-					});
-					
-					const data = await response.json();
-					
-					if (data.success && data.modelUrl) {
-						return data.modelUrl;
-					}
-					
-					throw new Error(data.error || 'Failed to generate 3D model');
-					
-				} catch (error) {
-					console.error('3D generation error:', error);
-					
-					// Fallback to demo model
-					const demoModels = [
-						'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb',
-						'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Fox/glTF-Binary/Fox.glb',
-						'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BrainStem/glTF-Binary/BrainStem.glb',
-					];
-					
-					return demoModels[Math.floor(Math.random() * demoModels.length)];
-				}
 			}
 			
 			// Load GLB model into scene
@@ -644,32 +603,10 @@ import Layout from '../layouts/Layout.astro';
 				showStatus('Generating image...');
 				
 				try {
-					currentImageUrl = await generateImage(prompt);
-					generatedImage.src = currentImageUrl;
+					const imageUrl = await generateImage(prompt);
+					generatedImage.src = imageUrl;
 					imagePreviewContainer.classList.remove('hidden');
 					hideStatus();
-				} catch (error) {
-					showStatus(`Error: ${error.message}`);
-					setTimeout(hideStatus, 3000);
-				}
-			});
-			
-			// Convert to 3D button
-			btnConvert3D?.addEventListener('click', async () => {
-				if (!currentImageUrl) return;
-				
-				showStatus('Converting to 3D... (this may take a few minutes)');
-				
-				try {
-					const modelUrl = await generateMesh(currentImageUrl);
-					showStatus('Loading model...');
-					loadGeneratedModel(modelUrl);
-					
-					// Show model info, hide demo button
-					modelInfo?.classList.remove('hidden');
-					demoContainer?.classList.add('hidden');
-					
-					setTimeout(hideStatus, 1500);
 				} catch (error) {
 					showStatus(`Error: ${error.message}`);
 					setTimeout(hideStatus, 3000);
