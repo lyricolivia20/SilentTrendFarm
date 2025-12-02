@@ -1,0 +1,65 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#09090B"/>
+  
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#27272A" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
+  
+  <!-- Glow effect -->
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="600" cy="315" rx="400" ry="250" fill="url(#glow)"/>
+  
+  <!-- 3D Cube Icon -->
+  <g transform="translate(500, 180)">
+    <!-- Back face -->
+    <path d="M100 50 L200 100 L200 200 L100 150 Z" fill="#18181B" stroke="#10B981" stroke-width="2"/>
+    <!-- Right face -->
+    <path d="M200 100 L200 200 L100 250 L100 150 Z" fill="#1F1F23" stroke="#10B981" stroke-width="2"/>
+    <!-- Top face -->
+    <path d="M0 100 L100 50 L200 100 L100 150 Z" fill="#27272A" stroke="#10B981" stroke-width="2"/>
+    <!-- Front face -->
+    <path d="M0 100 L100 150 L100 250 L0 200 Z" fill="#18181B" stroke="#10B981" stroke-width="2"/>
+    <!-- Left face -->
+    <path d="M0 100 L0 200 L100 250 L100 150 Z" fill="#1F1F23" stroke="#10B981" stroke-width="2"/>
+  </g>
+  
+  <!-- Pipeline arrows -->
+  <g transform="translate(200, 450)">
+    <!-- Text box -->
+    <rect x="0" y="0" width="120" height="50" rx="8" fill="#18181B" stroke="#10B981" stroke-width="2"/>
+    <text x="60" y="32" text-anchor="middle" fill="#10B981" font-family="monospace" font-size="14">TEXT</text>
+    
+    <!-- Arrow 1 -->
+    <path d="M140 25 L200 25" stroke="#10B981" stroke-width="2" stroke-dasharray="4 4"/>
+    <polygon points="200,20 210,25 200,30" fill="#10B981"/>
+    
+    <!-- Image box -->
+    <rect x="230" y="0" width="120" height="50" rx="8" fill="#18181B" stroke="#06B6D4" stroke-width="2"/>
+    <text x="290" y="32" text-anchor="middle" fill="#06B6D4" font-family="monospace" font-size="14">IMAGE</text>
+    
+    <!-- Arrow 2 -->
+    <path d="M370 25 L430 25" stroke="#06B6D4" stroke-width="2" stroke-dasharray="4 4"/>
+    <polygon points="430,20 440,25 430,30" fill="#06B6D4"/>
+    
+    <!-- 3D box -->
+    <rect x="460" y="0" width="120" height="50" rx="8" fill="#18181B" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="520" y="32" text-anchor="middle" fill="#8B5CF6" font-family="monospace" font-size="14">3D MODEL</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="600" y="530" text-anchor="middle" fill="#FAFAFA" font-family="system-ui, sans-serif" font-size="42" font-weight="700">AI 3D Generator</text>
+  <text x="600" y="570" text-anchor="middle" fill="#71717A" font-family="monospace" font-size="18">Text → Image → 3D | LyriCodes</text>
+  
+  <!-- Logo/Brand -->
+  <text x="60" y="60" fill="#10B981" font-family="monospace" font-size="24" font-weight="600">LyriCodes</text>
+</svg>

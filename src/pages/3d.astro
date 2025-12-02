@@ -1,8 +1,42 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { SEO } from 'astro-seo';
+
+const seoConfig = {
+	title: "AI 3D Generator — Text to Image to 3D | LyriCodes",
+	description: "Transform text prompts into 3D models using AI. Generate images with SDXL and convert them to 3D models with TripoSR. Free, browser-based 3D creation tool.",
+	openGraph: {
+		basic: {
+			title: "AI 3D Generator — Create 3D Models from Text",
+			type: "website",
+			image: "/og-3d-generator.svg",
+		},
+		optional: {
+			description: "Transform text prompts into 3D models using AI. Generate images with SDXL and convert them to 3D models with TripoSR.",
+			siteName: "LyriCodes",
+		},
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "AI 3D Generator — Create 3D Models from Text",
+		description: "Transform text prompts into 3D models using AI. Free, browser-based 3D creation tool.",
+		image: "/og-3d-generator.png",
+	},
+	extend: {
+		meta: [
+			{ name: "keywords", content: "AI 3D generator, text to 3D, image to 3D, SDXL, TripoSR, 3D model generator, AI art, WebGL, Three.js" },
+			{ name: "application-name", content: "LyriCodes 3D Generator" },
+			{ property: "og:video:type", content: "text/html" },
+		],
+		link: [
+			{ rel: "preload", href: "/js/three.js", as: "script" },
+			{ rel: "preload", href: "/js/GLTFLoader.js", as: "script" },
+		],
+	},
+};
 ---
 
-<Layout title="3D Environment — LyriCodes" description="An interactive 3D experience showcasing creative coding and WebGL experiments.">
+<Layout title={seoConfig.title} description={seoConfig.description} image="/og-3d-generator.svg">
 	<div class="relative -mx-6 -mt-12 -mb-12">
 		<!-- 3D Canvas Container -->
 		<div id="canvas-container" class="w-full h-screen relative">
@@ -19,7 +53,7 @@ import Layout from '../layouts/Layout.astro';
 				<!-- Title -->
 				<div class="absolute top-8 left-8 right-8 pointer-events-auto">
 					<h1 class="text-3xl font-bold text-zinc-100 font-display mb-2">AI Pipeline: Text → Image → 3D</h1>
-					<p class="text-zinc-500 font-mono text-sm">// Generative AI Model Pipeline Visualization</p>
+					<p class="text-zinc-500 font-mono text-sm">// Generative AI Model Pipeline with Hugging Face Spaces</p>
 				</div>
 				
 				<!-- Pipeline Container -->
@@ -44,41 +78,46 @@ import Layout from '../layouts/Layout.astro';
 							</div>
 							
 							<!-- Arrow 1 -->
-							<div id="arrow-1" class="flex items-center opacity-30 transition-opacity duration-500">
-								<svg class="w-8 h-8 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<div id="arrow-1" class="flex items-center opacity-30 transition-opacity duration-500 shrink-0">
+								<svg class="w-6 h-6 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
 								</svg>
 							</div>
 							
 							<!-- Step 2: Image Generation -->
-							<div class="flex-1">
+							<div class="flex-1 min-w-0">
 								<div class="mb-2">
 									<span class="text-cyan-400 font-mono text-xs">STEP 2: IMAGE</span>
 								</div>
-								<div id="image-container" class="w-full h-32 bg-zinc-900/50 border border-zinc-700 rounded-lg flex items-center justify-center relative overflow-hidden">
+								<div id="image-container" class="w-full h-24 bg-zinc-900/50 border border-zinc-700 rounded-lg flex items-center justify-center relative overflow-hidden">
 									<span id="image-placeholder" class="text-zinc-600 text-xs font-mono">Awaiting generation...</span>
 									<img id="generated-image" class="w-full h-full object-cover absolute inset-0 hidden" />
 								</div>
 							</div>
 							
 							<!-- Arrow 2 -->
-							<div id="arrow-2" class="flex items-center opacity-30 transition-opacity duration-500">
-								<svg class="w-8 h-8 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<div id="arrow-2" class="flex items-center opacity-30 transition-opacity duration-500 shrink-0">
+								<svg class="w-6 h-6 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
 								</svg>
 							</div>
 							
 							<!-- Step 3: 3D Model -->
-							<div class="flex-1">
+							<div class="flex-1 min-w-0">
 								<div class="mb-2">
 									<span class="text-violet-400 font-mono text-xs">STEP 3: 3D MODEL</span>
 								</div>
-								<div class="w-full h-32 bg-zinc-900/50 border border-zinc-700 rounded-lg flex items-center justify-center">
-									<span id="model-status" class="text-zinc-600 text-xs font-mono">Awaiting conversion...</span>
+								<div class="w-full h-24 bg-zinc-900/50 border border-zinc-700 rounded-lg flex items-center justify-center">
+									<span id="model-status" class="text-zinc-600 text-xs font-mono text-center px-2">Awaiting conversion...</span>
 								</div>
-								<button id="btn-demo" class="mt-2 w-full bg-violet-500/20 hover:bg-violet-500/30 border border-violet-500/50 text-violet-400 px-3 py-2 rounded-lg text-xs font-mono transition-colors">
-									Load Demo Model
-								</button>
+								<div class="flex gap-1 mt-2">
+									<button id="btn-generate-3d" class="flex-1 bg-violet-500/20 hover:bg-violet-500/30 border border-violet-500/50 text-violet-400 px-2 py-1.5 rounded-lg text-xs font-mono transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+										Generate 3D
+									</button>
+									<button id="btn-demo" class="flex-1 bg-zinc-700/50 hover:bg-zinc-700/70 border border-zinc-600 text-zinc-400 px-2 py-1.5 rounded-lg text-xs font-mono transition-colors">
+										Demo
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -138,6 +177,33 @@ import Layout from '../layouts/Layout.astro';
 		}
 	</style>
 	
+	<!-- JSON-LD Structured Data for SEO -->
+	<script type="application/ld+json" set:html={JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "WebApplication",
+		"name": "LyriCodes AI 3D Generator",
+		"description": "Transform text prompts into 3D models using AI. Generate images with SDXL and convert them to 3D models with TripoSR.",
+		"url": "https://lyricodes.dev/3d",
+		"applicationCategory": "DesignApplication",
+		"operatingSystem": "Web Browser",
+		"offers": {
+			"@type": "Offer",
+			"price": "0",
+			"priceCurrency": "USD"
+		},
+		"featureList": [
+			"Text to Image generation with SDXL",
+			"Image to 3D conversion with TripoSR",
+			"Real-time 3D model preview",
+			"GLB model export"
+		],
+		"creator": {
+			"@type": "Organization",
+			"name": "LyriCodes",
+			"url": "https://lyricodes.dev"
+		}
+	})} />
+	
 	<script is:inline src="/js/three.js"></script>
 	<script is:inline src="/js/OrbitControls.js"></script>
 	<script is:inline src="/js/GLTFLoader.js"></script>
@@ -156,10 +222,10 @@ import Layout from '../layouts/Layout.astro';
 			const triangleCountEl = document.getElementById('triangle-count');
 			const materialCountEl = document.getElementById('material-count');
 			
-			// Scene setup
+			// Scene setup - Minimalist white room as default
 			const scene = new THREE.Scene();
-			scene.background = new THREE.Color(0x09090b);
-			scene.fog = new THREE.Fog(0x09090b, 10, 50);
+			scene.background = new THREE.Color(0xffffff);
+			scene.fog = new THREE.Fog(0xffffff, 10, 50);
 			
 			// Camera
 			const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -183,8 +249,8 @@ import Layout from '../layouts/Layout.astro';
 			controls.maxPolarAngle = Math.PI / 2 + 0.1;
 			controls.target.set(0, 2, 0);
 			
-			// Lights
-			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+			// Lights - Clean white room lighting by default
+			const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 			scene.add(ambientLight);
 			
 			const mainLight = new THREE.DirectionalLight(0xffffff, 0.8);
@@ -194,23 +260,27 @@ import Layout from '../layouts/Layout.astro';
 			mainLight.shadow.mapSize.height = 2048;
 			scene.add(mainLight);
 			
-			// Colored point lights for atmosphere
-			const emeraldLight = new THREE.PointLight(0x34d399, 2, 20);
-			emeraldLight.position.set(-5, 3, 5);
-			scene.add(emeraldLight);
+			// Dynamic lights that will be updated based on theme
+			const dynamicLights = [];
+			const pointLight1 = new THREE.PointLight(0xffffff, 0, 20);
+			pointLight1.position.set(-5, 3, 5);
+			scene.add(pointLight1);
+			dynamicLights.push(pointLight1);
 			
-			const cyanLight = new THREE.PointLight(0x22d3ee, 2, 20);
-			cyanLight.position.set(5, 3, -5);
-			scene.add(cyanLight);
+			const pointLight2 = new THREE.PointLight(0xffffff, 0, 20);
+			pointLight2.position.set(5, 3, -5);
+			scene.add(pointLight2);
+			dynamicLights.push(pointLight2);
 			
-			const violetLight = new THREE.PointLight(0xa78bfa, 2, 20);
-			violetLight.position.set(0, 5, 0);
-			scene.add(violetLight);
+			const pointLight3 = new THREE.PointLight(0xffffff, 0, 20);
+			pointLight3.position.set(0, 5, 0);
+			scene.add(pointLight3);
+			dynamicLights.push(pointLight3);
 			
-			// Ground plane with grid
+			// Ground plane with grid - White minimalist by default
 			const groundGeometry = new THREE.PlaneGeometry(100, 100);
 			const groundMaterial = new THREE.MeshStandardMaterial({ 
-				color: 0x18181b,
+				color: 0xf0f0f0,
 				roughness: 0.9,
 				metalness: 0.1
 			});
@@ -220,7 +290,7 @@ import Layout from '../layouts/Layout.astro';
 			scene.add(ground);
 			
 			// Grid helper
-			const gridHelper = new THREE.GridHelper(100, 100, 0x27272a, 0x27272a);
+			const gridHelper = new THREE.GridHelper(100, 100, 0xcccccc, 0xcccccc);
 			gridHelper.position.y = 0.01;
 			scene.add(gridHelper);
 			
@@ -245,9 +315,61 @@ import Layout from '../layouts/Layout.astro';
 			const modelStatus = document.getElementById('model-status');
 			const arrow1 = document.getElementById('arrow-1');
 			const arrow2 = document.getElementById('arrow-2');
+			const btnGenerate3d = document.getElementById('btn-generate-3d');
+			
+			// Backend API URL (change for production)
+			const API_BASE = 'http://localhost:8000';
+			
+			// Function to update environment based on theme
+			function updateEnvironment(themeParams) {
+				if (!themeParams) return;
+				
+				// Update background color
+				if (themeParams.skybox_color) {
+					scene.background = new THREE.Color(themeParams.skybox_color);
+				}
+				
+				// Update fog
+				if (themeParams.fog_color && themeParams.fog_density) {
+					scene.fog = new THREE.FogExp2(themeParams.fog_color, themeParams.fog_density);
+				}
+				
+				// Update ground color
+				if (themeParams.ground_color) {
+					groundMaterial.color = new THREE.Color(themeParams.ground_color);
+				}
+				
+				// Update grid color
+				if (themeParams.grid_color) {
+					scene.remove(gridHelper);
+					const newGrid = new THREE.GridHelper(100, 100, themeParams.grid_color, themeParams.grid_color);
+					newGrid.position.y = 0.01;
+					scene.add(newGrid);
+				}
+				
+				// Update lights
+				if (themeParams.lights && Array.isArray(themeParams.lights)) {
+					themeParams.lights.forEach((lightConfig, index) => {
+						if (lightConfig.type === 'ambient') {
+							ambientLight.color = new THREE.Color(lightConfig.color);
+							ambientLight.intensity = lightConfig.intensity;
+						} else if (lightConfig.type === 'directional') {
+							mainLight.color = new THREE.Color(lightConfig.color);
+							mainLight.intensity = lightConfig.intensity;
+						} else if (lightConfig.type === 'point' && dynamicLights[index]) {
+							dynamicLights[index].color = new THREE.Color(lightConfig.color);
+							dynamicLights[index].intensity = lightConfig.intensity;
+							if (lightConfig.position) {
+								dynamicLights[index].position.set(...lightConfig.position);
+							}
+						}
+					});
+				}
+			}
 			
 			// Pipeline state
-			let pipelineStage = 0; // 0: idle, 1: text entered, 2: image generated, 3: model loaded
+			let pipelineStage = 0; // 0: idle, 1: generating image, 2: image ready, 3: 3d generated
+			let currentImageUrl = null;
 			
 			function showStatus(text) {
 				statusText.textContent = text;
@@ -263,20 +385,20 @@ import Layout from '../layouts/Layout.astro';
 				pipelineStage = stage;
 				
 				// Update arrows
-				if (stage >= 1) {
-					arrow1.classList.remove('opacity-30');
-					arrow1.classList.add('opacity-100', 'arrow-active');
-				} else {
-					arrow1.classList.add('opacity-30');
-					arrow1.classList.remove('opacity-100', 'arrow-active');
-				}
+				const arrows = [arrow1, arrow2];
+				arrows.forEach((arrow, i) => {
+					if (stage >= i + 1) {
+						arrow?.classList.remove('opacity-30');
+						arrow?.classList.add('opacity-100', 'arrow-active');
+					} else {
+						arrow?.classList.add('opacity-30');
+						arrow?.classList.remove('opacity-100', 'arrow-active');
+					}
+				});
 				
-				if (stage >= 2) {
-					arrow2.classList.remove('opacity-30');
-					arrow2.classList.add('opacity-100', 'arrow-active');
-				} else {
-					arrow2.classList.add('opacity-30');
-					arrow2.classList.remove('opacity-100', 'arrow-active');
+				// Update button states
+				if (btnGenerate3d) {
+					btnGenerate3d.disabled = stage < 2;
 				}
 				
 				// Update status texts
@@ -285,7 +407,7 @@ import Layout from '../layouts/Layout.astro';
 					modelStatus.classList.remove('text-zinc-600');
 					modelStatus.classList.add('text-violet-400');
 				} else if (stage === 3) {
-					modelStatus.textContent = '3D Model loaded';
+					modelStatus.textContent = '3D Model loaded!';
 					modelStatus.classList.remove('text-zinc-600');
 					modelStatus.classList.add('text-violet-400');
 				} else {
@@ -295,18 +417,80 @@ import Layout from '../layouts/Layout.astro';
 				}
 			}
 			
-			// Text-to-Image using Pollinations.ai
+			// Text-to-Image using SDXL via backend
 			async function generateImage(prompt) {
-				const encodedPrompt = encodeURIComponent(prompt);
-				const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true`;
-				
-				return new Promise((resolve, reject) => {
-					const img = new Image();
-					img.crossOrigin = 'anonymous';
-					img.onload = () => resolve(imageUrl);
-					img.onerror = () => reject(new Error('Image generation failed'));
-					img.src = imageUrl;
-				});
+				try {
+					const response = await fetch(`${API_BASE}/api/generate-image`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							prompt: prompt,
+							enhance_prompt: true,
+							generate_t_pose: true,
+							analyze_theme: true
+						})
+					});
+					
+					if (!response.ok) {
+						const error = await response.json();
+						throw new Error(error.detail || 'Image generation failed');
+					}
+					
+					const data = await response.json();
+					
+					// Update environment based on theme analysis
+					if (data.theme_analysis && data.theme_analysis.environment_params) {
+						updateEnvironment(data.theme_analysis.environment_params);
+					}
+					
+					return {
+						imageUrl: `data:image/png;base64,${data.image_base64}`,
+						enhancedPrompt: data.enhanced_prompt,
+						theme: data.theme_analysis
+					};
+				} catch (error) {
+					console.error('SDXL generation error:', error);
+					// Fallback to Pollinations
+					const encodedPrompt = encodeURIComponent(prompt + ', T-pose, full body character, white background');
+					const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true`;
+					
+					return new Promise((resolve, reject) => {
+						const img = new Image();
+						img.crossOrigin = 'anonymous';
+						img.onload = () => resolve({ imageUrl, fallback: true });
+						img.onerror = () => reject(new Error('Image generation failed'));
+						img.src = imageUrl;
+					});
+				}
+			}
+			
+			// Image to 3D using Hugging Face Spaces (TripoSR) via backend
+			async function generateModel3D(imageUrl) {
+				try {
+					const response = await fetch(`${API_BASE}/api/image-to-3d`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ image_url: imageUrl })
+					});
+					
+					if (!response.ok) {
+						const error = await response.json();
+						throw new Error(error.detail || '3D generation failed');
+					}
+					
+					const data = await response.json();
+					// Convert base64 GLB to blob URL
+					const glbBytes = atob(data.glb_base64);
+					const glbArray = new Uint8Array(glbBytes.length);
+					for (let i = 0; i < glbBytes.length; i++) {
+						glbArray[i] = glbBytes.charCodeAt(i);
+					}
+					const blob = new Blob([glbArray], { type: 'model/gltf-binary' });
+					return URL.createObjectURL(blob);
+				} catch (error) {
+					console.error('3D generation error:', error);
+					throw error;
+				}
 			}
 			
 			// Load GLB model
@@ -376,7 +560,7 @@ import Layout from '../layouts/Layout.astro';
 				});
 			}
 			
-			// Generate button handler
+			// Generate button handler - Full pipeline
 			btnGenerate?.addEventListener('click', async () => {
 				const prompt = promptInput?.value || 'a futuristic robot';
 				
@@ -386,24 +570,53 @@ import Layout from '../layouts/Layout.astro';
 					return;
 				}
 				
-				// Stage 1: Text entered
+				// Stage 1: Generating image
 				updatePipelineState(1);
 				showStatus('Generating image from text...');
 				
 				try {
-					// Stage 2: Generate image
-					const imageUrl = await generateImage(prompt);
-					generatedImage.src = imageUrl;
+					// Stage 2: Generate image with theme analysis
+					const result = await generateImage(prompt);
+					currentImageUrl = result.imageUrl;
+					generatedImage.src = result.imageUrl;
 					generatedImage.classList.remove('hidden');
 					imagePlaceholder.classList.add('hidden');
 					updatePipelineState(2);
 					
-					showStatus('Image generated! (Note: 3D conversion is simulated with demo models)');
+					// Show enhanced prompt if available
+					if (result.enhancedPrompt && !result.fallback) {
+						console.log('Enhanced prompt:', result.enhancedPrompt);
+						if (result.theme) {
+							console.log('Detected theme:', result.theme.primary_theme);
+						}
+					}
+					
+					showStatus('Image generated! Ready for 3D conversion.');
 					setTimeout(hideStatus, 3000);
 					
 				} catch (error) {
 					showStatus(`Error: ${error.message}`);
 					setTimeout(hideStatus, 3000);
+				}
+			});
+			
+			// Generate 3D button
+			btnGenerate3d?.addEventListener('click', async () => {
+				if (!currentImageUrl) {
+					showStatus('No image available for 3D conversion');
+					setTimeout(hideStatus, 2000);
+					return;
+				}
+				
+				showStatus('Generating 3D model via HuggingFace TripoSR... (this may take 30-60s)');
+				
+				try {
+					const modelUrl = await generateModel3D(currentImageUrl);
+					loadModel(modelUrl);
+					updatePipelineState(3);
+				} catch (error) {
+					showStatus(`3D Error: ${error.message}`);
+					setTimeout(hideStatus, 4000);
 				}
 			});
 			
@@ -442,12 +655,18 @@ import Layout from '../layouts/Layout.astro';
 					currentModel.rotation.y = time * 0.2;
 				}
 				
-				// Animate lights
-				emeraldLight.position.x = Math.sin(time * 0.5) * 8;
-				emeraldLight.position.z = Math.cos(time * 0.5) * 8;
-				cyanLight.position.x = Math.sin(time * 0.5 + Math.PI) * 8;
-				cyanLight.position.z = Math.cos(time * 0.5 + Math.PI) * 8;
-				violetLight.intensity = 2 + Math.sin(time * 2) * 0.5;
+				// Animate dynamic lights if they have intensity > 0
+				if (dynamicLights[0].intensity > 0) {
+					dynamicLights[0].position.x = Math.sin(time * 0.5) * 8;
+					dynamicLights[0].position.z = Math.cos(time * 0.5) * 8;
+				}
+				if (dynamicLights[1].intensity > 0) {
+					dynamicLights[1].position.x = Math.sin(time * 0.5 + Math.PI) * 8;
+					dynamicLights[1].position.z = Math.cos(time * 0.5 + Math.PI) * 8;
+				}
+				if (dynamicLights[2].intensity > 0) {
+					dynamicLights[2].intensity = dynamicLights[2].intensity * (1 + Math.sin(time * 2) * 0.1);
+				}
 				
 				controls.update();
 				renderer.render(scene, camera);

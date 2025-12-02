@@ -1,0 +1,276 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Sample Python library data
+const libraries = [
+	{
+		name: 'requests',
+		description: 'Elegant HTTP library for Python. Makes sending HTTP requests simple and human-friendly.',
+		install: 'pip install requests',
+		category: 'http',
+		docs: 'https://requests.readthedocs.io/',
+		example: `import requests
+
+response = requests.get('https://api.github.com')
+print(response.status_code)
+print(response.json())`
+	},
+	{
+		name: 'pandas',
+		description: 'Powerful data analysis and manipulation library. Essential for working with structured data.',
+		install: 'pip install pandas',
+		category: 'data',
+		docs: 'https://pandas.pydata.org/docs/',
+		example: `import pandas as pd
+
+df = pd.DataFrame({
+    'name': ['Alice', 'Bob'],
+    'age': [25, 30]
+})
+print(df.head())`
+	},
+	{
+		name: 'numpy',
+		description: 'Fundamental package for scientific computing. Provides support for arrays, matrices, and math functions.',
+		install: 'pip install numpy',
+		category: 'data',
+		docs: 'https://numpy.org/doc/',
+		example: `import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5])
+print(arr.mean())
+print(arr * 2)`
+	},
+	{
+		name: 'fastapi',
+		description: 'Modern, fast web framework for building APIs. Automatic docs and type hints support.',
+		install: 'pip install fastapi uvicorn',
+		category: 'web',
+		docs: 'https://fastapi.tiangolo.com/',
+		example: `from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}`
+	},
+	{
+		name: 'flask',
+		description: 'Lightweight WSGI web application framework. Simple and extensible.',
+		install: 'pip install flask',
+		category: 'web',
+		docs: 'https://flask.palletsprojects.com/',
+		example: `from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello, World!"`
+	},
+	{
+		name: 'pytest',
+		description: 'Full-featured testing framework. Makes writing and running tests easy.',
+		install: 'pip install pytest',
+		category: 'testing',
+		docs: 'https://docs.pytest.org/',
+		example: `def test_addition():
+    assert 1 + 1 == 2
+
+def test_string():
+    assert "hello".upper() == "HELLO"`
+	},
+	{
+		name: 'click',
+		description: 'Beautiful command line interfaces made easy. Composable and intuitive.',
+		install: 'pip install click',
+		category: 'cli',
+		docs: 'https://click.palletsprojects.com/',
+		example: `import click
+
+@click.command()
+@click.option('--name', default='World')
+def hello(name):
+    click.echo(f'Hello {name}!')
+
+if __name__ == '__main__':
+    hello()`
+	},
+	{
+		name: 'rich',
+		description: 'Rich text and beautiful formatting in the terminal. Tables, progress bars, syntax highlighting.',
+		install: 'pip install rich',
+		category: 'cli',
+		docs: 'https://rich.readthedocs.io/',
+		example: `from rich import print
+from rich.table import Table
+
+table = Table(title="Users")
+table.add_column("Name")
+table.add_column("Age")
+table.add_row("Alice", "25")
+print(table)`
+	}
+];
+
+const categories = {
+	'http': { label: 'HTTP', badgeClass: 'bg-emerald-500/10 text-emerald-400' },
+	'data': { label: 'Data Science', badgeClass: 'bg-cyan-500/10 text-cyan-400' },
+	'web': { label: 'Web Frameworks', badgeClass: 'bg-violet-500/10 text-violet-400' },
+	'testing': { label: 'Testing', badgeClass: 'bg-amber-500/10 text-amber-400' },
+	'cli': { label: 'CLI Tools', badgeClass: 'bg-rose-500/10 text-rose-400' }
+};
+---
+
+<Layout title="Python Library Reference — LyriCodes" description="A curated collection of essential Python libraries for developers. Quick reference with installation commands and code examples.">
+	<div class="space-y-12">
+		<!-- Header -->
+		<section class="py-4">
+			<div class="flex items-center gap-3 mb-4">
+				<span class="text-amber-400 font-mono text-sm">pylib</span>
+				<div class="flex-1 h-px bg-gradient-to-r from-amber-500/50 to-transparent"></div>
+			</div>
+			<h1 class="text-3xl md:text-4xl font-bold text-zinc-100 font-display mb-4">Python Library Reference</h1>
+			<p class="text-zinc-400 max-w-2xl">
+				A curated collection of essential Python libraries. Quick reference with installation commands and code examples.
+			</p>
+		</section>
+
+		<!-- Category Filter -->
+		<section class="flex flex-wrap gap-2">
+			<button data-filter="all" class="filter-btn active px-3 py-1.5 rounded-lg text-sm font-mono border border-zinc-700 bg-zinc-800 text-zinc-300 hover:border-amber-500/50 transition-all">
+				all
+			</button>
+			<button data-filter="http" class="filter-btn px-3 py-1.5 rounded-lg text-sm font-mono border border-zinc-700 bg-zinc-800/50 text-zinc-400 hover:border-emerald-500/50 hover:text-emerald-400 transition-all">http</button>
+			<button data-filter="data" class="filter-btn px-3 py-1.5 rounded-lg text-sm font-mono border border-zinc-700 bg-zinc-800/50 text-zinc-400 hover:border-cyan-500/50 hover:text-cyan-400 transition-all">data science</button>
+			<button data-filter="web" class="filter-btn px-3 py-1.5 rounded-lg text-sm font-mono border border-zinc-700 bg-zinc-800/50 text-zinc-400 hover:border-violet-500/50 hover:text-violet-400 transition-all">web frameworks</button>
+			<button data-filter="testing" class="filter-btn px-3 py-1.5 rounded-lg text-sm font-mono border border-zinc-700 bg-zinc-800/50 text-zinc-400 hover:border-amber-500/50 hover:text-amber-400 transition-all">testing</button>
+			<button data-filter="cli" class="filter-btn px-3 py-1.5 rounded-lg text-sm font-mono border border-zinc-700 bg-zinc-800/50 text-zinc-400 hover:border-rose-500/50 hover:text-rose-400 transition-all">cli tools</button>
+		</section>
+
+		<!-- Library Grid -->
+		<section class="grid gap-6">
+			{libraries.map((lib) => {
+				const cat = categories[lib.category as keyof typeof categories];
+				return (
+					<article data-category={lib.category} class="library-card group p-6 rounded-xl border border-zinc-800/50 bg-zinc-900/30 hover:border-amber-500/30 transition-all duration-300">
+						<div class="flex flex-col lg:flex-row lg:items-start gap-6">
+							<!-- Info -->
+							<div class="flex-1 min-w-0">
+								<div class="flex items-center gap-3 mb-3">
+									<h2 class="text-xl font-bold text-zinc-100 font-mono">{lib.name}</h2>
+									<span class:list={['text-xs px-2 py-0.5 rounded font-mono', cat.badgeClass]}>
+										{cat.label}
+									</span>
+								</div>
+								<p class="text-zinc-400 text-sm mb-4">{lib.description}</p>
+								
+								<!-- Install Command -->
+								<div class="flex items-center gap-2 mb-4">
+									<code class="flex-1 px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-sm font-mono text-amber-400 overflow-x-auto">
+										{lib.install}
+									</code>
+									<button class="copy-btn p-2 text-zinc-500 hover:text-amber-400 transition-colors" data-copy={lib.install} title="Copy to clipboard">
+										<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+										</svg>
+									</button>
+								</div>
+
+								<a href={lib.docs} target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-amber-400 transition-colors">
+									<span>Documentation</span>
+									<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+									</svg>
+								</a>
+							</div>
+
+							<!-- Code Example -->
+							<div class="lg:w-96 flex-shrink-0">
+								<div class="rounded-lg overflow-hidden border border-zinc-800 bg-zinc-950">
+									<div class="flex items-center gap-2 px-3 py-2 bg-zinc-900 border-b border-zinc-800">
+										<div class="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
+										<div class="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
+										<div class="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
+										<span class="ml-2 text-xs text-zinc-600 font-mono">example.py</span>
+									</div>
+									<pre class="p-4 text-sm font-mono text-zinc-300 overflow-x-auto"><code>{lib.example}</code></pre>
+								</div>
+							</div>
+						</div>
+					</article>
+				);
+			})}
+		</section>
+
+		<!-- Quick Install Section -->
+		<section class="border-t border-zinc-800/50 pt-12">
+			<h2 class="text-xl font-bold text-zinc-100 font-display mb-4">Quick Install All</h2>
+			<p class="text-zinc-500 text-sm mb-4">Install all libraries shown above with a single command:</p>
+			<div class="flex items-center gap-2">
+				<code class="flex-1 px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-lg text-sm font-mono text-amber-400 overflow-x-auto">
+					pip install requests pandas numpy fastapi uvicorn flask pytest click rich
+				</code>
+				<button class="copy-btn p-2 text-zinc-500 hover:text-amber-400 transition-colors" data-copy="pip install requests pandas numpy fastapi uvicorn flask pytest click rich" title="Copy to clipboard">
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+					</svg>
+				</button>
+			</div>
+		</section>
+	</div>
+
+	<script>
+		// Category filter
+		const filterBtns = document.querySelectorAll('.filter-btn');
+		const libraryCards = document.querySelectorAll('.library-card');
+
+		filterBtns.forEach(btn => {
+			btn.addEventListener('click', () => {
+				const filter = btn.getAttribute('data-filter');
+				
+				// Update active state
+				filterBtns.forEach(b => b.classList.remove('active', 'border-amber-500/50', 'text-amber-400'));
+				btn.classList.add('active', 'border-amber-500/50', 'text-amber-400');
+
+				// Filter cards
+				libraryCards.forEach(card => {
+					const category = card.getAttribute('data-category');
+					if (filter === 'all' || category === filter) {
+						(card as HTMLElement).style.display = 'block';
+					} else {
+						(card as HTMLElement).style.display = 'none';
+					}
+				});
+			});
+		});
+
+		// Copy to clipboard
+		const copyBtns = document.querySelectorAll('.copy-btn');
+		copyBtns.forEach(btn => {
+			btn.addEventListener('click', async () => {
+				const text = btn.getAttribute('data-copy');
+				if (text) {
+					await navigator.clipboard.writeText(text);
+					
+					// Visual feedback
+					const svg = btn.querySelector('svg');
+					if (svg) {
+						svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />';
+						setTimeout(() => {
+							svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />';
+						}, 1500);
+					}
+				}
+			});
+		});
+	</script>
+
+	<style>
+		@reference "tailwindcss";
+		.filter-btn.active {
+			@apply border-amber-500/50 text-amber-400 bg-amber-500/10;
+		}
+	</style>
+</Layout>

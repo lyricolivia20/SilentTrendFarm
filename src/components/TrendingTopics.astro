@@ -1,0 +1,77 @@
+---
+// Component to display trending topics from the backend
+import api from '../lib/api.js';
+
+let trends = [];
+let error = null;
+
+try {
+  // Fetch trends from backend (this runs at build time in SSG mode)
+  const response = await api.getTrends(['web development', 'AI', 'programming']);
+  trends = response.related_queries || [];
+} catch (e) {
+  error = e.message;
+  // Fallback to static data if API fails
+  trends = [
+    { topic: 'AI Development', score: 95 },
+    { topic: 'Web3 Technologies', score: 88 },
+    { topic: 'Cloud Computing', score: 79 },
+  ];
+}
+---
+
+<div class="trending-topics bg-gray-900 rounded-lg p-6 my-8">
+  <h2 class="text-2xl font-bold mb-4 text-white">🔥 Trending Topics</h2>
+  
+  {error && (
+    <div class="bg-yellow-900/50 text-yellow-200 p-3 rounded mb-4">
+      <p class="text-sm">Using cached data. Live trends unavailable.</p>
+    </div>
+  )}
+  
+  <div class="space-y-3">
+    {trends.map((trend) => (
+      <div class="flex items-center justify-between bg-gray-800 p-3 rounded hover:bg-gray-700 transition-colors">
+        <span class="text-gray-200">{trend.topic}</span>
+        <div class="flex items-center gap-2">
+          <div class="w-24 bg-gray-700 rounded-full h-2">
+            <div 
+              class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+              style={`width: ${trend.score}%`}
+            ></div>
+          </div>
+          <span class="text-sm text-gray-400">{trend.score}%</span>
+        </div>
+      </div>
+    ))}
+  </div>
+  
+  <div class="mt-4 pt-4 border-t border-gray-700">
+    <a 
+      href="/api/trends" 
+      target="_blank"
+      class="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+    >
+      View API Documentation →
+    </a>
+  </div>
+</div>
+
+<script>
+  // Client-side refresh for dynamic updates
+  if (typeof window !== 'undefined') {
+    const refreshTrends = async () => {
+      try {
+        const response = await fetch('/api/trends');
+        const data = await response.json();
+        // Update DOM with new trends
+        console.log('Trends refreshed:', data);
+      } catch (error) {
+        console.error('Failed to refresh trends:', error);
+      }
+    };
+    
+    // Refresh every 5 minutes
+    setInterval(refreshTrends, 5 * 60 * 1000);
+  }
+</script>
